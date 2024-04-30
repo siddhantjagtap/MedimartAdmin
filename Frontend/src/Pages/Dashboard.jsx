@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { BsFillBellFill } from "react-icons/bs";
+import { CgProfile } from "react-icons/cg";
 import {
     LineChart,
     Line,
@@ -64,22 +66,26 @@ const Dashboard = () => {
     return (
         <>
             <div className="flex flex-col min-h-screen  md:block hidden">
-                <header className="bg-gray-200 py-4 px-8 shadow">
-                    <h1 className="text-2xl font-bold">NEXIBLES</h1>
+                <header className="bg-gray-200 py-4 px-8 shadow flex justify-between">
+                    <h1 className="text-2xl ml-[1rem] font-bold">NEXIBLES</h1>
+                    <div className='flex'>
+                    <BsFillBellFill className='items-center pt-2 mr-[1rem] text-4xl'/>
+                    <CgProfile className='items-center pt-2 mr-[1rem] text-4xl'/>
+                    </div>
                 </header>
                 <main className="flex-grow p-8">
                     <div className="grid grid-cols-3 gap-4 mb-8">
-                        <div className="bg-gradient-to-r from-red-600 to-indigo-600 text-white rounded-lg p-4 h-[14rem]">
-                            <h2 className="text-lg font-semibold">Total no. of Orders</h2>
-                            <p className="text-4xl font-bold">{orderData.totalOrders}</p>
+                        <div className="bg-gradient-to-r from-orange-400 to-pink-600 text-white rounded-lg p-4 h-[14rem]">
+                            <h2 className="text-3xl font-semibold">Total no. of Orders</h2>
+                            <p className="text-5xl pt-[5rem] font-bold">{orderData.totalOrders}</p>
                         </div>
-                        <div className="bg-gradient-to-l from-teal-400 to-yellow-200 text-white rounded-lg p-4">
-                            <h2 className="text-lg font-semibold">Products shipped</h2>
-                            <p className="text-4xl font-bold">{orderData.shippedProducts}</p>
+                        <div className="bg-gradient-to-l from-blue-600 to-yellow-200 text-white rounded-lg p-4">
+                            <h2 className="text-3xl font-semibold">Products shipped</h2>
+                            <p className="text-5xl pt-[5rem] font-bold">{orderData.shippedProducts}</p>
                         </div>
-                        <div className="bg-gradient-to-l from-indigo-400 to-cyan-400 text-white rounded-lg p-4">
-                            <h2 className="text-lg font-semibold">Pending</h2>
-                            <p className="text-4xl font-bold">{orderData.pendingOrders}</p>
+                        <div className="bg-gradient-to-l from-indigo-900 to-cyan-400 text-white rounded-lg p-4">
+                            <h2 className="text-3xl font-semibold">Pending</h2>
+                            <p className="text-5xl pt-[5rem] font-bold">{orderData.pendingOrders}</p>
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -141,18 +147,19 @@ const Dashboard = () => {
             <div className="flex flex-col min-h-screen  md:hidden">
                 <header className="bg-gray-100 py-4 px-8 shadow">
                     <h1 className="text-2xl font-bold">NEXIBLES</h1>
+                 
                 </header>
                 <main className="flex-grow p-8">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                        <div className="bg-gradient-to-r from-red-600 to-indigo-600 text-white rounded-lg p-4">
+                        <div className="bg-gradient-to-r from-orange-400 to-pink-600 text-white rounded-lg p-4">
                             <h2 className="text-lg font-semibold">Total no. of Orders</h2>
                             <p className="text-4xl font-bold">{orderData.totalOrders}</p>
                         </div>
-                        <div className="bg-gradient-to-l from-teal-400 to-yellow-200 text-white rounded-lg p-4">
+                        <div className="bg-gradient-to-l from-blue-600 to-yellow-200 text-white rounded-lg p-4">
                             <h2 className="text-lg font-semibold">Products shipped</h2>
                             <p className="text-4xl font-bold">{orderData.shippedProducts}</p>
                         </div>
-                        <div className="bg-gradient-to-l from-indigo-400 to-cyan-400 text-white rounded-lg p-4">
+                        <div className="bg-gradient-to-l from-indigo-900 to-cyan-400 text-white rounded-lg p-4">
                             <h2 className="text-lg font-semibold">Pending</h2>
                             <p className="text-4xl font-bold">{orderData.pendingOrders}</p>
                         </div>
