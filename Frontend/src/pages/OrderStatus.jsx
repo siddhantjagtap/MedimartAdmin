@@ -114,7 +114,7 @@ function OrderStatus() {
 
   return (
     <div className="bg-white p-4 rounded-lg ">
-      <h2 className="text-lg font-semibold mb-4">Order Status</h2>
+      <h2 className="text-xl font-bold mb-[1rem]">Order Status</h2>
       <div className="overflow-x-auto">
         <table className="w-full table-auto">
           <thead>
