@@ -25,8 +25,8 @@ function SideMenu() {
     };
 
     return (
-        <div className={`flex fixed h-screen ${open ? 'w-[14rem]' : 'w-[4.5rem]'} duration-200 bg-stone-950 text-white`}>
-            <div className="p-3">
+        <div className={`p-4 flex fixed h-screen ${open ? 'w-[object-fit]' : 'w-[4.5rem]'} duration-200 bg-stone-950 text-white`}>
+            <div className=''>
                 {open ? (
                     <RxCross2 onClick={() => setOpen(!open)} className="size-9 cursor-pointer " />
                 ) : (
@@ -34,7 +34,7 @@ function SideMenu() {
                 )}
                 <div className='mt-[7rem] text-xl'>
                     {menus.map((menu, index) => (
-                        <Link key={index} to={menu.path} className={`flex items-center gap-x-3 mb-7 p-1  ${isActive(menu.path) ? 'bg-gray-700 rounded-md text-white' : ''}`}>
+                        <Link key={index} to={menu.path} className={`flex items-center gap-x-3 my-7 p-1  ${isActive(menu.path) ? 'bg-gray-700 rounded-md text-white' : ''}`}>
                             {React.cloneElement(menu.icon, { size: 32 })}
                             <span className={`${!open && 'hidden'} origin-left duration-200`}>{menu.title}</span>
                         </Link>
