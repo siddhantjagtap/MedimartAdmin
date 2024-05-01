@@ -13,11 +13,11 @@ function SideMenu() {
     const location = useLocation();
 
     const menus = [
-        { title: 'Admin Panel', icon: <RiAdminLine />, path: '/' },
-        { title: 'Dashboard', icon: <RxDashboard />, path: '/dashboard' },
-        { title: 'Order List', icon: <MdChecklist />, path: '/orderlist' },
-        { title: 'Order Status', icon: <TbStatusChange />, path: '/orderstatus' },
-        { title: 'Billing', icon: <RiBillLine />, path: '/billing' },
+        { title: 'Admin Panel', icon: <RiAdminLine size={24} />, path: '/' },
+        { title: 'Dashboard', icon: <RxDashboard size={24} />, path: '/dashboard' },
+        { title: 'Order List', icon: <MdChecklist size={24} />, path: '/orderlist' },
+        { title: 'Order Status', icon: <TbStatusChange size={24} />, path: '/orderstatus' },
+        { title: 'Billing', icon: <RiBillLine size={24} />, path: '/billing' },
     ];
 
     const isActive = (path) => {
@@ -25,22 +25,23 @@ function SideMenu() {
     };
 
     return (
-        <div className={`flex fixed h-screen ${open ? 'w-[15rem]' : 'w-[3.5rem]'} duration-200 bg-stone-950 text-white`}>
+        <div className={`flex fixed h-screen ${open ? 'w-[14rem]' : 'w-[4.5rem]'} duration-200 bg-stone-950 text-white`}>
             <div className="p-3">
                 {open ? (
                     <RxCross2 onClick={() => setOpen(!open)} className="size-9 cursor-pointer " />
                 ) : (
                     <TbMenu2 onClick={() => setOpen(!open)} className="size-9 cursor-pointer " />
                 )}
-                <div className='mt-[7rem] text-2xl'>
+                <div className='mt-[7rem] text-xl'>
                     {menus.map((menu, index) => (
-                        <Link key={index} to={menu.path} className={`flex items-center gap-x-3 mb-4 ${isActive(menu.path) ? 'bg-gray-700 p-[0.5rem] rounded-md text-white' : ''}`}>
-                            {menu.icon}
+                        <Link key={index} to={menu.path} className={`flex items-center gap-x-3 mb-7 p-1  ${isActive(menu.path) ? 'bg-gray-700 rounded-md text-white' : ''}`}>
+                            {React.cloneElement(menu.icon, { size: 32 })}
                             <span className={`${!open && 'hidden'} origin-left duration-200`}>{menu.title}</span>
                         </Link>
                     ))}
                 </div>
             </div>
+
         </div>
     );
 }
