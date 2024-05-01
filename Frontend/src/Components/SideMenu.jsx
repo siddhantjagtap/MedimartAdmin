@@ -25,14 +25,14 @@ function SideMenu() {
     };
 
     return (
-        <div className={`flex fixed h-screen ${open ? 'w-[14rem]' : 'w-[4.5rem]'} duration-200 bg-stone-950 text-white`}>
+        <div className={`flex sticky top-0 h-screen ${open ? 'w-[14rem]' : 'w-[4.5rem]'} duration-200 bg-stone-950 text-white`}>
             <div className="p-3">
                 {open ? (
                     <RxCross2 onClick={() => setOpen(!open)} className="size-9 cursor-pointer " />
                 ) : (
                     <TbMenu2 onClick={() => setOpen(!open)} className="size-9 cursor-pointer " />
                 )}
-                <div className='mt-[4rem] text-xl'>
+                <div className='mt-[3.6rem] text-xl'>
                     {menus.map((menu, index) => (
                         <Link key={index} to={menu.path} className={`flex items-center gap-x-3 mb-7 p-1  ${isActive(menu.path) ? 'bg-gray-700 rounded-md text-white' : ''}`}>
                             {React.cloneElement(menu.icon, { size: 32 })}
