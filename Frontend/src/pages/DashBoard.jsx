@@ -22,9 +22,9 @@ import {
     ResponsiveContainer,
 } from 'recharts';
 
-const COLORS = ['#FA7459', '#38B2AC', '#7F9CF5'];
+const COLORS = ['#E53E3E', '#38B2AC', '#7F9CF5'];
 
-const Dashboard = () => {
+const DashBoard = () => {
     const [orderData, setOrderData] = useState({
         totalOrders: 512,
         shippedProducts: 450,
@@ -69,9 +69,9 @@ const Dashboard = () => {
     return (
         <>
         <div className="flex">
-        <SideMenu />
-        <div className="flex-grow">
-        <Navbar />
+    <SideMenu />
+    <div className="flex-grow">
+    <Navbar />
             <div className="flex flex-col min-h-screen  md:block hidden">
                
                 <main className="flex-grow p-8">
@@ -231,7 +231,9 @@ const Dashboard = () => {
             </div>
             </div>
             </div>
-        </> 
-        );
+        </>
+
+    );
 };
-export default Dashboard;
+
+export default DashBoard;
