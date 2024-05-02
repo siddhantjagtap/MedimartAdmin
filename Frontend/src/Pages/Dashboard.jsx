@@ -71,15 +71,15 @@ const Dashboard = () => {
                 <main className="flex-grow p-8">
                     <div className="grid grid-cols-3 gap-4 mb-8">
                         <div className="bg-gradient-to-r from-orange-400 to-pink-600 text-white rounded-lg p-4 h-[14rem]">
-                            <h2 className="text-3xl font-semibold">Total no. of Orders</h2>
+                            <h2 className="text-2xl font-semibold">Total no. of Orders</h2>
                             <p className="text-5xl pt-[5rem] font-bold">{orderData.totalOrders}</p>
                         </div>
-                        <div className="bg-gradient-to-l from-blue-600 to-yellow-200 text-white rounded-lg p-4">
-                            <h2 className="text-3xl font-semibold">Products shipped</h2>
+                        <div className="bg-gradient-to-l from-green-700 to-yellow-200 text-white rounded-lg p-4">
+                            <h2 className="text-2xl font-semibold">Products shipped</h2>
                             <p className="text-5xl pt-[5rem] font-bold">{orderData.shippedProducts}</p>
                         </div>
                         <div className="bg-gradient-to-l from-indigo-900 to-cyan-400 text-white rounded-lg p-4">
-                            <h2 className="text-3xl font-semibold">Pending</h2>
+                            <h2 className="text-2xl font-semibold">Pending</h2>
                             <p className="text-5xl pt-[5rem] font-bold">{orderData.pendingOrders}</p>
                         </div>
                     </div>
