@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Navbar from './Components/Navbar.jsx';
 import SideMenu from './Components/SideMenu';
 import DashBoard from './Pages/DashBoard.jsx';
 import OrderList from './Pages/OrderList';
