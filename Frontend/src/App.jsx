@@ -2,10 +2,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import SideMenu from './Components/SideMenu';
-import DashBoard from './Pages/Dashboard';
+import DashBoard from './Pages/DashBoard';
 import OrderList from './Pages/OrderList';
 import OrderStatus from './Pages/OrderStatus';
 import OrderBilling from './Pages/OrderBilling';
+
 
 function App() {
     return (
