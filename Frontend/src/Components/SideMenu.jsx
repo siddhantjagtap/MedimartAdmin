@@ -25,7 +25,7 @@ function SideMenu() {
     };
 
     return (
-        <div className={`p-4 flex fixed h-screen ${open ? 'w-[object-fit]' : 'w-[4.5rem]'} duration-200 bg-stone-950 text-white`}>
+        <div className={`p-4 flex fixed h-screen ${open ? 'w-[object-fit]' : 'w-[4.5rem]'} duration-100 bg-stone-950 text-white`}>
             <div className=''>
                 {open ? (
                     <RxCross2 onClick={() => setOpen(!open)} className="size-9 cursor-pointer " />
