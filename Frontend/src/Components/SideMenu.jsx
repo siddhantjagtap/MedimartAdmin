@@ -13,8 +13,8 @@ function SideMenu() {
     const location = useLocation();
 
     const menus = [
-        { title: 'Admin Panel', icon: <RiAdminLine size={24} />, path: '/' },
-        { title: 'Dashboard', icon: <RxDashboard size={24} />, path: '/dashboard' },
+        { title: 'Admin Panel', icon: <RiAdminLine size={24} />,},
+        { title: 'Dashboard', icon: <RxDashboard size={24} />, path: '/' },
         { title: 'Order List', icon: <MdChecklist size={24} />, path: '/orderlist' },
         { title: 'Order Status', icon: <TbStatusChange size={24} />, path: '/orderstatus' },
         { title: 'Billing', icon: <RiBillLine size={24} />, path: '/billing' },
@@ -25,7 +25,7 @@ function SideMenu() {
     };
 
     return (
-        <div className={`flex sticky top-0 h-screen ${open ? 'w-[14rem]' : 'w-[4.5rem]'} duration-200 bg-stone-950 text-white`}>
+        <div className={`flex sticky top-0 h-screen ${open ? 'w-[14rem]' : 'w-[4.5rem]'} duration-100 bg-stone-950 text-white`}>
             <div className="p-3">
                 {open ? (
                     <RxCross2 onClick={() => setOpen(!open)} className="size-9 cursor-pointer " />
@@ -34,7 +34,7 @@ function SideMenu() {
                 )}
                 <div className='mt-[3.6rem] text-xl'>
                     {menus.map((menu, index) => (
-                        <Link key={index} to={menu.path} className={`flex items-center gap-x-3 mb-7 p-1  ${isActive(menu.path) ? 'bg-gray-700 rounded-md text-white' : ''}`}>
+                        <Link key={index} to={menu.path} className={`flex items-center gap-x-3 my-7 p-1  ${isActive(menu.path) ? 'bg-gray-700 rounded-md text-white' : ''}`}>
                             {React.cloneElement(menu.icon, { size: 32 })}
                             <span className={`${!open && 'hidden'} origin-left duration-200`}>{menu.title}</span>
                         </Link>
