@@ -11,7 +11,6 @@ import { TbMenu2 } from 'react-icons/tb';
 function SideMenu() {
     const [open, setOpen] = useState(true);
     const location = useLocation();
-
     const menus = [
         { title: 'Dashboard', icon: <RxDashboard size={24} />, path: '/' },
         { title: 'Order List', icon: <MdChecklist size={24} />, path: '/orderlist' },

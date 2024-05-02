@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BsFillBellFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
+import SideMenu from '../Components/SideMenu';
+import Navbar from '../Components/Navbar';
 import {
     LineChart,
     Line,
@@ -66,20 +68,24 @@ const Dashboard = () => {
 
     return (
         <>
+        <div className="flex">
+        <SideMenu />
+        <div className="flex-grow">
+        <Navbar />
             <div className="flex flex-col min-h-screen  md:block hidden">
                
                 <main className="flex-grow p-8">
                     <div className="grid grid-cols-3 gap-4 mb-8">
                         <div className="bg-gradient-to-r from-orange-400 to-pink-600 text-white rounded-lg p-4 h-[14rem]">
-                            <h2 className="text-3xl font-semibold">Total no. of Orders</h2>
+                            <h2 className="text-2xl font-semibold">Total no. of Orders</h2>
                             <p className="text-5xl pt-[5rem] font-bold">{orderData.totalOrders}</p>
                         </div>
-                        <div className="bg-gradient-to-l from-blue-600 to-yellow-200 text-white rounded-lg p-4">
-                            <h2 className="text-3xl font-semibold">Products shipped</h2>
+                        <div className="bg-gradient-to-l from-green-700 to-yellow-200 text-white rounded-lg p-4">
+                            <h2 className="text-2xl font-semibold">Products shipped</h2>
                             <p className="text-5xl pt-[5rem] font-bold">{orderData.shippedProducts}</p>
                         </div>
                         <div className="bg-gradient-to-l from-indigo-900 to-cyan-400 text-white rounded-lg p-4">
-                            <h2 className="text-3xl font-semibold">Pending</h2>
+                            <h2 className="text-2xl font-semibold">Pending</h2>
                             <p className="text-5xl pt-[5rem] font-bold">{orderData.pendingOrders}</p>
                         </div>
                     </div>
@@ -222,6 +228,8 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </main>
+            </div>
+            </div>
             </div>
         </>
 
