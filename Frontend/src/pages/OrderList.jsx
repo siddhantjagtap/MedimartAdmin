@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import React from 'react'
 
 // function OrderList() {
@@ -122,6 +123,122 @@ function OrderListOrderStatus() {
     }
   };
 
+=======
+import React, { useState } from 'react';
+import { FaPrint, FaShippingFast } from 'react-icons/fa';
+import { IoIosArrowBack,IoIosArrowForward } from "react-icons/io";
+
+function OrderList() {
+  const [orders, setOrders] = useState([
+    {
+      id: 1,
+      email: 'john@example.com',
+      orderStatus: 'Pending',
+      paymentStatus: 'Paid',
+      deliveryStatus: 'Not Shipped',
+    },
+    {
+      id: 2,
+      email: 'jane@example.com',
+      orderStatus: 'Processing',
+      paymentStatus: 'Unpaid',
+      deliveryStatus: 'Shipped',
+    },
+    {
+      id: 3,
+      email: 'john@example.com',
+      orderStatus: 'Pending',
+      paymentStatus: 'Paid',
+      deliveryStatus: 'Not Shipped',
+    },
+    {
+      id: 4,
+      email: 'jane@example.com',
+      orderStatus: 'Processing',
+      paymentStatus: 'Unpaid',
+      deliveryStatus: 'Shipped',
+    },
+    {
+      id: 5,
+      email: 'john@example.com',
+      orderStatus: 'Pending',
+      paymentStatus: 'Paid',
+      deliveryStatus: 'Not Shipped',
+    },
+    {
+      id: 6,
+      email: 'jane@example.com',
+      orderStatus: 'Processing',
+      paymentStatus: 'Unpaid',
+      deliveryStatus: 'Shipped',
+    },
+    {
+      id: 7,
+      email: 'john@example.com',
+      orderStatus: 'Pending',
+      paymentStatus: 'Paid',
+      deliveryStatus: 'Not Shipped',
+    },
+    {
+      id: 8,
+      email: 'jane@example.com',
+      orderStatus: 'Processing',
+      paymentStatus: 'Unpaid',
+      deliveryStatus: 'Shipped',
+    },
+    {
+      id: 9,
+      email: 'john@example.com',
+      orderStatus: 'Pending',
+      paymentStatus: 'Paid',
+      deliveryStatus: 'Not Shipped',
+    },
+    {
+      id: 10,
+      email: 'jane@example.com',
+      orderStatus: 'Processing',
+      paymentStatus: 'Unpaid',
+      deliveryStatus: 'Shipped',
+    },
+    {
+      id: 11,
+      email: 'john@example.com',
+      orderStatus: 'Pending',
+      paymentStatus: 'Paid',
+      deliveryStatus: 'Not Shipped',
+    },
+    {
+      id: 12,
+      email: 'jane@example.com',
+      orderStatus: 'Processing',
+      paymentStatus: 'Unpaid',
+      deliveryStatus: 'Shipped',
+    },
+  ]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; 
+
+  
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentOrders = orders.slice(indexOfFirstItem, indexOfLastItem);
+
+
+  const paginate = pageNumber => setCurrentPage(pageNumber);
+
+  const nextPage = () => {
+    if (currentPage < Math.ceil(orders.length / itemsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+>>>>>>> 97c266bbe71e7a311503dceaf84b37509c5fd2bb
   return (
     <div className="bg-white p-4 rounded-lg ">
       <h2 className="text-xl font-bold mb-[1rem]">Order Status</h2>
@@ -181,8 +298,12 @@ function OrderListOrderStatus() {
           </button>
         </div>
       </div>
+<<<<<<< HEAD
     </div>
   );
+=======
+    </div>)
+>>>>>>> 97c266bbe71e7a311503dceaf84b37509c5fd2bb
 }
 
 export default OrderList;
