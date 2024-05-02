@@ -17,7 +17,7 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/dashboard" element={<DashBoard />} />
+            <Route path="/" element={<DashBoard />} />
             <Route path="/orderlist" element={<OrderList />} />
             <Route path="/orderstatus" element={<OrderStatus />} />
             <Route path="/billing" element={<OrderBilling />} />
