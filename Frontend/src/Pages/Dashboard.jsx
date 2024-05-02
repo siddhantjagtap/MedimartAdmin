@@ -9,7 +9,7 @@ import {
     CartesianGrid,
     Tooltip,
     Legend,
-    AreaChart,
+    AreaChart,  
     Area,
     BarChart,
     Bar,
