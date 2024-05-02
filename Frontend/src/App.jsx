@@ -2,16 +2,17 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import SideMenu from './Components/SideMenu';
-import DashBoard from './Pages/Dashboard';
+import DashBoard from './Pages/DashBoard';
 import OrderList from './Pages/OrderList';
 import OrderStatus from './Pages/OrderStatus';
 import OrderBilling from './Pages/OrderBilling';
 import Navbar from './Components/Navbar';
 
+
 function App() {
     return (
         <Router>
-            <div className="flex">
+            <div className="">
                 <SideMenu />
                 <div className="flex-grow">
                     <Navbar/>
