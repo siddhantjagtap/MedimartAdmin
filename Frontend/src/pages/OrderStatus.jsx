@@ -140,10 +140,10 @@ function OrderStatus() {
                 <td className="px-4 py-3 pl-[3vw]">{order.deliveryStatus}</td>
                 <td className="px-4 py-3 flex items-center justify-center gap-2">
                   <button className=" text-white px-2 py-1 rounded-md">
-                    <FaPrint className="text-yellow-500 text-xl" />
+                    <FaPrint className="text-black text-xl" />
                   </button>
                   <button className=" text-white px-2 py-1 rounded-md">
-                    <FaShippingFast className="text-blue-500 text-xl" />
+                    <FaShippingFast className="text-black text-xl" />
                   </button>
                 </td>
               </tr>
