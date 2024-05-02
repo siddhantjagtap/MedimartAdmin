@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BsFillBellFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
+import SideMenu from '../Components/SideMenu';
+import Navbar from '../Components/Navbar';
 import {
     LineChart,
     Line,
@@ -66,6 +68,10 @@ const Dashboard = () => {
 
     return (
         <>
+        <div className="flex">
+        <SideMenu />
+        <div className="flex-grow">
+        <Navbar />
             <div className="flex flex-col min-h-screen  md:block hidden">
                
                 <main className="flex-grow p-8">
@@ -222,6 +228,8 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </main>
+            </div>
+            </div>
             </div>
         </>
 

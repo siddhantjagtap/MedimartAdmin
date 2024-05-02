@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navbar from './Components/Navbar.jsx';
-import SideMenu from './Components/SideMenu';
+
+
 import DashBoard from './Pages/DashBoard.jsx';
 import OrderList from './Pages/OrderList';
 import OrderBilling from './Pages/OrderBilling';
@@ -11,19 +11,18 @@ import OrderStatus from './pages/OrderStatus.jsx';
 function App() {
   return (
     <Router>
-      <div className="flex">
-        <SideMenu />
-        <div className="flex-grow">
-          <Navbar />
+      
+       
+         
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/dashboard" element={<DashBoard />} />
+            <Route path="/" element={<DashBoard />} />
             <Route path="/orderlist" element={<OrderList />} />
             <Route path="/orderstatus" element={<OrderStatus />} />
             <Route path="/billing" element={<OrderBilling />} />
           </Routes>
-        </div>
-      </div>
+      
+     
     </Router>
   );
 }

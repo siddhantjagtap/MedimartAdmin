@@ -3,7 +3,8 @@ import { FaPrint, FaShippingFast } from 'react-icons/fa';
 import { IoIosArrowBack,IoIosArrowForward } from "react-icons/io";
 import { MdModeEditOutline } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
-
+import SideMenu from '../Components/SideMenu';
+import Navbar from '../Components/Navbar';
 function OrderList() {
   const [orders, setOrders] = useState([
     {
@@ -151,6 +152,10 @@ function OrderList() {
   };
 
   return (
+    <div className="flex">
+    <SideMenu />
+    <div className="flex-grow">
+    <Navbar />
     <div className="bg-white p-4 rounded-lg ">
       <h2 className="text-xl font-bold mb-[1rem]">Order List</h2>
       <div className="overflow-x-auto">
@@ -218,7 +223,11 @@ function OrderList() {
           </button>
         </div>
       </div>
-    </div>)
+    </div>
+    </div>
+
+</div>
+    )
 }
 
 export default OrderList
