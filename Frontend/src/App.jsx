@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Dashboard from './Pages/Dashboard.jsx';
+import Navbar from './Components/Navbar.jsx';
+import SideMenu from './Components/SideMenu';
+import DashBoard from './Pages/DashBoard.jsx';
 import OrderList from './Pages/OrderList';
 import OrderStatus from './Pages/OrderStatus';
 import OrderBilling from './Pages/OrderBilling';
@@ -13,7 +15,7 @@ function App() {
          
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={<DashBoard />} />
             <Route path="/orderlist" element={<OrderList />} />
             <Route path="/orderstatus" element={<OrderStatus />} />
             <Route path="/billing" element={<OrderBilling />} />

@@ -17,7 +17,6 @@ function SideMenu() {
         { title: 'Order Status', icon: <TbStatusChange size={24} />, path: '/orderstatus' },
         { title: 'Billing', icon: <RiBillLine size={24} />, path: '/billing' },
     ];
-
     const isActive = (path) => {
         return location.pathname === path;
     };
@@ -36,7 +35,7 @@ function SideMenu() {
             
                 <div className='mt-[2rem] text-xl'>
                     {menus.map((menu, index) => (
-                        <Link key={index} to={menu.path} className={`flex items-center gap-x-3 mb-7 p-1  ${isActive(menu.path) ? 'bg-gray-700 rounded-md text-white' : ''}`}>
+                        <Link key={index} to={menu.path} className={`flex items-center gap-x-3 my-7 p-1  ${isActive(menu.path) ? 'bg-gray-700 rounded-md text-white' : ''}`}>
                             {React.cloneElement(menu.icon, { size: 32 })}
                             <span className={`${!open && 'hidden'} origin-left duration-200`}>{menu.title}</span>
                         </Link>
