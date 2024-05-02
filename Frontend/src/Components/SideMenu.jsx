@@ -32,7 +32,7 @@ function SideMenu() {
                 ) : (
                     <TbMenu2 onClick={() => setOpen(!open)} className="size-9 cursor-pointer " />
                 )}
-                <div className='mt-[7rem] text-xl'>
+                <div className='mt-[6rem] text-xl'>
                     {menus.map((menu, index) => (
                         <Link key={index} to={menu.path} className={`flex items-center gap-x-3 my-7 p-1  ${isActive(menu.path) ? 'bg-gray-700 rounded-md text-white' : ''}`}>
                             {React.cloneElement(menu.icon, { size: 32 })}
