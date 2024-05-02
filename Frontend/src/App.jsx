@@ -10,7 +10,7 @@ import OrderBilling from './Pages/OrderBilling';
 function App() {
     return (
         <Router>
-            <div className="flex">
+            <div className="">
                 <SideMenu />
                 <div className="flex-grow">
                     <Routes>
