@@ -2,16 +2,11 @@ import React, { useState } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import SideMenu from '../Components/SideMenu';
 import Navbar from '../Components/Navbar';
+import AddProductModal from '../Components/AddProductModal';
+import ManageProductModal from '../Components/ManageProductModal';
 
 const ManageProducts = () => {
   const [products, setProducts] = useState([
-    {
-      id: 'P42311',
-      image: 'wire_diary.jpg',
-      name: 'wire_diary',
-      price: 500,
-      stock: 200,
-    },
     {
         id: 'P42311',
         image: 'wire_diary.jpg',
@@ -20,65 +15,6 @@ const ManageProducts = () => {
         stock: 200,
       },
       {
-        id: 'P42312',
-        image: 'wire_diary.jpg',
-        name: 'wire_diary',
-        price: 500,
-        stock: 200,
-      },
-      {
-          id: 'P42311',
-          image: 'wire_diary.jpg',
-          name: 'wire_diary',
-          price: 500,
-          stock: 200,
-        },
-        {
-          id: 'P42312',
-          image: 'wire_diary.jpg',
-          name: 'wire_diary',
-          price: 500,
-          stock: 200,
-        },{
-          id: 'P42311',
-          image: 'wire_diary.jpg',
-          name: 'wire_diary',
-          price: 500,
-          stock: 200,
-        },
-        {
-          id: 'P42312',
-          image: 'wire_diary.jpg',
-          name: 'wire_diary',
-          price: 500,
-          stock: 200,
-        },{
-          id: 'P42311',
-          image: 'wire_diary.jpg',
-          name: 'wire_diary',
-          price: 500,
-          stock: 200,
-        },
-        {
-          id: 'P42312',
-          image: 'wire_diary.jpg',
-          name: 'wire_diary',
-          price: 500,
-          stock: 200,
-        },{
-          id: 'P42311',
-          image: 'wire_diary.jpg',
-          name: 'wire_diary',
-          price: 500,
-          stock: 200,
-        },
-        {
-          id: 'P42312',
-          image: 'wire_diary.jpg',
-          name: 'wire_diary',
-          price: 500,
-          stock: 200,
-        },{
           id: 'P42311',
           image: 'wire_diary.jpg',
           name: 'wire_diary',
@@ -92,9 +28,86 @@ const ManageProducts = () => {
           price: 500,
           stock: 200,
         },
+        {
+            id: 'P42311',
+            image: 'wire_diary.jpg',
+            name: 'wire_diary',
+            price: 500,
+            stock: 200,
+          },
+          {
+            id: 'P42312',
+            image: 'wire_diary.jpg',
+            name: 'wire_diary',
+            price: 500,
+            stock: 200,
+          },{
+            id: 'P42311',
+            image: 'wire_diary.jpg',
+            name: 'wire_diary',
+            price: 500,
+            stock: 200,
+          },
+          {
+            id: 'P42312',
+            image: 'wire_diary.jpg',
+            name: 'wire_diary',
+            price: 500,
+            stock: 200,
+          },{
+            id: 'P42311',
+            image: 'wire_diary.jpg',
+            name: 'wire_diary',
+            price: 500,
+            stock: 200,
+          },
+          {
+            id: 'P42312',
+            image: 'wire_diary.jpg',
+            name: 'wire_diary',
+            price: 500,
+            stock: 200,
+          },{
+            id: 'P42311',
+            image: 'wire_diary.jpg',
+            name: 'wire_diary',
+            price: 500,
+            stock: 200,
+          },
+          {
+            id: 'P42312',
+            image: 'wire_diary.jpg',
+            name: 'wire_diary',
+            price: 500,
+            stock: 200,
+          },{
+            id: 'P42311',
+            image: 'wire_diary.jpg',
+            name: 'wire_diary',
+            price: 500,
+            stock: 200,
+          },
+          {
+            id: 'P42312',
+            image: 'wire_diary.jpg',
+            name: 'wire_diary',
+            price: 500,
+            stock: 200,
+          },
   ]);
+  const [showManageModal, setShowManageModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const [showModal, setShowModal] = useState(false);
+  const [newProduct, setNewProduct] = useState({
+    id: '',
+    image: '',
+    name: '',
+    price: 0,
+    stock: 0,
+  });
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -113,6 +126,32 @@ const ManageProducts = () => {
       setCurrentPage(currentPage - 1);
     }
   };
+  const handleManageProduct = (product) => {
+    setShowManageModal(true);
+    setSelectedProduct(product);
+  };
+  const handleInputChange = (e) => {
+    setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
+  };
+  const handleUpdateProduct = () => {
+    // Add logic to update the product data on the server or in the state
+    console.log('Updated product:', selectedProduct);
+    setShowManageModal(false);
+  };
+
+
+  const handleAddProduct = () => {
+    // Add logic to save the new product to the server or state
+    console.log('New product:', newProduct);
+    setShowModal(false);
+    setNewProduct({
+      id: '',
+      image: '',
+      name: '',
+      price: 0,
+      stock: 0,
+    });
+  };
 
   return (
     <div className="flex">
@@ -122,7 +161,10 @@ const ManageProducts = () => {
         <div className="bg-white p-4 rounded-lg">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-bold">Manage products</h2>
-            <button className="bg-black text-white px-4 py-2 rounded-full">
+            <button
+              className="bg-black text-white px-4 py-2 rounded-full"
+              onClick={() => setShowModal(true)}
+            >
               Add product +
             </button>
           </div>
@@ -158,7 +200,10 @@ const ManageProducts = () => {
                     <td className="px-4 py-3">${product.price}</td>
                     <td className="px-4 py-3">{product.stock}</td>
                     <td className="px-4 py-3">
-                      <button className="bg-black text-white px-4 py-2 rounded-full">
+                    <button
+                        className="bg-black text-white px-4 py-2 rounded-full"
+                        onClick={() => handleManageProduct(product)}
+                      >
                         Manage
                       </button>
                     </td>
@@ -194,7 +239,23 @@ const ManageProducts = () => {
             </div>
           </div>
         </div>
-      </div>
+</div>
+
+      {/* Modal for adding a new product */}
+      <AddProductModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        newProduct={newProduct}
+        handleInputChange={handleInputChange}
+        handleAddProduct={handleAddProduct}
+      />
+      <ManageProductModal
+        showModal={showManageModal}
+        setShowModal={setShowManageModal}
+        product={selectedProduct}
+        handleInputChange={handleInputChange}
+        handleUpdateProduct={handleUpdateProduct}
+      />
     </div>
   );
 };
