@@ -6,6 +6,7 @@ import DashBoard from './Pages/DashBoard';
 import OrderList from './Pages/OrderList';
 import OrderStatus from './Pages/OrderStatus';
 import OrderBilling from './Pages/OrderBilling';
+import Navbar from './Components/Navbar';
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
             <div className="">
                 <SideMenu />
                 <div className="flex-grow">
+                    <Navbar/>
                     <Routes>
                         <Route path="/dashboard" element={<DashBoard />} />
                         <Route path="/orderlist" element={<OrderList />} />

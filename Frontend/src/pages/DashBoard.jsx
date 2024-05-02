@@ -14,6 +14,7 @@ import {
     BarChart,
     Bar,
     Pie,
+    
     PieChart,
     Cell,
     ResponsiveContainer,
@@ -66,13 +67,7 @@ const Dashboard = () => {
     return (
         <>
             <div className="flex flex-col min-h-screen  md:block hidden">
-                <header className="bg-gray-200 py-4 px-8 shadow flex justify-between">
-                    <h1 className="text-2xl ml-[1rem] font-bold">NEXIBLES</h1>
-                    <div className='flex'>
-                    <BsFillBellFill className='items-center pt-2 mr-[1rem] text-4xl'/>
-                    <CgProfile className='items-center pt-2 mr-[1rem] text-4xl'/>
-                    </div>
-                </header>
+               
                 <main className="flex-grow p-8">
                     <div className="grid grid-cols-3 gap-4 mb-8">
                         <div className="bg-gradient-to-r from-orange-400 to-pink-600 text-white rounded-lg p-4 h-[14rem]">
