@@ -13,7 +13,7 @@ function SideMenu() {
     const location = useLocation();
 
     const menus = [
-        { title: 'Dashboard', icon: <RxDashboard size={24} />, path: '/dashboard' },
+        { title: 'Dashboard', icon: <RxDashboard size={24} />, path: '/' },
         { title: 'Order List', icon: <MdChecklist size={24} />, path: '/orderlist' },
         { title: 'Order Status', icon: <TbStatusChange size={24} />, path: '/orderstatus' },
         { title: 'Billing', icon: <RiBillLine size={24} />, path: '/billing' },

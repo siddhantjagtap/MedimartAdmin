@@ -7,7 +7,7 @@ import DashBoard from './Pages/DashBoard.jsx';
 import OrderList from './Pages/OrderList';
 import OrderStatus from './Pages/OrderStatus';
 import OrderBilling from './Pages/OrderBilling';
-import Navbar from './Components/Navbar.jsx';
+
 
 function App() {
     return (
@@ -17,7 +17,7 @@ function App() {
                 <div className="flex-grow">
                     <Navbar />
                     <Routes>
-                        <Route path="/dashboard" element={<DashBoard />} />
+                        <Route path="/" element={<DashBoard />} />
                         <Route path="/orderlist" element={<OrderList />} />
                         <Route path="/orderstatus" element={<OrderStatus />} />
                         <Route path="/billing" element={<OrderBilling />} />

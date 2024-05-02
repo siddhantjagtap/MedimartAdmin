@@ -20,7 +20,7 @@ import {
     ResponsiveContainer,
 } from 'recharts';
 
-const COLORS = ['#E53E3E', '#38B2AC', '#7F9CF5'];
+const COLORS = ['#FA7459', '#38B2AC', '#7F9CF5'];
 
 const Dashboard = () => {
     const [orderData, setOrderData] = useState({
