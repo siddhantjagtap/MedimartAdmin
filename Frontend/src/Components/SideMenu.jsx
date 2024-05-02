@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { RxCross2 } from 'react-icons/rx';
-import { RiAdminLine } from 'react-icons/ri';
 import { RxDashboard } from 'react-icons/rx';
 import { MdChecklist } from "react-icons/md";
 import { RiBillLine } from 'react-icons/ri';
 import { TbStatusChange } from 'react-icons/tb';
 import { TbMenu2 } from 'react-icons/tb';
+import { AiOutlineProduct } from "react-icons/ai";
+import { MdOutlineSpaceDashboard } from "react-icons/md";
 
 function SideMenu() {
     const [open, setOpen] = useState(true);
     const location = useLocation();
     const menus = [
-        { title: 'Dashboard', icon: <RxDashboard size={24} />, path: '/' },
+        { title: 'Dashboard', icon: <MdOutlineSpaceDashboard size={24} />, path: '/' },
         { title: 'Order List', icon: <MdChecklist size={24} />, path: '/orderlist' },
         { title: 'Order Status', icon: <TbStatusChange size={24} />, path: '/orderstatus' },
         { title: 'Billing', icon: <RiBillLine size={24} />, path: '/billing' },
+        { title: 'Products', icon: <AiOutlineProduct size={24} />, path: '/manageproduct' },
     ];
 
     const isActive = (path) => {
@@ -23,7 +25,7 @@ function SideMenu() {
     };
 
     return (
-        <div className={`flex sticky top-0 h-screen ${open ? 'w-[14rem]' : 'w-[4.5rem]'} duration-200 bg-stone-950 text-white`}>
+        <div className={`flex sticky top-0 h-screen ${open ? 'w-[14rem]' : 'w-[4.5rem]'} duration-100 bg-stone-950 text-white`}>
             <div className="p-3">
                 {open ? (
                     <RxCross2 onClick={() => setOpen(!open)} className="size-9 cursor-pointer " />
