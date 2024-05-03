@@ -20,7 +20,6 @@ function SideMenu() {
         { title: 'Billing', icon: <RiBillLine size={24} />, path: '/billing' },
 
     ];
-
     const isActive = (path) => {
         return location.pathname === path;
     };

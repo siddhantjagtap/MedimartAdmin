@@ -4,22 +4,21 @@ import DashBoard from './Pages/DashBoard.jsx';
 import OrderList from './Pages/OrderList';
 import OrderBilling from './Pages/OrderBilling';
 import Login from './Pages/Login.jsx';
-import OrderStatus from './Pages/OrderStatus.jsx';
-import ManageProduct from './Pages/ManageProduct.jsx';
-
+import ManageProducts from './Pages/ManageProducts.jsx'
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<DashBoard />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/" element={<DashBoard />} />
         <Route path="/orderlist" element={<OrderList />} />
         <Route path="/orderstatus" element={<OrderStatus />} />
         <Route path="/billing" element={<OrderBilling />} />
-        <Route path="/manageproduct" element={<ManageProduct />} />
+        <Route path="/manageproducts" element={<ManageProducts />} />
       </Routes>
     </Router>
   );
+
 }
 
 export default App;
