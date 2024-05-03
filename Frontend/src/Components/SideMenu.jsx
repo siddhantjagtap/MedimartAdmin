@@ -14,10 +14,11 @@ function SideMenu() {
     const location = useLocation();
     const menus = [
         { title: 'Dashboard', icon: <MdOutlineSpaceDashboard size={24} />, path: '/' },
+        { title: 'Manage Products', icon: <AiOutlineProduct size={24} />, path: '/manageproduct' },
         { title: 'Order List', icon: <MdChecklist size={24} />, path: '/orderlist' },
         { title: 'Order Status', icon: <TbStatusChange size={24} />, path: '/orderstatus' },
         { title: 'Billing', icon: <RiBillLine size={24} />, path: '/billing' },
-        { title: 'Products', icon: <AiOutlineProduct size={24} />, path: '/manageproduct' },
+
     ];
 
     const isActive = (path) => {
@@ -25,7 +26,7 @@ function SideMenu() {
     };
 
     return (
-        <div className={`flex sticky top-0 h-screen ${open ? 'w-[14rem]' : 'w-[4.5rem]'} duration-100 bg-stone-950 text-white`}>
+        <div className={`flex fixed h-screen ${open ? 'w-[16rem]' : 'w-[4.5rem]'} duration-100 bg-stone-950 text-white`}>
             <div className="p-3">
                 {open ? (
                     <RxCross2 onClick={() => setOpen(!open)} className="size-9 cursor-pointer " />
