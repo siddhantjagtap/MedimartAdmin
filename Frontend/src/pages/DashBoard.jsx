@@ -16,7 +16,7 @@ import {
     BarChart,
     Bar,
     Pie,
-    
+
     PieChart,
     Cell,
     ResponsiveContainer,
@@ -73,7 +73,7 @@ const DashBoard = () => {
     <div className="flex-grow">
     <Navbar />
             <div className="flex flex-col min-h-screen  md:block hidden">
-               
+
                 <main className="flex-grow p-8">
                     <div className="grid grid-cols-3 gap-4 mb-8">
                         <div className="bg-gradient-to-r from-orange-400 to-pink-600 text-white rounded-lg p-4 h-[14rem]">
