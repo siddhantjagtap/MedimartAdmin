@@ -14,7 +14,7 @@ function SideMenu() {
 
     const menus = [
         { title: 'Admin Panel', icon: <RiAdminLine size={24} />,},
-        { title: 'Dashboard', icon: <RxDashboard size={24} />, path: '/' },
+        { title: 'Dashboard', icon: <RxDashboard size={24} />, path: '/dashboard' },
         { title: 'Order List', icon: <MdChecklist size={24} />, path: '/orderlist' },
         { title: 'Order Status', icon: <TbStatusChange size={24} />, path: '/orderstatus' },
         { title: 'Billing', icon: <RiBillLine size={24} />, path: '/billing' },
@@ -25,7 +25,7 @@ function SideMenu() {
     };
 
     return (
-        <div className={`p-4 flex fixed h-screen ${open ? 'w-[object-fit]' : 'w-[4.5rem]'} duration-200 bg-stone-950 text-white`}>
+        <div className={`p-4 flex sticky top-0 h-screen ${open ? 'w-[14rem]' : 'w-[4.5rem]'} duration-200 bg-stone-950 text-white`}>
             <div className=''>
                 {open ? (
                     <RxCross2 onClick={() => setOpen(!open)} className="size-9 cursor-pointer " />
