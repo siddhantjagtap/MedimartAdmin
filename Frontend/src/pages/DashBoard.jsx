@@ -72,7 +72,7 @@ const DashBoard = () => {
     <SideMenu />
     <div className="flex-grow">
     <Navbar />
-            <div className="flex flex-col min-h-screen  md:block hidden">
+            <div className="flex flex-col min-h-screen  md:block">
 
                 <main className="flex-grow p-8">
                     <div className="grid grid-cols-3 gap-4 mb-8">
