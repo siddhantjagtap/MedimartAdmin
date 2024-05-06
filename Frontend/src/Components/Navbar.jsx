@@ -2,6 +2,7 @@ import React from "react";
 import { BsFillBellFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import logo from "../assets/nexible.gif";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
@@ -11,7 +12,10 @@ function Navbar() {
         <img className="h-[2rem] w-[12rem]" src={logo}></img>
         <div className="flex">
           <BsFillBellFill className="items-center pt-2 mr-[1rem] text-4xl" />
-          <button onClick={() => window.location.href='/login'}><CgProfile className="items-center pt-2 mr-[1rem] text-4xl" /></button>
+          <Link to='/login'>
+          <button 
+          ><CgProfile className="items-center pt-2 mr-[1rem] text-4xl" /></button>
+          </Link>
         </div>
       </header>
     </div>
