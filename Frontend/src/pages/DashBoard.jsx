@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BsFillBellFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
+import SideMenu from '../Components/SideMenu';
+import Navbar from '../Components/Navbar';
 import {
     LineChart,
     Line,
@@ -14,7 +16,7 @@ import {
     BarChart,
     Bar,
     Pie,
-    
+
     PieChart,
     Cell,
     ResponsiveContainer,
@@ -22,7 +24,7 @@ import {
 
 const COLORS = ['#E53E3E', '#38B2AC', '#7F9CF5'];
 
-const Dashboard = () => {
+const DashBoard = () => {
     const [orderData, setOrderData] = useState({
         totalOrders: 512,
         shippedProducts: 450,
@@ -66,8 +68,12 @@ const Dashboard = () => {
 
     return (
         <>
-            <div className="flex flex-col min-h-screen  md:block hidden">
-               
+        <div className="flex">
+    <SideMenu />
+    <div className="flex-grow">
+    <Navbar />
+            <div className="flex flex-col min-h-screen  md:block">
+
                 <main className="flex-grow p-8">
                     <div className="grid grid-cols-3 gap-4 mb-8">
                         <div className="bg-gradient-to-r from-orange-400 to-pink-600 text-white rounded-lg p-4 h-[14rem]">
@@ -223,9 +229,11 @@ const Dashboard = () => {
                     </div>
                 </main>
             </div>
+            </div>
+            </div>
         </>
 
     );
 };
 
-export default Dashboard;
+export default DashBoard;

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { FaPrint, FaShippingFast } from 'react-icons/fa';
 import { IoIosArrowBack,IoIosArrowForward } from "react-icons/io";
-
+import SideMenu from '../Components/SideMenu';
+import Navbar from '../Components/Navbar';
 function OrderStatus() {
   const [orders, setOrders] = useState([
     {
@@ -113,6 +114,10 @@ function OrderStatus() {
   };
 
   return (
+    <div className="flex">
+    <SideMenu />
+    <div className="flex-grow">
+    <Navbar />
     <div className="bg-white p-4 rounded-lg ">
       <h2 className="text-xl font-bold mb-[1rem]">Order Status</h2>
       <div className="overflow-x-auto">
@@ -171,6 +176,8 @@ function OrderStatus() {
           </button>
         </div>
       </div>
+    </div>
+    </div>
     </div>
   );
 }
