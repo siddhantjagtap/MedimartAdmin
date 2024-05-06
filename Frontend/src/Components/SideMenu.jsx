@@ -12,11 +12,12 @@ function SideMenu() {
     const [open, setOpen] = useState(true);
     const location = useLocation();
     const menus = [
-        { title: 'Dashboard', icon: <RxDashboard size={24} />, path: '/' },
+        { title: 'Dashboard', icon: <RxDashboard size={24} />, path: '/dashboard' },
         { title: 'Order List', icon: <MdChecklist size={24} />, path: '/orderlist' },
         { title: 'Order Status', icon: <TbStatusChange size={24} />, path: '/orderstatus' },
         { title: 'Billing', icon: <RiBillLine size={24} />, path: '/billing' },
     ];
+
     const isActive = (path) => {
         return location.pathname === path;
     };
@@ -33,11 +34,13 @@ function SideMenu() {
                     <p className=' mt-[3.6rem] text-2xl'>Admin Panel</p>
                 ):("")}
             
-                <div className='mt-[2rem] text-xl'>
+                <div className='mt-[2rem] text-xl group'>
                     {menus.map((menu, index) => (
+                        
                         <Link key={index} to={menu.path} className={`flex items-center gap-x-3 my-7 p-1  ${isActive(menu.path) ? 'bg-gray-700 rounded-md text-white' : ''}`}>
                             {React.cloneElement(menu.icon, { size: 32 })}
                             <span className={`${!open && 'hidden'} origin-left duration-200`}>{menu.title}</span>
+                            {/* <p class="hidden group-hover:block">{menu.title}</p> */}
                         </Link>
                     ))}
                 </div>
