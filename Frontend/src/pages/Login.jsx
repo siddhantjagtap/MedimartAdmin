@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios'; // Import Axios for making HTTP requests
 import logo from "../assets/nexible.gif";
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -18,10 +20,13 @@ const Login = () => {
       // Assuming successful login, you can navigate to another page
       console.log("Login Success");
       navigate('/');
+      toast.success('Login Successful!'); // Show success toast
     } catch (error) {
       setError('Invalid credentials. Please try again.'); // Update error state if login fails
+      toast.error('Invalid credentials. Please try again.'); // Show error toast
     }
   };
+  
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
       <div className="bg-white rounded-lg w-[24rem] h-[24rem] shadow-md p-8">
