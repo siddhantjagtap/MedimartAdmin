@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
+    <>
     <div>
       <header className="bg-gray-200 py-4 px-8 shadow flex justify-between">
         {/* <h1 className="text-2xl ml-[1rem] font-bold">NEXIBLES</h1> */}
@@ -19,6 +20,8 @@ function Navbar() {
         </div>
       </header>
     </div>
+    
+    </>
   );
 }
 

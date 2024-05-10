@@ -72,7 +72,7 @@ const DashBoard = () => {
     <SideMenu />
     <div className="flex-grow">
     <Navbar />
-            <div className="flex flex-col min-h-screen  md:block">
+            <div className="flex flex-col min-h-screen  md:block hidden">
 
                 <main className="flex-grow p-8">
                     <div className="grid grid-cols-3 gap-4 mb-8">
@@ -145,7 +145,7 @@ const DashBoard = () => {
                 </main>
             </div>
             {/* Mobile view  */}
-            <div className="flex flex-col min-h-screen  md:hidden">
+            <div className="flex flex-col min-h-screen md:hidden">
                 
                 <main className="flex-grow p-8">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
