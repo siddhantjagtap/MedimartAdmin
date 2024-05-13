@@ -7,6 +7,7 @@ import ManageProductModal from "../Components/ManageProductModal";
 import axios from "axios";
 import Loading from "../Components/Loading";
 
+
 const ManageProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true)
@@ -15,13 +16,8 @@ const ManageProducts = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [showModal, setShowModal] = useState(false);
-  const [newProduct, setNewProduct] = useState({
-    id: "",
-    image: "",
-    name: "",
-    price: 0,
-    stock: 0,
-  });
+  const [newProduct, setNewProduct] = useState([]);
+  const [rowDelete, setrowDelete] = useState([])
 
   useEffect(() => {
     setLoading(false)
@@ -41,6 +37,40 @@ const ManageProducts = () => {
         console.error("Error fetching data:", error);
       });
   }, []);
+
+  const handleAddProduct = async () => {
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_NEXIBLE_URL}/product`, newProduct, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_API_Key}`
+        }
+      });
+      setNewProduct(response.data.data)
+      // Handle success response from the API
+      console.log("Product added successfully:", response.data.data);
+    } catch (error) {
+      // Handle error response from the API
+      console.error("Error adding product:", error.message);
+    }
+  };
+
+  const handleDeleteProduct = async (id) => {
+    try {
+      const response = await axios.delete(`${import.meta.env.VITE_NEXIBLE_URL}/product/${id}`, rowDelete, {
+        headers: {
+          'Authorization': `Bearer ${import.meta.env.VITE_API_Key}`
+        }
+      })
+      setrowDelete(response.data)
+      console.log("Product deleted successfully:", id);
+      // Remove the deleted product from the state
+      setProducts(products.filter(product => product.id !== id));
+    } catch (error) {
+      console.error("Error deleting product:", error.message);
+    }
+  };
+
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -73,18 +103,6 @@ const ManageProducts = () => {
     setShowManageModal(false);
   };
 
-  const handleAddProduct = () => {
-    // Add logic to save the new product to the server or state
-    console.log("New product:", newProduct);
-    setShowModal(false);
-    setNewProduct({
-      id: "",
-      image: "",
-      name: "",
-      price: 0,
-      stock: 0,
-    });
-  };
 
   return (
     <div className="flex">
@@ -213,6 +231,7 @@ const ManageProducts = () => {
         product={selectedProduct}
         handleInputChange={handleInputChange}
         handleUpdateProduct={handleUpdateProduct}
+        handleDeleteProduct={handleDeleteProduct}
       />
     </div>
   );

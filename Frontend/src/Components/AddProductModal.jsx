@@ -3,7 +3,6 @@ import { IoCloseOutline } from 'react-icons/io5';
 
 const AddProductModal = ({ showModal, setShowModal, newProduct, handleInputChange, handleAddProduct }) => {
   
-
   return (
     showModal && (
       <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -55,17 +54,17 @@ const AddProductModal = ({ showModal, setShowModal, newProduct, handleInputChang
                       />
                     </div>
                     <div className="mb-4">
-                      <label htmlFor="productName" className="block text-gray-700 font-bold mb-2">
+                      <label htmlFor="productDesc" className="block text-gray-700 font-bold mb-2">
                         Product Description
                       </label>
                       <input
                         type="text"
-                        id="productName"
-                        name="name"
-                        value={newProduct.name}
+                        id="productDesc"
+                        name="dsec"
+                        value={newProduct.description}
                         onChange={handleInputChange}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Product Name"
+                        placeholder="Description"
                       />
                     </div>
                     <div className="mb-4">

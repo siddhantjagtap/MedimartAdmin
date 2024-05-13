@@ -34,6 +34,8 @@ function OrderList({ totalOrders, setTotalOrders }) {
     fetchData();
   }, [apiUrl, apikey,setTotalOrders]);
 
+  
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const indexOfLastItem = currentPage * itemsPerPage;

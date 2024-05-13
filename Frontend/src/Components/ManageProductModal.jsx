@@ -1,7 +1,7 @@
 import React from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 
-const ManageProductModal = ({ showModal, setShowModal, product, handleInputChange, handleUpdateProduct }) => {
+const ManageProductModal = ({ showModal, setShowModal, product, handleInputChange, handleUpdateProduct, handleDeleteProduct }) => {
   return (
     showModal && (
       <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -44,9 +44,9 @@ const ManageProductModal = ({ showModal, setShowModal, product, handleInputChang
                       </label>
                       <input
                         type="text"
-                        id="productName"
-                        name="name"
-                        value={product.name}
+                        id="productNameDesc"
+                        name="Desc"
+                        value={product.description}
                         onChange={handleInputChange}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="Product Name"
@@ -59,7 +59,7 @@ const ManageProductModal = ({ showModal, setShowModal, product, handleInputChang
                       <input
                         type="text"
                         id="productName"
-                        name="name"
+                        name="category"
                         value={product.name}
                         onChange={handleInputChange}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -87,8 +87,8 @@ const ManageProductModal = ({ showModal, setShowModal, product, handleInputChang
                       <input
                         type="number"
                         id="productPrice"
-                        name="price"
-                        value={product.price}
+                        name="qty"
+                        value={product.qty}
                         onChange={handleInputChange}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="Product Price"
@@ -120,13 +120,13 @@ const ManageProductModal = ({ showModal, setShowModal, product, handleInputChang
                       <input
                         type="file"
                         id="productImage"
-                        name="image"
+                        name="keylineimage"
                         onChange={handleInputChange}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
                       {product.image && (
                         <img
-                          src={`/images/${product.image}`}
+                          src={`/images/${product.keylineimage}`}
                           alt={product.name}
                           className="mt-2 w-16 h-16 object-cover"
                         />
@@ -139,12 +139,22 @@ const ManageProductModal = ({ showModal, setShowModal, product, handleInputChang
             <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               <button
                 type="button"
+                className="appearance-none border rounded-full w-full py-3 px-3 text-white bg-black "
+                onClick={handleDeleteProduct}
+              >
+                Delete
+              </button>
+            </div>
+            <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <button
+                type="button"
                 className="appearance-none border rounded-full w-full py-3 px-3 text-white bg-black mb-[1rem]"
                 onClick={handleUpdateProduct}
               >
                 Update
               </button>
             </div>
+            
           </div>
         </div>
       </div>
