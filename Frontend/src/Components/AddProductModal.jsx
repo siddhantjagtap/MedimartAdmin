@@ -53,8 +53,34 @@ const AddProductModal = ({ showModal, setShowModal, newProduct, handleInputChang
                       />
                     </div>
                     <div className="mb-4">
+                      <label htmlFor="productName" className="block text-gray-700 font-bold mb-2">
+                        Product Description
+                      </label>
+                      <input
+                        type="text"
+                        id="productName"
+                        name="name"
+                        value={newProduct.name}
+                        onChange={handleInputChange}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Product Name"
+                      />
+                    </div>
+                    <div className="mb-4">
                       <label htmlFor="productImage" className="block text-gray-700 font-bold mb-2">
                         Product Image
+                      </label>
+                      <input
+                        type="file"
+                        id="productImage"
+                        name="image"
+                        onChange={handleInputChange}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label htmlFor="productImage" className="block text-gray-700 font-bold mb-2">
+                        Product Keyline Image 
                       </label>
                       <input
                         type="file"

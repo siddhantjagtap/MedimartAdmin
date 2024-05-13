@@ -72,7 +72,6 @@ const DashBoard = () => {
     <div className="flex-grow">
     <Navbar />
             <div className="flex flex-col min-h-screen  md:block hidden">
-
                 <main className="flex-grow p-8">
                     <div className="grid grid-cols-3 gap-4 mb-8">
                         <div className="bg-gradient-to-r from-orange-400 to-pink-600 text-white rounded-lg p-4 h-[14rem]">
@@ -144,14 +143,8 @@ const DashBoard = () => {
                 </main>
             </div>
             {/* Mobile view  */}
-            <div className="flex flex-col min-h-screen  md:hidden">
-                <header className="bg-gray-100 py-4 px-8 shadow flex justify-between">
-                    <h1 className="text-2xl font-bold">NEXIBLES</h1>
-                    <div className='flex'>
-                    <BsFillBellFill className='items-center  mr-[1rem] text-3xl'/>
-                    <CgProfile className='items-center text-3xl'/>
-                    </div>
-                </header>
+            <div className="flex flex-col min-h-screen md:hidden">
+                
                 <main className="flex-grow p-8">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                         <div className="bg-gradient-to-r from-orange-400 to-pink-600 text-white rounded-lg p-4">
