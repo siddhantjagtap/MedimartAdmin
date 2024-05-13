@@ -39,6 +39,34 @@ const ManageProductModal = ({ showModal, setShowModal, product, handleInputChang
                       />
                     </div>
                     <div className="mb-4">
+                      <label htmlFor="productName" className="block text-gray-700 font-bold mb-2">
+                        Product Description
+                      </label>
+                      <input
+                        type="text"
+                        id="productName"
+                        name="name"
+                        value={product.name}
+                        onChange={handleInputChange}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Product Name"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label htmlFor="productName" className="block text-gray-700 font-bold mb-2">
+                        Product Category
+                      </label>
+                      <input
+                        type="text"
+                        id="productName"
+                        name="name"
+                        value={product.name}
+                        onChange={handleInputChange}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Product Name"
+                      />
+                    </div>
+                    <div className="mb-4">
                       <label htmlFor="productPrice" className="block text-gray-700 font-bold mb-2">
                         Product Price
                       </label>
@@ -53,8 +81,41 @@ const ManageProductModal = ({ showModal, setShowModal, product, handleInputChang
                       />
                     </div>
                     <div className="mb-4">
+                      <label htmlFor="productPrice" className="block text-gray-700 font-bold mb-2">
+                        Product Qty
+                      </label>
+                      <input
+                        type="number"
+                        id="productPrice"
+                        name="price"
+                        value={product.price}
+                        onChange={handleInputChange}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Product Price"
+                      />
+                    </div>
+                    <div className="mb-4">
                       <label htmlFor="productImage" className="block text-gray-700 font-bold mb-2">
                         Product Image
+                      </label>
+                      <input
+                        type="file"
+                        id="productImage"
+                        name="image"
+                        onChange={handleInputChange}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      />
+                      {product.image && (
+                        <img
+                          src={`/images/${product.image}`}
+                          alt={product.name}
+                          className="mt-2 w-16 h-16 object-cover"
+                        />
+                      )}
+                    </div>
+                    <div className="mb-4">
+                      <label htmlFor="productImage" className="block text-gray-700 font-bold mb-2">
+                        Keyline image
                       </label>
                       <input
                         type="file"
