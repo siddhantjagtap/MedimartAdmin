@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios'; // Import Axios for making HTTP requests
+import axios from 'axios';
 import logo from "../assets/nexible.gif";
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -16,8 +16,8 @@ const Login = () => {
       const response = await axios.post('https://nexiblesapp.barecms.com/api/login', {
         email,
         userpassword,
+         role: 'admin',
       });
-      // Assuming successful login, you can navigate to another page
       console.log("Login Success");
       navigate('/');
       toast.success('Login Successful!'); // Show success toast
