@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-
+import SideMenu from '../Components/SideMenu';
+import Navbar from '../Components/Navbar';
 function OrderBilling() {
   const [invoiceData, setInvoiceData] = useState({
     orderId: '123456',
@@ -16,6 +17,8 @@ function OrderBilling() {
   const toggleInvoice = () => {
     setShowInvoice(!showInvoice);
   };
+
+  
 
   const downloadInvoice = () => {
     const invoiceContent = `
@@ -111,6 +114,10 @@ function OrderBilling() {
   };
 
   return (
+    <div className="flex">
+    <SideMenu />
+    <div className="flex-grow">
+    <Navbar />
     <div>
       <p>Order Billing</p>
       <button onClick={toggleInvoice}>
@@ -147,6 +154,8 @@ function OrderBilling() {
           <button onClick={downloadInvoice}>Download Invoice</button>
         </div>
       )}
+    </div>
+    </div>
     </div>
   );
 }
