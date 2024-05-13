@@ -58,9 +58,27 @@ function OrderList({ totalOrders, setTotalOrders }) {
     setDeleteOrderId(orderId);
   };
 
-  const confirmDeleteOrder = () => {
-    console.log(`Deleting order with ID: ${deleteOrderId}`);
-    setDeleteOrderId(null);
+  const confirmDeleteOrder = async () => {
+    try {
+      const response = await axios.delete(`${apiUrl}/ordermaster/${deleteOrderId}`, {
+        headers: {
+          'API-Key': apikey,
+        },
+      });
+      if (response.data.status === 'success') {
+        console.log('Order deleted successfully');
+        // Update the list of orders after deletion
+        const updatedOrders = orders.filter(order => order.id !== deleteOrderId);
+        setOrders(updatedOrders);
+        setTotalOrders(updatedOrders.length);
+      } else {
+        console.error('Error deleting order:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error deleting order:', error);
+    } finally {
+      setDeleteOrderId(null); // Close the delete confirmation modal
+    }
   };
 
   const cancelDeleteOrder = () => {
