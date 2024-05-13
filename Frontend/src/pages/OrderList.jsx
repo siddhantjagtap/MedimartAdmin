@@ -8,8 +8,8 @@ import Navbar from '../Components/Navbar';
 
 function OrderList() {
   const [orders, setOrders] = useState([]);
-  const apiUrl = import.meta.env.VITE_API_URL;
-  const apikey = import.meta.env.VITE_API_KEY;
+  const apiUrl = import.meta.env.VITE_NEXIBLE_URL;
+  const apikey = import.meta.env.VITE_API_Key;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,7 +21,7 @@ function OrderList() {
         });
         if (response.data.status === 'success') {
           setOrders(response.data.data || []);
-          console.log(response.data.data || []);
+          
         } else {
           console.error('Error fetching data:', response.data.message);
         }
