@@ -3,6 +3,7 @@ import { BsFillBellFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import SideMenu from '../Components/SideMenu';
 import Navbar from '../Components/Navbar';
+import OrderList from './OrderList';
 import {
     LineChart,
     Line,
@@ -16,7 +17,6 @@ import {
     BarChart,
     Bar,
     Pie,
-
     PieChart,
     Cell,
     ResponsiveContainer,
@@ -24,9 +24,9 @@ import {
 
 const COLORS = ['#E53E3E', '#38B2AC', '#7F9CF5'];
 
-const DashBoard = () => {
+const DashBoard = ({ totalOrders }) => {
     const [orderData, setOrderData] = useState({
-        totalOrders: 512,
+        totalOrders: totalOrders,
         shippedProducts: 450,
         pendingOrders: 72,
     });
@@ -73,7 +73,6 @@ const DashBoard = () => {
     <div className="flex-grow">
     <Navbar />
             <div className="flex flex-col min-h-screen  md:block hidden">
-
                 <main className="flex-grow p-8">
                     <div className="grid grid-cols-3 gap-4 mb-8">
                         <div className="bg-gradient-to-r from-orange-400 to-pink-600 text-white rounded-lg p-4 h-[14rem]">
