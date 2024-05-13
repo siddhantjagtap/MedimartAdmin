@@ -132,10 +132,8 @@ const ManageProducts = () => {
                   >
                     <td className="px-4 py-3">{products.id}</td>
                     <td className="px-4 py-3">{products.name}</td>
-                    <td
-                      className="px-4 py-3"
-                      dangerouslySetInnerHTML={{ __html: products.description }}
-                    ></td>
+                    <td className="px-4 py-3" dangerouslySetInnerHTML={{ __html: `${products.description.slice(0, 100)}${products.description.length > 100 ? '...' : ''}` }}></td>
+
                     <td className="px-4 py-3">{products.price}</td>
                     <td className="px-4 py-3">{products.category}</td>
                     <td className="px-4 py-3">{products.qty}</td>
