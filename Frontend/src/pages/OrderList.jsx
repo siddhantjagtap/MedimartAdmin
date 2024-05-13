@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaPrint } from 'react-icons/fa';
@@ -11,6 +10,7 @@ function OrderList({ totalOrders, setTotalOrders }) {
   const [orders, setOrders] = useState([]);
   const apiUrl = import.meta.env.VITE_NEXIBLE_URL;
   const apikey = import.meta.env.VITE_API_Key;
+  const [deleteOrderId, setDeleteOrderId] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,7 +32,7 @@ function OrderList({ totalOrders, setTotalOrders }) {
     };
 
     fetchData();
-  }, [apiUrl, apikey,setTotalOrders]);
+  }, [apiUrl, apikey, setTotalOrders]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -52,6 +52,19 @@ function OrderList({ totalOrders, setTotalOrders }) {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
+  };
+
+  const handleDeleteOrder = (orderId) => {
+    setDeleteOrderId(orderId);
+  };
+
+  const confirmDeleteOrder = () => {
+    console.log(`Deleting order with ID: ${deleteOrderId}`);
+    setDeleteOrderId(null);
+  };
+
+  const cancelDeleteOrder = () => {
+    setDeleteOrderId(null);
   };
 
   return (
@@ -89,7 +102,10 @@ function OrderList({ totalOrders, setTotalOrders }) {
                       <button className="px-2 py-1 rounded-md">
                         <FaPrint className="text-black text-xl" />
                       </button>
-                      <button className="px-2 py-1 rounded-md">
+                      <button
+                        className="px-2 py-1 rounded-md"
+                        onClick={() => handleDeleteOrder(order.id)}
+                      >
                         <MdDelete className="text-black text-xl" />
                       </button>
                       <button className="px-2 py-1 rounded-md">
@@ -100,6 +116,29 @@ function OrderList({ totalOrders, setTotalOrders }) {
                 ))}
               </tbody>
             </table>
+
+            {deleteOrderId && (
+              <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                <div className="bg-white p-6 rounded-lg">
+                  <h2 className="text-xl font-bold mb-4">Confirm Delete</h2>
+                  <p>Are you sure you want to delete this order?</p>
+                  <div className="mt-4 flex justify-end">
+                    <button
+                      className="px-4 py-2 mr-2 rounded-md bg-red-500 text-white"
+                      onClick={confirmDeleteOrder}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className="px-4 py-2 rounded-md bg-gray-300"
+                      onClick={cancelDeleteOrder}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
 
             <div className="flex justify-center mt-4">
               <button onClick={prevPage} className="mx-1 px-3 py-2 cursor-pointer">
