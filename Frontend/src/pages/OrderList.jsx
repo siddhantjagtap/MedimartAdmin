@@ -7,7 +7,7 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import SideMenu from '../Components/SideMenu';
 import Navbar from '../Components/Navbar';
 
-function OrderList() {
+function OrderList({ totalOrders, setTotalOrders }) {
   const [orders, setOrders] = useState([]);
   const apiUrl = import.meta.env.VITE_NEXIBLE_URL;
   const apikey = import.meta.env.VITE_API_Key;
@@ -22,7 +22,7 @@ function OrderList() {
         });
         if (response.data.status === 'success') {
           setOrders(response.data.data || []);
-          
+          setTotalOrders(response.data.data.length);
         } else {
           console.error('Error fetching data:', response.data.message);
         }
@@ -32,7 +32,7 @@ function OrderList() {
     };
 
     fetchData();
-  }, [apiUrl, apikey]);
+  }, [apiUrl, apikey,setTotalOrders]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;

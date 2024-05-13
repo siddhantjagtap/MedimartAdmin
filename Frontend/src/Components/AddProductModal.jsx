@@ -2,6 +2,8 @@ import React from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 
 const AddProductModal = ({ showModal, setShowModal, newProduct, handleInputChange, handleAddProduct }) => {
+  
+
   return (
     showModal && (
       <div className="fixed z-10 inset-0 overflow-y-auto">
