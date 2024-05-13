@@ -3,6 +3,7 @@ import { BsFillBellFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import SideMenu from '../Components/SideMenu';
 import Navbar from '../Components/Navbar';
+import OrderList from './OrderList';
 import {
     LineChart,
     Line,
@@ -23,9 +24,9 @@ import {
 
 const COLORS = ['#E53E3E', '#38B2AC', '#7F9CF5'];
 
-const DashBoard = () => {
+const DashBoard = ({ totalOrders }) => {
     const [orderData, setOrderData] = useState({
-        totalOrders: 512,
+        totalOrders: totalOrders,
         shippedProducts: 450,
         pendingOrders: 72,
     });
