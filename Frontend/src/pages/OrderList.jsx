@@ -111,14 +111,14 @@ function OrderList({ totalOrders, setTotalOrders }) {
               <tbody>
                 {currentOrders.map((order, index) => (
                   <tr key={order.id} className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
-                    <td className="px-4 py-3">{order.id}</td>
-                    <td className="px-4 py-3">{order.orderNo}</td>
-                    <td className="px-4 py-3">{order.orderDate}</td>
-                    <td className="px-4 py-3">{order.customerID}</td>
-                    <td className="px-4 py-3">{order.eMail}</td>
-                    <td className="px-4 py-3">{order.firstName}</td>
-                    <td className="px-4 py-3">{order.lastName}</td>
-                    <td className="px-4 py-3 flex items-center justify-center gap-2">
+                    <td className="px-8 py-3">{order.id}</td>
+                    <td className="px-4 pl-12 py-3">{order.orderNo}</td>
+                    <td className="px-4 pl-12 py-3">{order.orderDate}</td>
+                    <td className="px-4 pl-12 py-3">{order.customerID}</td>
+                    <td className="px-4 pl-12 py-3">{order.eMail}</td>
+                    <td className="px-4 pl-12 py-3">{order.firstName}</td>
+                    <td className="px-4 pl-10 py-3">{order.lastName}</td>
+                    <td className="px-4 py-3 mt-[1.2rem] flex items-center justify-center gap-2">
                       <button className="px-2 py-1 rounded-md">
                         <FaPrint className="text-black text-xl" />
                       </button>
