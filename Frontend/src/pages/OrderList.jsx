@@ -11,6 +11,12 @@ function OrderList({ totalOrders, setTotalOrders }) {
   const apiUrl = import.meta.env.VITE_NEXIBLE_URL;
   const apikey = import.meta.env.VITE_API_Key;
   const [deleteOrderId, setDeleteOrderId] = useState(null);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const pagesToShow = 5;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,6 +28,7 @@ function OrderList({ totalOrders, setTotalOrders }) {
         });
         if (response.data.status === 'success') {
           setOrders(response.data.data || []);
+          setFilteredOrders(response.data.data || []);
           setTotalOrders(response.data.data.length);
         } else {
           console.error('Error fetching data:', response.data.message);
@@ -33,28 +40,6 @@ function OrderList({ totalOrders, setTotalOrders }) {
 
     fetchData();
   }, [apiUrl, apikey, setTotalOrders]);
-
-  
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentOrders = orders.slice(indexOfFirstItem, indexOfLastItem);
-
-  const paginate = pageNumber => setCurrentPage(pageNumber);
-
-  const nextPage = () => {
-    if (currentPage < Math.ceil(orders.length / itemsPerPage)) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const prevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
 
   const handleDeleteOrder = (orderId) => {
     setDeleteOrderId(orderId);
@@ -69,9 +54,9 @@ function OrderList({ totalOrders, setTotalOrders }) {
       });
       if (response.data.status === 'success') {
         console.log('Order deleted successfully');
-        // Update the list of orders after deletion
         const updatedOrders = orders.filter(order => order.id !== deleteOrderId);
         setOrders(updatedOrders);
+        setFilteredOrders(updatedOrders);
         setTotalOrders(updatedOrders.length);
       } else {
         console.error('Error deleting order:', response.data.message);
@@ -79,7 +64,7 @@ function OrderList({ totalOrders, setTotalOrders }) {
     } catch (error) {
       console.error('Error deleting order:', error);
     } finally {
-      setDeleteOrderId(null); // Close the delete confirmation modal
+      setDeleteOrderId(null);
     }
   };
 
@@ -87,13 +72,86 @@ function OrderList({ totalOrders, setTotalOrders }) {
     setDeleteOrderId(null);
   };
 
+  const handleSearch = () => {
+    const filtered = orders.filter((order) => {
+      const orderDate = new Date(order.orderDate);
+      const startDateValid = !startDate || orderDate >= new Date(startDate);
+      const endDateValid = !endDate || orderDate <= new Date(endDate + "T23:59:59");
+      return startDateValid && endDateValid;
+    });
+    setFilteredOrders(filtered);
+    setCurrentPage(1);
+  };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentOrders = filteredOrders.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = pageNumber => setCurrentPage(pageNumber);
+
+  const nextPage = () => {
+    if (currentPage < Math.ceil(filteredOrders.length / itemsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
+  const startPage = Math.max(
+    Math.min(
+      currentPage - Math.floor(pagesToShow / 2),
+      totalPages - pagesToShow + 1
+    ),
+    1
+  );
+  const endPage = Math.min(startPage + pagesToShow - 1, totalPages);
   return (
     <div className="flex">
       <SideMenu />
       <div className="flex-grow">
         <Navbar />
         <div className="bg-white p-4 rounded-lg">
-          <h2 className="text-xl font-bold mb-4">Order List</h2>
+          <div className="relative w-[77.75rem] h-[3.5625rem] mt-[1.5rem]">
+            <div className="absolute w-[20rem] h-[3.5625rem] top-0 left-0">
+              <div className="w-[17rem] relative h-[3.5625rem] bg-white rounded-[2.8125rem] border border-solid border-[#a8a8a8]">
+                <div className="absolute w-[4.5625rem] top-[0.375rem] left-[1.375rem] font-medium text-black text-[0.875rem] tracking-[0] leading-[normal]">
+                  Start date
+                </div>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className="absolute w-[14.9375rem] top-[1.6875rem] left-[1.375rem] font-medium text-[#777777] text-1rem tracking-[0] leading-[normal]"
+                />
+              </div>
+            </div>
+
+            <div className="absolute w-[20rem] h-[3.5625rem] top-0 left-[20.4375rem]">
+              <div className="w-[17rem] relative h-[3.5625rem] bg-white rounded-[2.8125rem] border border-solid border-[#a8a8a8]">
+                <div className="absolute w-[14.5625rem] top-[0.375rem] left-[1.3125rem] font-medium text-black text-[0.875rem] tracking-[0] leading-[normal]">
+                  End date
+                </div>
+                <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  className="absolute w-[14.9375rem] top-[1.6875rem] left-[1.375rem] font-medium text-[#777777] text-1rem tracking-[0] leading-[normal]" />
+              </div>
+            </div>
+            <button
+              className="inline-flex items-center justify-center gap-[0.625rem] px-[8rem] py-[1rem] absolute top-0 left-[41.4375rem] w-[18rem] h-[3.5625rem] bg-black rounded-[2.8125rem] overflow-hidden border border-solid border-[#a8a8a8]  relative w-fit mt-[-0.0625rem] font-medium text-[#ffffff] text-[1rem] tracking-[0] leading-[normal]"
+              onClick={handleSearch}
+            >
+              Search
+            </button>
+          </div>
+
+          <h2 className="text-xl font-bold mb-4 mt-[2rem]">Order List</h2>
           <div className="overflow-x-auto">
             <table className="w-full table-auto">
               <thead>
@@ -123,10 +181,11 @@ function OrderList({ totalOrders, setTotalOrders }) {
                         <FaPrint className="text-black text-xl" />
                       </button>
                       <button
+                        // className="px-
                         className="px-2 py-1 rounded-md"
                         onClick={() => handleDeleteOrder(order.id)}
                       >
-                        <MdDelete className="text-black text-xl" />
+                        <MdDelete className="text-red-500 text-xl" />
                       </button>
                       <button className="px-2 py-1 rounded-md">
                         <MdModeEditOutline className="text-black text-xl" />
@@ -136,53 +195,60 @@ function OrderList({ totalOrders, setTotalOrders }) {
                 ))}
               </tbody>
             </table>
-
-            {deleteOrderId && (
-              <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-                <div className="bg-white p-6 rounded-lg">
-                  <h2 className="text-xl font-bold mb-4">Confirm Delete</h2>
-                  <p>Are you sure you want to delete this order?</p>
-                  <div className="mt-4 flex justify-end">
-                    <button
-                      className="px-4 py-2 mr-2 rounded-md bg-red-500 text-white"
-                      onClick={confirmDeleteOrder}
-                    >
-                      Delete
-                    </button>
-                    <button
-                      className="px-4 py-2 rounded-md bg-gray-300"
-                      onClick={cancelDeleteOrder}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <div className="flex justify-center mt-4">
-              <button onClick={prevPage} className="mx-1 px-3 py-2 cursor-pointer">
+          </div>
+          <div className="flex justify-center mt-4">
+              <button
+                onClick={prevPage}
+                className="mx-1 px-3 py-2 cursor-pointer"
+              >
                 <IoIosArrowBack />
               </button>
-              {Array.from({ length: Math.ceil(orders.length / itemsPerPage) }, (_, i) => (
-                <button
-                  key={i}
-                  className={`mx-1 px-4 py-2 cursor-pointer ${currentPage === i + 1 ? 'border border-black rounded-full' : ''
+              {Array.from(
+                { length: endPage - startPage + 1 },
+                (_, i) => (
+                  <button
+                    key={i}
+                    className={`mx-1 px-4 py-2 cursor-pointer ${
+                      currentPage === startPage + i
+                        ? "border border-black rounded-full"
+                        : ""
                     }`}
-                  onClick={() => paginate(i + 1)}
-                >
-                  {i + 1}
-                </button>
-              ))}
-              <button onClick={nextPage} className="mx-1 px-3 py-2 cursor-pointer">
+                    onClick={() => paginate(startPage + i)}
+                  >
+                    {startPage + i}
+                  </button>
+                )
+              )}
+              <button
+                onClick={nextPage}
+                className="mx-1 px-3 py-2 cursor-pointer"
+              >
                 <IoIosArrowForward />
+              </button>
+            </div>
+        </div>
+      </div>
+      {deleteOrderId && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-4 rounded shadow-md">
+            <p>Are you sure you want to delete this order?</p>
+            <div className="flex justify-end mt-4">
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded mr-2"
+                onClick={confirmDeleteOrder}
+              >
+                Delete
+              </button>
+              <button className="px-4 py-2 bg-gray-300 rounded" onClick={cancelDeleteOrder}>
+                Cancel
               </button>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
 
 export default OrderList;
+
