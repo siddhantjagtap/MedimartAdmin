@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { BsFillBellFill } from "react-icons/bs";
-import { CgProfile } from "react-icons/cg";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import SideMenu from '../Components/SideMenu';
 import Navbar from '../Components/Navbar';
 import {
@@ -16,7 +15,6 @@ import {
     BarChart,
     Bar,
     Pie,
-
     PieChart,
     Cell,
     ResponsiveContainer,
@@ -24,9 +22,9 @@ import {
 
 const COLORS = ['#E53E3E', '#38B2AC', '#7F9CF5'];
 
-const DashBoard = () => {
+const DashBoard = ({ totalOrders }) => {
     const [orderData, setOrderData] = useState({
-        totalOrders: 512,
+        totalOrders: totalOrders,
         shippedProducts: 450,
         pendingOrders: 72,
     });
@@ -34,37 +32,56 @@ const DashBoard = () => {
     const [chartData, setChartData] = useState([]);
     const [pieChartData, setPieChartData] = useState([]);
     const [barChartData, setBarChartData] = useState([]);
+
     useEffect(() => {
-        const lineChartData = [
-            { name: 'Jan', value: orderData.totalOrders - 200 },
-            { name: 'Feb', value: orderData.totalOrders - 300 },
-            { name: 'Mar', value: orderData.totalOrders - 100 },
-            { name: 'Apr', value: orderData.totalOrders },
-            { name: 'May', value: orderData.totalOrders - 200 },
-            { name: 'Jun', value: orderData.totalOrders + 100 },
-        ];
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_NEXIBLE_URL}/ordermaster`, {
+                    headers: {
+                        'API-Key': import.meta.env.VITE_API_Key,
+                    },
+                });
+                if (response.data.status === 'success') {
+                    const totalOrdersCount = response.data.data.length || 0;
+                    setOrderData(prevState => ({ ...prevState, totalOrders: totalOrdersCount }));
 
-        const pieChartData = [
-            { name: 'Shipped', value: orderData.shippedProducts },
-            { name: 'Pending', value: orderData.pendingOrders },
-            { name: 'Cancelled', value: orderData.totalOrders - orderData.shippedProducts - orderData.pendingOrders },
-        ];
+                    const lineChartData = [
+                        { name: 'Jan', value: totalOrdersCount - 200 },
+                        { name: 'Feb', value: totalOrdersCount - 300 },
+                        { name: 'Mar', value: totalOrdersCount - 100 },
+                        { name: 'Apr', value: totalOrdersCount },
+                        { name: 'May', value: totalOrdersCount - 200 },
+                        { name: 'Jun', value: totalOrdersCount + 100 },
+                    ];
 
-        const barChartData = [
-            { name: 'Jan', value: orderData.totalOrders - 200 },
-            { name: 'Feb', value: orderData.totalOrders - 300 },
-            { name: 'Mar', value: orderData.totalOrders - 100 },
-            { name: 'Apr', value: orderData.totalOrders },
-            { name: 'May', value: orderData.totalOrders - 200 },
-            { name: 'Jun', value: orderData.totalOrders + 100 },
-        ];
+                    const pieChartData = [
+                        { name: 'Shipped', value: orderData.shippedProducts },
+                        { name: 'Pending', value: orderData.pendingOrders },
+                        { name: 'Cancelled', value: totalOrdersCount - orderData.shippedProducts - orderData.pendingOrders },
+                    ];
 
+                    const barChartData = [
+                        { name: 'Jan', value: totalOrdersCount - 200 },
+                        { name: 'Feb', value: totalOrdersCount - 300 },
+                        { name: 'Mar', value: totalOrdersCount - 100 },
+                        { name: 'Apr', value: totalOrdersCount },
+                        { name: 'May', value: totalOrdersCount - 200 },
+                        { name: 'Jun', value: totalOrdersCount + 100 },
+                    ];
 
-        setChartData(lineChartData);
-        setPieChartData(pieChartData);
-        setBarChartData(barChartData);
+                    setChartData(lineChartData);
+                    setPieChartData(pieChartData);
+                    setBarChartData(barChartData);
+                } else {
+                    console.error('Error fetching data:', response.data.message);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
 
-    }, [orderData]);
+        fetchData();
+    }, []);
 
     return (
         <>
@@ -72,8 +89,7 @@ const DashBoard = () => {
     <SideMenu />
     <div className="flex-grow">
     <Navbar />
-            <div className="flex flex-col min-h-screen  md:block">
-
+            <div className="flex flex-col min-h-screen  md:block hidden">
                 <main className="flex-grow p-8">
                     <div className="grid grid-cols-3 gap-4 mb-8">
                         <div className="bg-gradient-to-r from-orange-400 to-pink-600 text-white rounded-lg p-4 h-[14rem]">
@@ -129,7 +145,7 @@ const DashBoard = () => {
                                 <Legend />
                             </PieChart>
                         </div>
-                        <div className="">
+                        <div>
                             <div className="bg-white rounded-lg p-4 border-2">
                                 <BarChart width={400} height={300} data={barChartData}>
                                     <XAxis dataKey="name" />
@@ -145,7 +161,7 @@ const DashBoard = () => {
                 </main>
             </div>
             {/* Mobile view  */}
-            <div className="flex flex-col min-h-screen  md:hidden">
+            <div className="flex flex-col min-h-screen md:hidden">
                 
                 <main className="flex-grow p-8">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
@@ -222,8 +238,8 @@ const DashBoard = () => {
                         </div>
                     </div>
                 </main>
-            </div>
-            </div>
+               </div>
+              </div>
             </div>
         </>
 

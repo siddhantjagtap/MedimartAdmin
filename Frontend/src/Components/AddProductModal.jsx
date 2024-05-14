@@ -1,7 +1,46 @@
 import React from 'react';
+import { useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
+import axios from 'axios';
 
-const AddProductModal = ({ showModal, setShowModal, newProduct, handleInputChange, handleAddProduct }) => {
+const AddProductModal = ({ showModal, setShowModal}) => {
+  
+  const [productname,setProductname] = useState("")
+  const [productDesc, setproductDesc] = useState("")
+  const [productcategory, setProductcategory] = useState("")
+  const [productPrice, setProductPrice] = useState("")
+  const [productqty, setProductqty] = useState("")
+  const [fileimage, setImagefile] = useState(null)
+  const [keylineImage, setKeylineimage] = useState(null)
+
+  const handleUpdateProduct = async () => {
+    try {
+      const updatedProduct = {
+        name: productname,
+        description: productDesc,
+        category: productcategory,
+        price: productPrice,
+        qty: productqty,
+        image: fileimage,
+        keylineimage: keylineImage
+      };
+
+      const nexibleUrl = import.meta.env.VITE_NEXIBLE_URL;
+      const apiKey = import.meta.env.VITE_API_Key;
+
+      const response = await axios.post(`${nexibleUrl}/product`, updatedProduct)
+
+      if (response.status === 200) {
+        console.log('Product updated successfully');
+        setShowModal(false);
+      } else {
+        console.error('Failed to update product:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error updating product:', error.message);
+    }
+  };
+
   return (
     showModal && (
       <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -22,61 +61,132 @@ const AddProductModal = ({ showModal, setShowModal, newProduct, handleInputChang
               </button>
               <div className="sm:flex sm:items-start">
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                  <h3 className="text-lg leading-6 font-medium text-gray-900">Add new product</h3>
+                  <h3 className="text-lg leading-6 font-medium text-gray-900">Manage product</h3>
                   <div className="mt-2">
                     <div className="mb-4">
-                      <label htmlFor="productName" className="block text-gray-700 font-bold mb-2">
+                      <label className="block text-gray-700 font-bold mb-2">
                         Product Name
                       </label>
                       <input
                         type="text"
                         id="productName"
-                        name="name"
-                        value={newProduct.name}
-                        onChange={handleInputChange}
+                        value={productname}
+                        onChange={(e)=> setProductname(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="Product Name"
                       />
                     </div>
                     <div className="mb-4">
-                      <label htmlFor="productPrice" className="block text-gray-700 font-bold mb-2">
+                      <label className="block text-gray-700 font-bold mb-2">
+                        Product Description
+                      </label>
+                      <input
+                        type="text"
+                        id="productDesc"
+                        value={productDesc}
+                        onChange={(e)=> setproductDesc(e.target.value)}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Product Description"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-bold mb-2">
+                        Product Category
+                      </label>
+                      <input
+                        type="text"
+                        id="productcategory"
+                        value={productcategory}
+                        onChange={(e)=> setProductcategory(e.target.value)}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Product category"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-bold mb-2">
                         Product Price
                       </label>
                       <input
                         type="number"
                         id="productPrice"
-                        name="price"
-                        value={newProduct.price}
-                        onChange={handleInputChange}
+                        value={productPrice}
+                        onChange={(e)=> setProductPrice(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="Product Price"
                       />
                     </div>
                     <div className="mb-4">
-                      <label htmlFor="productImage" className="block text-gray-700 font-bold mb-2">
+                      <label className="block text-gray-700 font-bold mb-2">
+                        Product Qty
+                      </label>
+                      <input
+                        type="number"
+                        id="productqty"
+                        value={productqty}
+                        onChange={(e)=> setProductqty(e.target.value)}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Product Price"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-bold mb-2">
                         Product Image
                       </label>
                       <input
                         type="file"
                         id="productImage"
-                        name="image"
-                        onChange={handleInputChange}
+                        onChange={(e) => setImagefile(e.target.files[0])}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
+                      {/* {product.image && (
+                        <img
+                          src={`/images/${product.image}`}
+                          //alt={product.name}
+                          className="mt-2 w-16 h-16 object-cover"
+                        />
+                      )} */}
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-bold mb-2">
+                        Keyline image
+                      </label>
+                      <input
+                        type="file"
+                        id="productkeylineimage"
+                        onChange={(e) => setKeylineimage(e.target.files[0])}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      />
+                      {/* {product.image && (
+                        <img
+                          src={`/images/${product.keylineimage}`}
+                          //alt={product.name}
+                          className="mt-2 w-16 h-16 object-cover"
+                        />
+                      )} */}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+            {/* <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <button
+                type="button"
+                className="appearance-none border rounded-full w-full py-3 px-3 text-white bg-black "
+                onClick={() => handleDeleteProduct(productId)}
+              >
+                Delete
+              </button>
+            </div> */}
             <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               <button
                 type="button"
                 className="appearance-none border rounded-full w-full py-3 px-3 text-white bg-black mb-[1rem]"
-                onClick={handleAddProduct}
+                onClick={handleUpdateProduct}
               >
-                Add product
+                Update
               </button>
             </div>
+            
           </div>
         </div>
       </div>
@@ -84,4 +194,4 @@ const AddProductModal = ({ showModal, setShowModal, newProduct, handleInputChang
   );
 };
 
-export default AddProductModal;
+export default AddProductModal ;

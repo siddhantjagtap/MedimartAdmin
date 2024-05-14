@@ -15,7 +15,7 @@ function SideMenu() {
         { title: 'Dashboard', icon: <MdOutlineSpaceDashboard size={24} />, path: '/' },
         { title: 'Manage Products', icon: <AiOutlineProduct size={24} />, path: '/manageproducts' },
         { title: 'Order List', icon: <MdChecklist size={24} />, path: '/orderlist' },
-        { title: 'Order Status', icon: <TbStatusChange size={24} />, path: '/orderstatus' },
+        // { title: 'Order Status', icon: <TbStatusChange size={24} />, path: '/orderstatus' },
         { title: 'Billing', icon: <RiBillLine size={24} />, path: '/billing' },
 
     ];
