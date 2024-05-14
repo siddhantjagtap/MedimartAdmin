@@ -129,9 +129,9 @@ function OrderList() {
     },
   ]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; 
+  const itemsPerPage = 10;
 
-  
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentOrders = orders.slice(indexOfFirstItem, indexOfLastItem);
@@ -179,13 +179,13 @@ function OrderList() {
                 key={order.id}
                 className={`${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'} border-b `}
               >
-                <td className="px-4 py-3 ">{order.id}</td>
+                <td className="px-4 py-3 ">{order.orderId}</td>
                 <td className="px-4 py-3">{order.email}</td>
                 <td className="px-4 py-3 flex">{order.ordercost}</td>
                 <td className="px-4 py-3 ">{order.paymentStatus}</td>
                 <td className="px-4 py-3 ">{order.customerid}</td>
                 <td className="px-4 py-3 ">{order.transaction_id}</td>
-                <td className="px-4 py-3 ">{order.product_id}</td>
+                <td className="px-4 py-3 ">{order.Product_id}</td>
                 <td className="px-4 py-3 ">{order.deliveryStatus}</td>
                 <td className="px-4 py-3 flex items-center justify-center gap-2">
                   <button className=" px-2 py-1 rounded-md">
@@ -202,7 +202,7 @@ function OrderList() {
             ))}
           </tbody>
         </table>
-     
+
         <div className="flex justify-center mt-4">
           <button onClick={prevPage} className="mx-1 px-3 py-2 cursor-pointer ">
           <IoIosArrowBack />

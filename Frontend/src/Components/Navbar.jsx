@@ -14,13 +14,13 @@ function Navbar() {
         <div className="flex">
           <BsFillBellFill className="items-center pt-2 mr-[1rem] text-4xl" />
           <Link to='/login'>
-          <button 
+          <button
           ><CgProfile className="items-center pt-2 mr-[1rem] text-4xl" /></button>
-          </Link>
+          </Link>z
         </div>
       </header>
     </div>
-    
+
     </>
   );
 }
