@@ -26,7 +26,7 @@ const ManageProductModal = ({ showModal, setShowModal, product, handleDeleteProd
   const handleUpdateProduct = async () => {
     try {
       const updatedProduct = {
-        name: product.name,
+        name: productname,
         description: productDesc,
         category: productcategory,
         price: productPrice,
@@ -81,7 +81,7 @@ const ManageProductModal = ({ showModal, setShowModal, product, handleDeleteProd
                       <input
                         type="text"
                         id="productName"
-                        value={product.name}
+                        value={productname}
                         onChange={(e)=> setProductname(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="Product Name"
@@ -97,7 +97,7 @@ const ManageProductModal = ({ showModal, setShowModal, product, handleDeleteProd
                         value={productDesc}
                         onChange={(e)=> setproductDesc(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Product Name"
+                        placeholder="Product Description"
                       />
                     </div>
                     <div className="mb-4">
@@ -110,7 +110,7 @@ const ManageProductModal = ({ showModal, setShowModal, product, handleDeleteProd
                         value={productcategory}
                         onChange={(e)=> setProductcategory(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Product Name"
+                        placeholder="Product category"
                       />
                     </div>
                     <div className="mb-4">
@@ -146,7 +146,6 @@ const ManageProductModal = ({ showModal, setShowModal, product, handleDeleteProd
                       <input
                         type="file"
                         id="productImage"
-                        value={fileimage}
                         onChange={(e) => setImagefile(e.target.files[0])}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
