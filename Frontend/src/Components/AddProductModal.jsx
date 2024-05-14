@@ -4,7 +4,7 @@ import { IoCloseOutline } from 'react-icons/io5';
 import axios from 'axios';
 
 const AddProductModal = ({ showModal, setShowModal}) => {
-  
+
   const [productname,setProductname] = useState("")
   const [productDesc, setproductDesc] = useState("")
   const [productcategory, setProductcategory] = useState("")
@@ -12,16 +12,40 @@ const AddProductModal = ({ showModal, setShowModal}) => {
   const [productqty, setProductqty] = useState("")
   const [fileimage, setImagefile] = useState(null)
   const [keylineImage, setKeylineimage] = useState(null)
+  //const [cno, setCno] = useState("");
 
   const handleUpdateProduct = async () => {
     try {
       const updatedProduct = {
+        cno: '',
+        sku: '',
+        dispseq: '',
         name: productname,
         description: productDesc,
+        currency: '',
+        price: productPrice, // Convert price to a number
+        salePrice: '',
+        prodtime: '',
+        rol: '',
         category: productcategory,
-        price: productPrice,
-        qty: productqty,
+        qty: productqty, // Convert qty to a number
+        unit: '',
+        cost_center: '',
+        modifier_group: '',
+        maxaddon: '',
+        finishing: '',
+        income_head: '',
+        tax_group: '',
+        online: '',
+        popular: '',
+        promotion: '',
+        active: '',
         image: fileimage,
+        location: '',
+        tag_line: '',
+        valid_from: '',
+        valid_till: '',
+        url: '',
         keylineimage: keylineImage
       };
 
@@ -76,6 +100,19 @@ const AddProductModal = ({ showModal, setShowModal}) => {
                         placeholder="Product Name"
                       />
                     </div>
+                    {/* <div className="mb-4">
+                      <label className="block text-gray-700 font-bold mb-2">
+                        Cno
+                      </label>
+                      <input
+                        type="text"
+                        id="cno"
+                        value={cno}
+                        onChange={(e)=> setCno(e.target.value)}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Product Name"
+                      />
+                    </div> */}
                     <div className="mb-4">
                       <label className="block text-gray-700 font-bold mb-2">
                         Product Description
@@ -186,7 +223,7 @@ const AddProductModal = ({ showModal, setShowModal}) => {
                 Update
               </button>
             </div>
-            
+
           </div>
         </div>
       </div>
