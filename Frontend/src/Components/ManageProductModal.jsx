@@ -26,7 +26,7 @@ const ManageProductModal = ({ showModal, setShowModal, product, handleDeleteProd
   const handleUpdateProduct = async () => {
     try {
       const updatedProduct = {
-        name: productname,
+        name: product.name,
         description: productDesc,
         category: productcategory,
         price: productPrice,
@@ -81,7 +81,7 @@ const ManageProductModal = ({ showModal, setShowModal, product, handleDeleteProd
                       <input
                         type="text"
                         id="productName"
-                        value={productname}
+                        value={product.name}
                         onChange={(e)=> setProductname(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="Product Name"

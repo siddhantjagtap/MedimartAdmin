@@ -145,7 +145,7 @@ const DashBoard = ({ totalOrders }) => {
                                 <Legend />
                             </PieChart>
                         </div>
-                        <div className="">
+                        <div>
                             <div className="bg-white rounded-lg p-4 border-2">
                                 <BarChart width={400} height={300} data={barChartData}>
                                     <XAxis dataKey="name" />
@@ -238,8 +238,8 @@ const DashBoard = ({ totalOrders }) => {
                         </div>
                     </div>
                 </main>
-            </div>
-            </div>
+               </div>
+              </div>
             </div>
         </>
 
