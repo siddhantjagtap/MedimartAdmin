@@ -1,8 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
+import axios from 'axios';
 
-const AddProductModal = ({ showModal, setShowModal, newProduct, handleInputChange, handleAddProduct }) => {
-  
+const AddProductModal = ({ showModal, setShowModal }) => {
+  const [newProduct, setNewProduct] = useState({
+    name: '',
+    description: '',
+    category: '',
+    price: '',
+    qty: '',
+    image: null,
+    keylineimage: null
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewProduct({
+      ...newProduct,
+      [name]: value
+    });
+  };
+
+  const handleImageChange = (e) => {
+    const { name, files } = e.target;
+    setNewProduct({
+      ...newProduct,
+      [name]: files[0]
+    });
+  };
+
+  const handleAddProduct = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('name', newProduct.name);
+      formData.append('description', newProduct.description);
+      formData.append('category', newProduct.category);
+      formData.append('price', newProduct.price);
+      formData.append('qty', newProduct.qty);
+      formData.append('image', newProduct.image);
+      formData.append('keylineimage', newProduct.keylineimage);
+
+      const nexibleUrl = import.meta.env.VITE_NEXIBLE_URL;
+      const apiKey = import.meta.env.VITE_API_Key;
+
+      const response = await axios.post(`${nexibleUrl}/product`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${apiKey}`
+        }
+      });
+
+      if (response.status === 201) {
+        console.log('Product added successfully');
+        setShowModal(false);
+      } else {
+        console.error('Failed to add product:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error adding product:', error.message);
+    }
+  };
+
   return (
     showModal && (
       <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -40,6 +98,20 @@ const AddProductModal = ({ showModal, setShowModal, newProduct, handleInputChang
                       />
                     </div>
                     <div className="mb-4">
+                      <label htmlFor="productDesc" className="block text-gray-700 font-bold mb-2">
+                        Product category
+                      </label>
+                      <input
+                        type="text"
+                        id="productCategory"
+                        name="category"
+                        value={newProduct.category}
+                        onChange={handleInputChange}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Description"
+                      />
+                    </div>
+                    <div className="mb-4">
                       <label htmlFor="productPrice" className="block text-gray-700 font-bold mb-2">
                         Product Price
                       </label>
@@ -54,13 +126,27 @@ const AddProductModal = ({ showModal, setShowModal, newProduct, handleInputChang
                       />
                     </div>
                     <div className="mb-4">
+                      <label htmlFor="productPrice" className="block text-gray-700 font-bold mb-2">
+                        Product Qty
+                      </label>
+                      <input
+                        type="number"
+                        id="productQty"
+                        name="qty"
+                        value={newProduct.qty}
+                        onChange={handleInputChange}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Product Price"
+                      />
+                    </div>
+                    <div className="mb-4">
                       <label htmlFor="productDesc" className="block text-gray-700 font-bold mb-2">
                         Product Description
                       </label>
                       <input
                         type="text"
                         id="productDesc"
-                        name="dsec"
+                        name="description"
                         value={newProduct.description}
                         onChange={handleInputChange}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -75,19 +161,19 @@ const AddProductModal = ({ showModal, setShowModal, newProduct, handleInputChang
                         type="file"
                         id="productImage"
                         name="image"
-                        onChange={handleInputChange}
+                        onChange={handleImageChange}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </div>
                     <div className="mb-4">
-                      <label htmlFor="productImage" className="block text-gray-700 font-bold mb-2">
-                        Product Keyline Image 
+                      <label htmlFor="productKeylineImage" className="block text-gray-700 font-bold mb-2">
+                        Product Keyline Image
                       </label>
                       <input
                         type="file"
-                        id="productImage"
-                        name="image"
-                        onChange={handleInputChange}
+                        id="productKeylineImage"
+                        name="keylineimage"
+                        onChange={handleImageChange}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </div>

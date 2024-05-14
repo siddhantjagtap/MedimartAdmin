@@ -7,20 +7,19 @@ import ManageProductModal from "../Components/ManageProductModal";
 import axios from "axios";
 import Loading from "../Components/Loading";
 
-
 const ManageProducts = () => {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const [showManageModal, setShowManageModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [showModal, setShowModal] = useState(false);
   const [newProduct, setNewProduct] = useState([]);
-  const [rowDelete, setrowDelete] = useState([])
+  const [productId, setProductId] = useState(null);
 
   useEffect(() => {
-    setLoading(false)
+    setLoading(true);
     // Fetch data from the API using environment variables
     axios
       .get(`${import.meta.env.VITE_NEXIBLE_URL}/product/All/1`, {
@@ -32,45 +31,31 @@ const ManageProducts = () => {
         // Update the state with the fetched data
         setProducts(response.data.data);
         console.log("data", response.data.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
   }, []);
 
-  const handleAddProduct = async () => {
-    try {
-      const response = await axios.post(`${import.meta.env.VITE_NEXIBLE_URL}/product`, newProduct, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_API_Key}`
-        }
-      });
-      setNewProduct(response.data.data)
-      // Handle success response from the API
-      console.log("Product added successfully:", response.data.data);
-    } catch (error) {
-      // Handle error response from the API
-      console.error("Error adding product:", error.message);
-    }
-  };
-
   const handleDeleteProduct = async (id) => {
     try {
-      const response = await axios.delete(`${import.meta.env.VITE_NEXIBLE_URL}/product/${id}`, rowDelete, {
-        headers: {
-          'Authorization': `Bearer ${import.meta.env.VITE_API_Key}`
+      const response = await axios.delete(
+        `${import.meta.env.VITE_NEXIBLE_URL}/product/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_API_Key}`,
+          },
         }
-      })
-      setrowDelete(response.data)
+      );
+      setProducts(response.data);
       console.log("Product deleted successfully:", id);
       // Remove the deleted product from the state
-      setProducts(products.filter(product => product.id !== id));
+      setProducts(products.filter((product) => product.id !== id));
     } catch (error) {
       console.error("Error deleting product:", error.message);
     }
   };
-
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -93,16 +78,11 @@ const ManageProducts = () => {
   const handleManageProduct = (product) => {
     setShowManageModal(true);
     setSelectedProduct(product);
-  };
-  const handleInputChange = (e) => {
-    setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
-  };
-  const handleUpdateProduct = () => {
-    // Add logic to update the product data on the server or in the state
-    console.log("Updated product:", selectedProduct);
-    setShowManageModal(false);
+    // Set the productId state
+    setProductId(product.id);
   };
 
+ 
 
   return (
     <div className="flex">
@@ -125,7 +105,7 @@ const ManageProducts = () => {
                 <tr className="bg-gray-200">
                   <th className="px-4 py-3">Id</th>
                   <th className="px-4 py-3">Product Name</th>
-                  <th className="px-4 py-3">Description</th>  
+                  <th className="px-4 py-3">Description</th>
                   <th className="px-4 py-3">Product Price</th>
                   <th className="px-4 py-3">Category</th>
                   <th className="px-4 py-3">Qty</th>
@@ -136,50 +116,64 @@ const ManageProducts = () => {
                   <th className="px-4 py-3">Actions</th>
                 </tr>
               </thead>
-              {loading?(
+              {loading ? (
                 <Loading />
-              ):(
-              <tbody>
-              
-                {currentProducts.map((products,index) => (
-                  <tr
-                    key={products.id}
-                    className={`${
-                      index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                    } border-b`}
-                  >
-                    <td className="px-4 py-3">{products.id}</td>
-                    <td className="px-4 py-3">{products.name}</td>
-                    <td className="px-4 py-3" dangerouslySetInnerHTML={{ __html: `${products.description.slice(0, 100)}${products.description.length > 100 ? '...' : ''}` }}></td>
+              ) : products ? (
+                <tbody>
+                  {currentProducts.map((products, index) => (
+                    <tr
+                      key={products.id}
+                      className={`${
+                        index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                      } border-b`}
+                    >
+                      <td className="px-4 py-3">{products.id}</td>
+                      <td className="px-4 py-3">{products.name}</td>
+                      <td
+                        className="px-4 py-3"
+                        dangerouslySetInnerHTML={{
+                          __html: `${products.description.slice(0, 100)}${
+                            products.description.length > 100 ? "..." : ""
+                          }`,
+                        }}
+                      ></td>
 
-                    <td className="px-4 py-3">{products.price}</td>
-                    <td className="px-4 py-3">{products.category}</td>
-                    <td className="px-4 py-3">{products.qty}</td>
-                    <td className="px-4 py-3">
-                      <img
-                        src={`/images/${products.image}`}
-                        alt={products.name}
-                        className="w-16 h-16 object-cover"
-                      />
-                    </td>
-                    <td className="px-4 py-3">{products.valid_from}</td>
-                    <td className="px-4 py-3">{products.valid_till}</td>
-                    <td className="px-4 py-3">
-                      <a href={`/pdfs/${products.keylineimage}`} download>
-                        {products.keylineimage}
-                      </a>
-                    </td>
-                    <td className="px-4 py-3">
-                      <button
-                        className="bg-black text-white px-4 py-2 rounded-full"
-                        onClick={() => handleManageProduct(products)}
-                      >
-                        Manage
-                      </button>
+                      <td className="px-4 py-3">{products.price}</td>
+                      <td className="px-4 py-3">{products.category}</td>
+                      <td className="px-4 py-3">{products.qty}</td>
+                      <td className="px-4 py-3">
+                        <img
+                          src={`/images/${products.image}`}
+                          alt={products.name}
+                          className="w-16 h-16 object-cover"
+                        />
+                      </td>
+                      <td className="px-4 py-3">{products.valid_from}</td>
+                      <td className="px-4 py-3">{products.valid_till}</td>
+                      <td className="px-4 py-3">
+                        <a href={`/pdfs/${products.keylineimage}`} download>
+                          {products.keylineimage}
+                        </a>
+                      </td>
+                      <td className="px-4 py-3">
+                        <button
+                          className="bg-black text-white px-4 py-2 rounded-full"
+                          onClick={() => handleManageProduct(products)}
+                        >
+                          Manage
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              ) : (
+                <tbody>
+                  <tr>
+                    <td colSpan="11" className="px-4 py-3 text-center">
+                      No products found.
                     </td>
                   </tr>
-                ))}
-              </tbody>
+                </tbody>
               )}
             </table>
 
@@ -222,15 +216,13 @@ const ManageProducts = () => {
         showModal={showModal}
         setShowModal={setShowModal}
         newProduct={newProduct}
-        handleInputChange={handleInputChange}
-        handleAddProduct={handleAddProduct}
+    
       />
       <ManageProductModal
         showModal={showManageModal}
         setShowModal={setShowManageModal}
         product={selectedProduct}
-        handleInputChange={handleInputChange}
-        handleUpdateProduct={handleUpdateProduct}
+        productId={productId}
         handleDeleteProduct={handleDeleteProduct}
       />
     </div>
