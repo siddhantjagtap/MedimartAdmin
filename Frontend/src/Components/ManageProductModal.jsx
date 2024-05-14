@@ -180,7 +180,7 @@ const ManageProductModal = ({ showModal, setShowModal, product, handleDeleteProd
                 </div>
               </div>
             </div>
-            <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            {/* <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               <button
                 type="button"
                 className="appearance-none border rounded-full w-full py-3 px-3 text-white bg-black "
@@ -188,7 +188,7 @@ const ManageProductModal = ({ showModal, setShowModal, product, handleDeleteProd
               >
                 Delete
               </button>
-            </div>
+            </div> */}
             <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               <button
                 type="button"

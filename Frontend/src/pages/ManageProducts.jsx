@@ -234,12 +234,20 @@ const ManageProducts = () => {
                           {products.keylineimage}
                         </a>
                       </td>
-                      <td className="px-8 py-3">
+                      <td className="px-8 py-3 flex gap-4">
                         <button
                           className="bg-black text-white px-4 py-2 rounded-full"
                           onClick={() => handleManageProduct(products)}
                         >
                           Manage
+                        </button>
+    
+                    
+                        <button
+                          className="bg-black text-white px-4 py-2 rounded-full"
+                          onClick={() => handleDeleteProduct(products.id)}
+                        >
+                          Delete
                         </button>
                       </td>
                     </tr>
@@ -301,7 +309,6 @@ const ManageProducts = () => {
         setShowModal={setShowManageModal}
         product={selectedProduct}
         productId={productId}
-        handleDeleteProduct={handleDeleteProduct}
       />
     </div>
     </div>
