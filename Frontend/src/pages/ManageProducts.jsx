@@ -150,7 +150,7 @@ const ManageProducts = () => {
                       <td className="px-8 py-3">{products.qty}</td>
                       <td className="px-8 py-3">
                         <img
-                          src={`/images/${products.image}`}
+                          src={`/src/assets/${products.image}`}
                           alt={products.name}
                           className="w-16 h-16 object-cover"
                         />
@@ -158,7 +158,7 @@ const ManageProducts = () => {
                       <td className="pl-8 py-3">{products.valid_from}</td>
                       <td className="pl-12 py-3">{products.valid_till}</td>
                       <td className="pl-12 py-3">
-                        <a href={`/pdfs/${products.keylineimage}`} download>
+                        <a href={`/src/assets/${products.keylineimage}`} download>
                           {products.keylineimage}
                         </a>
                       </td>

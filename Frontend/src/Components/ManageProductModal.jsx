@@ -3,9 +3,10 @@ import { useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 import axios from 'axios';
 
-const ManageProductModal = ({ showModal, setShowModal, product, handleDeleteProduct }) => {
+const ManageProductModal = ({ showModal, setShowModal, product }) => {
   
   const [productname,setProductname] = useState("")
+  const [deleteOrderId, setDeleteOrderId] = useState(null);
   const [productDesc, setproductDesc] = useState("")
   const [productcategory, setProductcategory] = useState("")
   const [productPrice, setProductPrice] = useState("")
@@ -146,6 +147,7 @@ const ManageProductModal = ({ showModal, setShowModal, product, handleDeleteProd
                       <input
                         type="file"
                         id="productImage"
+                        
                         onChange={(e) => setImagefile(e.target.files[0])}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
