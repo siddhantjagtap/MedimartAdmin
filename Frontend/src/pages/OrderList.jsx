@@ -177,9 +177,9 @@ function OrderList({ totalOrders, setTotalOrders }) {
                     <td className="px-4 pl-12 py-3">{order.firstName}</td>
                     <td className="px-4 pl-10 py-3">{order.lastName}</td>
                     <td className="px-4 py-3 mt-[1.2rem] flex items-center justify-center gap-2">
-                      <button className="px-2 py-1 rounded-md">
+                      {/* <button className="px-2 py-1 rounded-md">
                         <FaPrint className="text-black text-xl" />
-                      </button>
+                      </button> */}
                       <button
                         // className="px-
                         className="px-2 py-1 rounded-md"
@@ -187,9 +187,9 @@ function OrderList({ totalOrders, setTotalOrders }) {
                       >
                         <MdDelete className="text-red-500 text-xl" />
                       </button>
-                      <button className="px-2 py-1 rounded-md">
+                      {/* <button className="px-2 py-1 rounded-md">
                         <MdModeEditOutline className="text-black text-xl" />
-                      </button>
+                      </button> */}
                     </td>
                   </tr>
                 ))}
@@ -235,7 +235,8 @@ function OrderList({ totalOrders, setTotalOrders }) {
             <div className="flex justify-end mt-4">
               <button
                 className="px-4 py-2 bg-red-500 text-white rounded mr-2"
-                onClick={confirmDeleteOrder}
+                
+                
               >
                 Delete
               </button>
