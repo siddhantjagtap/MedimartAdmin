@@ -147,14 +147,18 @@ const ManageProducts = () => {
   const endPage = Math.min(startPage + pagesToShow - 1, totalPages);
 
   return (
+
     <div className="flex">
       <SideMenu />
+      
       <div className="flex-grow">
         <Navbar />
 
         <div className="bg-white p-4 rounded-lg">
-          <div className="relative w-[77.75rem] h-[3.5625rem] mt-[1.5rem]">
-            <div className="absolute w-[20rem] h-[3.5625rem] top-0 left-0">
+        <div className="sticky top-0 bg-white p-4 rounded-lg z-10">
+
+        <div className="relative w-[77.75rem] h-[3.5625rem] mt-[1.5rem]">
+          <div className="absolute w-[17rem] h-[3.5625rem] top-0 left-0">
               <div className="w-[17rem] relative h-[3.5625rem] bg-white rounded-[2.8125rem] border border-solid border-[#a8a8a8]">
                 <div className="absolute w-[4.5625rem] top-[0.375rem] left-[1.375rem] font-medium text-black text-[0.875rem] tracking-[0] leading-[normal]">
                   Start date
@@ -168,7 +172,7 @@ const ManageProducts = () => {
               </div>
             </div>
 
-            <div className="absolute w-[20rem] h-[3.5625rem] top-0 left-[20.4375rem]">
+            <div className="absolute w-[17rem] h-[3.5625rem] top-0 left-[17.4375rem]">
               <div className="w-[17rem] relative h-[3.5625rem] bg-white rounded-[2.8125rem] border border-solid border-[#a8a8a8]">
                 <div className="absolute w-[14.5625rem] top-[0.375rem] left-[1.3125rem] font-medium text-black text-[0.875rem] tracking-[0] leading-[normal]">
                   End date
@@ -182,11 +186,12 @@ const ManageProducts = () => {
               </div>
             </div>
             <button
-              className="inline-flex items-center justify-center gap-[0.625rem] px-[8rem] py-[1rem] absolute top-0 left-[41.4375rem] w-[18rem] h-[3.5625rem] bg-black rounded-[2.8125rem] overflow-hidden border border-solid border-[#a8a8a8] relative w-fit mt-[-0.0625rem] font-medium text-[#ffffff] text-[1rem] tracking-[0] leading-[normal]"
+              className="inline-flex items-center justify-center gap-[0.625rem] px-[8rem] py-[1rem] absolute top-0 left-[34.9375rem] w-[18rem] h-[3.5625rem] bg-black rounded-[2.8125rem] overflow-hidden border border-solid border-[#a8a8a8] relative w-fit mt-[-0.0625rem] font-medium text-[#ffffff] text-[1rem] tracking-[0] leading-[normal]"
               onClick={handleSearch}
             >
               Search
             </button>
+          </div>
           </div>
 
           <div className="flex justify-between items-center mb-4 mt-[2rem]">
