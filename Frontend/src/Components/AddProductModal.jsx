@@ -3,16 +3,27 @@ import { useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 import axios from 'axios';
 
-const AddProductModal = ({ showModal, setShowModal}) => {
+const AddProductModal = ({ showModal, setShowModal }) => {
+  const [productname, setProductname] = useState("");
+  const [productDesc, setproductDesc] = useState("");
+  const [productcategory, setProductcategory] = useState("");
+  const [productPrice, setProductPrice] = useState("");
+  const [productqty, setProductqty] = useState("");
+  const [fileimage, setImagefile] = useState(null);
+  const [keylineImage, setKeylineimage] = useState(null);
+  const getDefaultDateISOString = () => new Date().toISOString();
+  const [validfrom, setValidFrom] = useState(getDefaultDateISOString);
+  const [validtill, setValidTill] = useState(getDefaultDateISOString);
 
-  const [productname,setProductname] = useState("")
-  const [productDesc, setproductDesc] = useState("")
-  const [productcategory, setProductcategory] = useState("")
-  const [productPrice, setProductPrice] = useState("")
-  const [productqty, setProductqty] = useState("")
-  const [fileimage, setImagefile] = useState(null)
-  const [keylineImage, setKeylineimage] = useState(null)
-  //const [cno, setCno] = useState("");
+  const handleValidFromChange = (e) => {
+    const date = new Date(e.target.value);
+    setValidFrom(date.toISOString());
+  };
+
+  const handleValidTillChange = (e) => {
+    const date = new Date(e.target.value);
+    setValidTill(date.toISOString());
+  };
 
   const handleUpdateProduct = async () => {
     try {
@@ -23,12 +34,12 @@ const AddProductModal = ({ showModal, setShowModal}) => {
         name: productname,
         description: productDesc,
         currency: '',
-        price: productPrice, // Convert price to a number
+        price: parseFloat(productPrice), // Convert price to a number
         salePrice: '',
         prodtime: '',
         rol: '',
         category: productcategory,
-        qty: productqty, // Convert qty to a number
+        qty: parseInt(productqty), // Convert qty to a number
         unit: '',
         cost_center: '',
         modifier_group: '',
@@ -43,16 +54,16 @@ const AddProductModal = ({ showModal, setShowModal}) => {
         image: fileimage,
         location: '',
         tag_line: '',
-        valid_from: '',
-        valid_till: '',
+        valid_from: validfrom,
+        valid_till: validtill,
         url: '',
-        keylineimage: keylineImage
+        keylineimage: keylineImage,
       };
 
       const nexibleUrl = import.meta.env.VITE_NEXIBLE_URL;
       const apiKey = import.meta.env.VITE_API_Key;
 
-      const response = await axios.post(`${nexibleUrl}/product`, updatedProduct)
+      const response = await axios.post(`${nexibleUrl}/product`, updatedProduct);
 
       if (response.status === 200) {
         console.log('Product updated successfully');
@@ -85,84 +96,90 @@ const AddProductModal = ({ showModal, setShowModal}) => {
               </button>
               <div className="sm:flex sm:items-start">
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                  <h3 className="text-lg leading-6 font-medium text-gray-900">Manage product</h3>
+                  <h3 className="text-lg leading-6 font-medium text-gray-900">Add product</h3>
                   <div className="mt-2">
                     <div className="mb-4">
                       <label className="block text-gray-700 font-bold mb-2">
-                        Product Name
+                        Name
                       </label>
                       <input
                         type="text"
-                        id="productName"
                         value={productname}
-                        onChange={(e)=> setProductname(e.target.value)}
+                        onChange={(e) => setProductname(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="Product Name"
                       />
                     </div>
-                    {/* <div className="mb-4">
-                      <label className="block text-gray-700 font-bold mb-2">
-                        Cno
-                      </label>
-                      <input
-                        type="text"
-                        id="cno"
-                        value={cno}
-                        onChange={(e)=> setCno(e.target.value)}
-                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Product Name"
-                      />
-                    </div> */}
                     <div className="mb-4">
                       <label className="block text-gray-700 font-bold mb-2">
-                        Product Description
+                        Description
                       </label>
                       <input
                         type="text"
-                        id="productDesc"
                         value={productDesc}
-                        onChange={(e)=> setproductDesc(e.target.value)}
+                        onChange={(e) => setproductDesc(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="Product Description"
                       />
                     </div>
                     <div className="mb-4">
                       <label className="block text-gray-700 font-bold mb-2">
-                        Product Category
+                        Category
                       </label>
                       <input
                         type="text"
-                        id="productcategory"
                         value={productcategory}
-                        onChange={(e)=> setProductcategory(e.target.value)}
+                        onChange={(e) => setProductcategory(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="Product category"
                       />
                     </div>
                     <div className="mb-4">
                       <label className="block text-gray-700 font-bold mb-2">
-                        Product Price
+                        Price
                       </label>
                       <input
                         type="number"
-                        id="productPrice"
                         value={productPrice}
-                        onChange={(e)=> setProductPrice(e.target.value)}
+                        onChange={(e) => setProductPrice(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="Product Price"
                       />
                     </div>
                     <div className="mb-4">
                       <label className="block text-gray-700 font-bold mb-2">
-                        Product Qty
+                        Quantity
                       </label>
                       <input
                         type="number"
-                        id="productqty"
                         value={productqty}
-                        onChange={(e)=> setProductqty(e.target.value)}
+                        onChange={(e) => setProductqty(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Product Price"
+                        placeholder="Product Quantity"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-bold mb-2">
+                        Valid From
+                      </label>
+                      <input
+                        type="datetime-local"
+                        value={validfrom ? validfrom.substring(0, 16) : ''}
+                        onChange={handleValidFromChange}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Valid From"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-bold mb-2">
+                        Valid Till
+                      </label>
+                      <input
+                        type="datetime-local"
+                        value={validtill ? validtill.substring(0, 16) : ''}
+                        onChange={handleValidTillChange}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Valid Till"
                       />
                     </div>
                     <div className="mb-4">
@@ -175,13 +192,6 @@ const AddProductModal = ({ showModal, setShowModal}) => {
                         onChange={(e) => setImagefile(e.target.files[0])}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
-                      {/* {product.image && (
-                        <img
-                          src={`/images/${product.image}`}
-                          //alt={product.name}
-                          className="mt-2 w-16 h-16 object-cover"
-                        />
-                      )} */}
                     </div>
                     <div className="mb-4">
                       <label className="block text-gray-700 font-bold mb-2">
@@ -193,37 +203,20 @@ const AddProductModal = ({ showModal, setShowModal}) => {
                         onChange={(e) => setKeylineimage(e.target.files[0])}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
-                      {/* {product.image && (
-                        <img
-                          src={`/images/${product.keylineimage}`}
-                          //alt={product.name}
-                          className="mt-2 w-16 h-16 object-cover"
-                        />
-                      )} */}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            {/* <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-              <button
-                type="button"
-                className="appearance-none border rounded-full w-full py-3 px-3 text-white bg-black "
-                onClick={() => handleDeleteProduct(productId)}
-              >
-                Delete
-              </button>
-            </div> */}
             <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               <button
                 type="button"
                 className="appearance-none border rounded-full w-full py-3 px-3 text-white bg-black mb-[1rem]"
                 onClick={handleUpdateProduct}
               >
-                Update
+                Add
               </button>
             </div>
-
           </div>
         </div>
       </div>
@@ -231,4 +224,4 @@ const AddProductModal = ({ showModal, setShowModal}) => {
   );
 };
 
-export default AddProductModal ;
+export default AddProductModal;
