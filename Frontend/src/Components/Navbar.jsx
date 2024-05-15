@@ -41,7 +41,7 @@ function Navbar() {
           {isLoggedIn ? (
             <div className="relative">
               <CgProfile
-                className="pt-2 mr-[1rem] text-4xl"
+                className="pt-2 mr-[1rem] text-[2.7rem]"
                 onClick={toggleDropdown}
               />
               {dropdownOpen && (
