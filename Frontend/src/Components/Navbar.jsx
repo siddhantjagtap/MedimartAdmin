@@ -34,7 +34,7 @@ function Navbar() {
           <Link to='/login'>
           <button
           ><CgProfile className="items-center pt-2 mr-[1rem] text-4xl" /></button>
-          </Link>z
+          </Link>
         </div>
       </header>
     </div>
