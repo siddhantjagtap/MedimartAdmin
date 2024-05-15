@@ -62,7 +62,8 @@ const ManageProducts = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentProducts = products.slice(indexOfFirstItem, indexOfLastItem); // Moved inside the component
+  const currentProducts = products.slice(indexOfFirstItem, indexOfLastItem); 
+  // Moved inside the component
   const handleSearch = () => {
     const filtered = products.filter((product) => {
       const startDateValid =

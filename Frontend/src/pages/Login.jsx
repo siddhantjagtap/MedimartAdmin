@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import logo from "../assets/nexible.gif";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -16,17 +16,27 @@ const Login = () => {
       const response = await axios.post('https://nexiblesapp.barecms.com/api/login', {
         email,
         userpassword,
-         role: 'admin',
+        role: 'admin',
       });
-      console.log("Login Success");
-      navigate('/');
-      toast.success('Login Successful!'); // Show success toast
+
+      if (response.data.status === "success") {
+        console.log("Login Success");
+        const { token, data } = response.data;
+        localStorage.setItem('token', token);
+        navigate('/');
+        toast.success('Login Successful!');
+      } else {
+        setError('Login failed',error);
+        toast.error('Login failed: ');
+      }
     } catch (error) {
-      setError('Invalid credentials. Please try again.'); // Update error state if login fails
-      toast.error('Invalid credentials. Please try again.'); // Show error toast
+      console.error('Login Error:', error);
+      const errorMessage = error.response?.data?.message || 'Login failed';
+      setError(errorMessage);
+      toast.error('Login failed: ' + errorMessage);
     }
   };
-  
+
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
       <div className="bg-white rounded-lg w-[24rem] h-[24rem] shadow-md p-8">
@@ -57,11 +67,6 @@ const Login = () => {
         <button onClick={handleLogin} className="w-full py-2 bg-black text-white rounded-full">
           Login
         </button>
-        {/* <Link to="/">
-          <button className="w-full py-2 bg-black text-white rounded-full">
-          Back To Home
-        </button>
-        </Link> */}
       </div>
     </div>
   );

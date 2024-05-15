@@ -234,10 +234,7 @@ function OrderList({ totalOrders, setTotalOrders }) {
             <p>Are you sure you want to delete this order?</p>
             <div className="flex justify-end mt-4">
               <button
-                className="px-4 py-2 bg-red-500 text-white rounded mr-2"
-                
-                
-              >
+                className="px-4 py-2 bg-red-500 text-white rounded mr-2">
                 Delete
               </button>
               <button className="px-4 py-2 bg-gray-300 rounded" onClick={cancelDeleteOrder}>

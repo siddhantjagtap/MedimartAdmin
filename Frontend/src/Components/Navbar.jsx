@@ -2,83 +2,73 @@ import React, { useState, useEffect } from "react";
 import { BsFillBellFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import logo from "../assets/nexible.gif";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import {jwtDecode} from 'jwt-decode';
 
 function Navbar() {
-  const [notificationCount, setNotificationCount] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Connect to WebSocket server
-    const socket = new WebSocket("ws://localhost:3000"); // Replace with your WebSocket server URL
-
-    // Listen for messages from WebSocket server
-    socket.onmessage = (event) => {
-      // Increment notification count when a new notification is received
-      setNotificationCount((prevCount) => prevCount + 1);
-    };
-
-    return () => {
-      // Clean up WebSocket connection
-      socket.close();
-    };
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+      const decodedToken = jwtDecode(token);
+      setUsername(decodedToken.result.name);
+      console.log(decodedToken.result.name) // Extract the name from the decoded token
+    }
   }, []);
 
+  const handleLogout = () => {
+    // Remove token from localStorage
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    setDropdownOpen(false);
+  };
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   return (
-    <>
     <div>
       <header className="bg-gray-200 py-4 px-8 shadow flex justify-between">
-        {/* <h1 className="text-2xl ml-[1rem] font-bold">NEXIBLES</h1> */}
         <img className="h-[2rem] w-[12rem]" src={logo} alt="Nexible Logo" />
-        <div className="flex">
-          <BsFillBellFill className="items-center pt-2 mr-[1rem] text-4xl" />
-          <Link to='/login'>
-          <button
-          ><CgProfile className="items-center pt-2 mr-[1rem] text-4xl" /></button>
-          </Link>
+        <div className="flex items-center">
+          {/* <BsFillBellFill className="pt-2 mr-[1rem] text-4xl" /> */}
+          {isLoggedIn ? (
+            <div className="relative">
+              <CgProfile
+                className="pt-2 mr-[1rem] text-4xl"
+                onClick={toggleDropdown}
+              />
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg">
+                  <div className="px-4 py-2">
+                    <span className="block text-sm font-semibold">{username}</span>
+                    <button
+                      onClick={handleLogout}
+                      className="block text-sm font-semibold mt-3"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link to="/login">
+              <button className="bg-black text-white px-4 py-2 rounded-full">
+                Login
+              </button>
+            </Link>
+          )}
         </div>
       </header>
     </div>
-
-    </>
   );
 }
 
 export default Navbar;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//final
-// import React from "react";
-// import { BsFillBellFill } from "react-icons/bs";
-// import { CgProfile } from "react-icons/cg";
-// import logo from "../assets/nexible.gif";
-
-// function Navbar() {
-//   return (
-//     <div>
-//       <header className="bg-gray-200 py-4 px-8 shadow flex justify-between">
-//         {/* <h1 className="text-2xl ml-[1rem] font-bold">NEXIBLES</h1> */}
-//         <img className="h-[2rem] w-[12rem]" src={logo}></img>
-//         <div className="flex">
-//           <BsFillBellFill className="items-center pt-2 mr-[1rem] text-4xl" />
-//           <button onClick={() => window.location.href='/login'}><CgProfile className="items-center pt-2 mr-[1rem] text-4xl" /></button>
-//         </div>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default Navbar;
