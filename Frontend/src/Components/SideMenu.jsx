@@ -25,7 +25,7 @@ function SideMenu() {
 
     return (
         <>
-            <div className={`flex sticky top-0 h-screen ${open ? 'w-[16rem]' : 'w-[4.5rem]'} duration-100 bg-stone-950 text-white`}>
+            <div className={`flex sticky top-0 h-screen ${open ? 'w-[12.5rem]' : 'w-[4.5rem]'} duration-100 bg-stone-950 text-white`}>
                 <div className="p-3">
                     {open ? (
                         <RxCross2 onClick={() => setOpen(!open)} className="size-9 cursor-pointer " />

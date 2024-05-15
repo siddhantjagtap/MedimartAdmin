@@ -7,17 +7,24 @@ import {jwtDecode} from 'jwt-decode';
 
 function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      setIsLoggedIn(true);
-      const decodedToken = jwtDecode(token);
-      setUsername(decodedToken.result.name);
-      console.log(decodedToken.result.name) // Extract the name from the decoded token
+      try {
+        const decodedToken = jwtDecode(token);
+        if (decodedToken.result && decodedToken.result.name) { // Check for both result and name
+          setIsLoggedIn(true);
+          setUsername(decodedToken.result.name);
+        } else {
+          console.warn("Invalid token format or missing name property");
+        }
+      } catch (error) {
+        console.error("Error decoding token:", error);
+      }
     }
   }, []);
 
