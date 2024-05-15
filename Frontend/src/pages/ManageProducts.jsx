@@ -63,7 +63,17 @@ const ManageProducts = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentProducts = products.slice(indexOfFirstItem, indexOfLastItem); // Moved inside the component
-
+  const handleSearch = () => {
+    const filtered = products.filter((product) => {
+      const startDateValid =
+        !startDate || new Date(product.valid_from) >= new Date(startDate);
+      const endDateValid =
+        !endDate || new Date(product.valid_till) <= new Date(endDate + "T23:59:59");
+      return startDateValid && endDateValid;
+    });
+    setFilteredProducts(filtered);
+    setCurrentPage(1); // Reset pagination to the first page after filtering
+  };
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const nextPage = () => {
