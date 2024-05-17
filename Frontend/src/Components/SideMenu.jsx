@@ -16,7 +16,7 @@ function SideMenu() {
         { title: 'Products', icon: <AiOutlineProduct size={24} />, path: '/manageproducts' },
         { title: 'Order List', icon: <MdChecklist size={24} />, path: '/orderlist' },
         // { title: 'Order Status', icon: <TbStatusChange size={24} />, path: '/orderstatus' },
-        { title: 'Billing', icon: <RiBillLine size={24} />, path: '/billing' },
+        { title: 'Payment', icon: <RiBillLine size={24} />, path: '/payment' },
 
     ];
     const isActive = (path) => {
