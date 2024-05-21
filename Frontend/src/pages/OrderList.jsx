@@ -1,117 +1,96 @@
-// import React from 'react'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { FaPrint } from 'react-icons/fa';
+import { MdDelete, MdModeEditOutline } from 'react-icons/md';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import SideMenu from '../Components/SideMenu';
+import Navbar from '../Components/Navbar';
 
-// function OrderList() {
-//   return (
-//     <div><p>Order List</p>
-//     </div>
-//   )
-// }
-
-// export default OrderList
-import React, { useState } from 'react';
-import { FaPrint, FaShippingFast } from 'react-icons/fa';
-import { IoIosArrowBack,IoIosArrowForward } from "react-icons/io";
-
-function OrderListOrderStatus() {
-  const [orders, setOrders] = useState([
-    {
-      id: 1,
-      email: 'john@example.com',
-      order_cost: 500 ,
-      paymentStatus: 'Paid',
-      deliveryStatus: 'Not Shipped',
-    },
-    {
-      id: 2,
-      email: 'jane@example.com',
-      order_cost: 700 ,
-      paymentStatus: 'Unpaid',
-      deliveryStatus: 'Shipped',
-    },
-    {
-      id: 3,
-      email: 'john@example.com',
-      order_cost: 500 ,
-      paymentStatus: 'Paid',
-      deliveryStatus: 'Not Shipped',
-    },
-    {
-      id: 4,
-      email: 'jane@example.com',
-      orderStatus: 'Processing',
-      paymentStatus: 'Unpaid',
-      deliveryStatus: 'Shipped',
-    },
-    {
-      id: 5,
-      email: 'john@example.com',
-      orderStatus: 'Pending',
-      paymentStatus: 'Paid',
-      deliveryStatus: 'Not Shipped',
-    },
-    {
-      id: 6,
-      email: 'jane@example.com',
-      orderStatus: 'Processing',
-      paymentStatus: 'Unpaid',
-      deliveryStatus: 'Shipped',
-    },
-    {
-      id: 7,
-      email: 'john@example.com',
-      orderStatus: 'Pending',
-      paymentStatus: 'Paid',
-      deliveryStatus: 'Not Shipped',
-    },
-    {
-      id: 8,
-      email: 'jane@example.com',
-      orderStatus: 'Processing',
-      paymentStatus: 'Unpaid',
-      deliveryStatus: 'Shipped',
-    },
-    {
-      id: 9,
-      email: 'john@example.com',
-      orderStatus: 'Pending',
-      paymentStatus: 'Paid',
-      deliveryStatus: 'Not Shipped',
-    },
-    {
-      id: 10,
-      email: 'jane@example.com',
-      orderStatus: 'Processing',
-      paymentStatus: 'Unpaid',
-      deliveryStatus: 'Shipped',
-    },
-    {
-      id: 11,
-      email: 'john@example.com',
-      orderStatus: 'Pending',
-      paymentStatus: 'Paid',
-      deliveryStatus: 'Not Shipped',
-    },
-    {
-      id: 12,
-      email: 'jane@example.com',
-      orderStatus: 'Processing',
-      paymentStatus: 'Unpaid',
-      deliveryStatus: 'Shipped',
-    },
-  ]);
+function OrderList({ totalOrders, setTotalOrders }) {
+  const [orders, setOrders] = useState([]);
+  const apiUrl = import.meta.env.VITE_NEXIBLE_URL;
+  const apikey = import.meta.env.VITE_API_Key;
+  const [deleteOrderId, setDeleteOrderId] = useState(null);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [filteredOrders, setFilteredOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; 
+  const itemsPerPage = 10;
+  const pagesToShow = 5;
 
-  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/ordermaster`, {
+          headers: {
+            'API-Key': apikey,
+          },
+        });
+        if (response.data.status === 'success') {
+          setOrders(response.data.data || []);
+          setFilteredOrders(response.data.data || []);
+          setTotalOrders(response.data.data.length);
+        } else {
+          console.error('Error fetching data:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [apiUrl, apikey, setTotalOrders]);
+
+  const handleDeleteOrder = (orderId) => {
+    setDeleteOrderId(orderId);
+  };
+
+  const confirmDeleteOrder = async () => {
+    try {
+      const response = await axios.delete(`${apiUrl}/ordermaster/${deleteOrderId}`, {
+        headers: {
+          'API-Key': apikey,
+        },
+      });
+      if (response.data.status === 'success') {
+        console.log('Order deleted successfully');
+        const updatedOrders = orders.filter(order => order.id !== deleteOrderId);
+        setOrders(updatedOrders);
+        setFilteredOrders(updatedOrders);
+        setTotalOrders(updatedOrders.length);
+      } else {
+        console.error('Error deleting order:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error deleting order:', error);
+    } finally {
+      setDeleteOrderId(null);
+    }
+  };
+
+  const cancelDeleteOrder = () => {
+    setDeleteOrderId(null);
+  };
+
+  const handleSearch = () => {
+    const filtered = orders.filter((order) => {
+      const orderDate = new Date(order.orderDate);
+      const startDateValid = !startDate || orderDate >= new Date(startDate);
+      const endDateValid = !endDate || orderDate <= new Date(endDate + "T23:59:59");
+      return startDateValid && endDateValid;
+    });
+    setFilteredOrders(filtered);
+    setCurrentPage(1);
+  };
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentOrders = orders.slice(indexOfFirstItem, indexOfLastItem);
-
+  const currentOrders = filteredOrders.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
   const nextPage = () => {
-    if (currentPage < Math.ceil(orders.length / itemsPerPage)) {
+    if (currentPage < Math.ceil(filteredOrders.length / itemsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -122,67 +101,152 @@ function OrderListOrderStatus() {
     }
   };
 
+  const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
+  const startPage = Math.max(
+    Math.min(
+      currentPage - Math.floor(pagesToShow / 2),
+      totalPages - pagesToShow + 1
+    ),
+    1
+  );
+  const endPage = Math.min(startPage + pagesToShow - 1, totalPages);
   return (
-    <div className="bg-white p-4 rounded-lg ">
-      <h2 className="text-xl font-bold mb-[1rem]">Order Status</h2>
-      <div className="overflow-x-auto">
-        <table className="w-full table-auto">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="px-4 py-3">Order ID</th>
-              <th className="px-4 py-3">Email</th>
-              <th className="px-4 py-3">Order Status</th>
-              <th className="px-4 py-3">Payment status</th>
-              <th className="px-4 py-3">Delivery status</th>
-              <th className="px-4 py-3">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentOrders.map((order, index) => (
-              <tr
-                key={order.id}
-                className={`${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'} border-b `}
-              >
-                <td className="px-4 py-3 pl-[4vw] ">{order.id}</td>
-                <td className="px-4 py-3 pl-[4vw]">{order.email}</td>
-                <td className="px-4 py-3 flex pl-[2vw]">{order.orderStatus}</td>
-                <td className="px-4 py-3 pl-[5vw]">{order.paymentStatus}</td>
-                <td className="px-4 py-3 pl-[3vw]">{order.deliveryStatus}</td>
-                <td className="px-4 py-3 flex items-center justify-center gap-2">
-                  <button className=" text-white px-2 py-1 rounded-md">
-                    <FaPrint className="text-yellow-500 text-xl" />
-                  </button>
-                  <button className=" text-white px-2 py-1 rounded-md">
-                    <FaShippingFast className="text-blue-500 text-xl" />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-     
-        <div className="flex justify-center mt-4">
-          <button onClick={prevPage} className="mx-1 px-3 py-2 cursor-pointer ">
-          <IoIosArrowBack />
-          </button>
-          {Array.from({ length: Math.ceil(orders.length / itemsPerPage) }, (_, i) => (
+    <div className="flex">
+      <SideMenu />
+      <div className="flex-grow">
+        <Navbar />
+        <div className="bg-white p-4 rounded-lg">
+          <div className="relative w-[77.75rem] h-[3.5625rem] mt-[1.5rem]">
+            <div className="absolute w-[20rem] h-[3.5625rem] top-0 left-0">
+              <div className="w-[17rem] relative h-[3.5625rem] bg-white rounded-[2.8125rem] border border-solid border-[#a8a8a8]">
+                <div className="absolute w-[4.5625rem] top-[0.375rem] left-[1.375rem] font-medium text-black text-[0.875rem] tracking-[0] leading-[normal]">
+                  Start date
+                </div>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className="absolute w-[14.9375rem] top-[1.6875rem] left-[1.375rem] font-medium text-[#777777] text-1rem tracking-[0] leading-[normal]"
+                />
+              </div>
+            </div>
+
+            <div className="absolute w-[20rem] h-[3.5625rem] top-0 left-[20.4375rem]">
+              <div className="w-[17rem] relative h-[3.5625rem] bg-white rounded-[2.8125rem] border border-solid border-[#a8a8a8]">
+                <div className="absolute w-[14.5625rem] top-[0.375rem] left-[1.3125rem] font-medium text-black text-[0.875rem] tracking-[0] leading-[normal]">
+                  End date
+                </div>
+                <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  className="absolute w-[14.9375rem] top-[1.6875rem] left-[1.375rem] font-medium text-[#777777] text-1rem tracking-[0] leading-[normal]" />
+              </div>
+            </div>
             <button
-              key={i}
-              className={`mx-1 px-4 py-2 cursor-pointer ${
-                currentPage === i + 1 ? 'border border-black   rounded-full ' : ''
-              }`}
-              onClick={() => paginate(i + 1)}
+              className="inline-flex items-center justify-center gap-[0.625rem] px-[8rem] py-[1rem] absolute top-0 left-[41.4375rem] w-[18rem] h-[3.5625rem] bg-black rounded-[2.8125rem] overflow-hidden border border-solid border-[#a8a8a8]  relative w-fit mt-[-0.0625rem] font-medium text-[#ffffff] text-[1rem] tracking-[0] leading-[normal]"
+              onClick={handleSearch}
             >
-              {i + 1}
+              Search
             </button>
-          ))}
-          <button onClick={nextPage} className="mx-1 px-3 py-2 cursor-pointer ">
-          <IoIosArrowForward />
-          </button>
+          </div>
+
+          <h2 className="text-xl font-bold mb-4 mt-[2rem]">Order List</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full table-auto">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="px-4 py-3">Order ID</th>
+                  <th className="px-4 py-3">Order No</th>
+                  <th className="px-4 py-3">Order Date</th>
+                  <th className="px-4 py-3">Customer ID</th>
+                  <th className="px-4 py-3">Email</th>
+                  <th className="px-4 py-3">First Name</th>
+                  <th className="px-4 py-3">Last Name</th>
+                  <th className="px-4 py-3">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentOrders.map((order, index) => (
+                  <tr key={order.id} className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
+                    <td className="px-8 py-3">{order.id}</td>
+                    <td className="px-4 pl-12 py-3">{order.orderNo}</td>
+                    <td className="px-4 pl-12 py-3">{order.orderDate}</td>
+                    <td className="px-4 pl-12 py-3">{order.customerID}</td>
+                    <td className="px-4 pl-12 py-3">{order.eMail}</td>
+                    <td className="px-4 pl-12 py-3">{order.firstName}</td>
+                    <td className="px-4 pl-10 py-3">{order.lastName}</td>
+                    <td className="px-4 py-3 mt-[1.2rem] flex items-center justify-center gap-2">
+                      {/* <button className="px-2 py-1 rounded-md">
+                        <FaPrint className="text-black text-xl" />
+                      </button> */}
+                      <button
+                        // className="px-
+                        className="px-2 py-1 rounded-md"
+                        onClick={() => handleDeleteOrder(order.id)}
+                      >
+                        <MdDelete className="text-red-500 text-xl" />
+                      </button>
+                      {/* <button className="px-2 py-1 rounded-md">
+                        <MdModeEditOutline className="text-black text-xl" />
+                      </button> */}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="flex justify-center mt-4">
+              <button
+                onClick={prevPage}
+                className="mx-1 px-3 py-2 cursor-pointer"
+              >
+                <IoIosArrowBack />
+              </button>
+              {Array.from(
+                { length: endPage - startPage + 1 },
+                (_, i) => (
+                  <button
+                    key={i}
+                    className={`mx-1 px-4 py-2 cursor-pointer ${
+                      currentPage === startPage + i
+                        ? "border border-black rounded-full"
+                        : ""
+                    }`}
+                    onClick={() => paginate(startPage + i)}
+                  >
+                    {startPage + i}
+                  </button>
+                )
+              )}
+              <button
+                onClick={nextPage}
+                className="mx-1 px-3 py-2 cursor-pointer"
+              >
+                <IoIosArrowForward />
+              </button>
+            </div>
         </div>
       </div>
+      {deleteOrderId && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-4 rounded shadow-md">
+            <p>Are you sure you want to delete this order?</p>
+            <div className="flex justify-end mt-4">
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded mr-2">
+                Delete
+              </button>
+              <button className="px-4 py-2 bg-gray-300 rounded" onClick={cancelDeleteOrder}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 export default OrderList;
+
