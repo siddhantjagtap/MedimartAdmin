@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BsFillBellFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
-import logo from "../assets/nexible.gif";
+import logo from "../assets/logo.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import {jwtDecode} from 'jwt-decode';
 
@@ -16,9 +16,9 @@ function Navbar() {
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
-        if (decodedToken.result && decodedToken.result.name) { // Check for both result and name
+        if (decodedToken.username) { 
           setIsLoggedIn(true);
-          setUsername(decodedToken.result.name);
+          setUsername(decodedToken.username);
         } else {
           console.warn("Invalid token format or missing name property");
         }
@@ -41,8 +41,14 @@ function Navbar() {
 
   return (
     <div>
-      <header className="bg-gray-200 py-4 px-8 shadow flex justify-between">
-        <img className="h-[2rem] w-[12rem]" src={logo} alt="Nexible Logo" />
+      <header className="bg-white py-4 px-8  flex justify-between">
+      <div className="flex items-center justify-center ">
+          <img className="h-[3rem] w-[3rem]" src={logo} alt="Logo" />
+          <Link to="/" className="md:block hidden text-xl md:text-3xl font-bold ml-1 font-PlayFair">
+            <span className="text-[#14496b]">Medi</span>
+            <span className="text-[#8ccf28]">Mart</span>
+          </Link>
+        </div>
         <div className="flex items-center">
           {/* <BsFillBellFill className="pt-2 mr-[1rem] text-4xl" /> */}
           {isLoggedIn ? (
@@ -67,7 +73,7 @@ function Navbar() {
             </div>
           ) : (
             <Link to="/login">
-              <button className="bg-black text-white px-4 py-2 rounded-full">
+              <button className="bg-[#125872] text-white px-4 py-2 rounded-full">
                 Login
               </button>
             </Link>

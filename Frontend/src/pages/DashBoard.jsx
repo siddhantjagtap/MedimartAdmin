@@ -22,7 +22,7 @@ import {
 
 const COLORS = ['#E53E3E', '#38B2AC', '#7F9CF5'];
 
-const DashBoard = ({ totalOrders }) => {
+const DashBoard = ({totalOrders}) => {
     const [orderData, setOrderData] = useState({
         totalOrders: totalOrders,
         shippedProducts: 450,
@@ -32,56 +32,37 @@ const DashBoard = ({ totalOrders }) => {
     const [chartData, setChartData] = useState([]);
     const [pieChartData, setPieChartData] = useState([]);
     const [barChartData, setBarChartData] = useState([]);
-
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${import.meta.env.VITE_NEXIBLE_URL}/ordermaster`, {
-                    headers: {
-                        'API-Key': import.meta.env.VITE_API_Key,
-                    },
-                });
-                if (response.data.status === 'success') {
-                    const totalOrdersCount = response.data.data.length || 0;
-                    setOrderData(prevState => ({ ...prevState, totalOrders: totalOrdersCount }));
+        const lineChartData = [
+            { name: 'Jan', value: orderData.totalOrders - 200 },
+            { name: 'Feb', value: orderData.totalOrders - 300 },
+            { name: 'Mar', value: orderData.totalOrders - 100 },
+            { name: 'Apr', value: orderData.totalOrders },
+            { name: 'May', value: orderData.totalOrders - 200 },
+            { name: 'Jun', value: orderData.totalOrders + 100 },
+        ];
 
-                    const lineChartData = [
-                        { name: 'Jan', value: totalOrdersCount - 200 },
-                        { name: 'Feb', value: totalOrdersCount - 300 },
-                        { name: 'Mar', value: totalOrdersCount - 100 },
-                        { name: 'Apr', value: totalOrdersCount },
-                        { name: 'May', value: totalOrdersCount - 200 },
-                        { name: 'Jun', value: totalOrdersCount + 100 },
-                    ];
+        const pieChartData = [
+            { name: 'Shipped', value: orderData.shippedProducts },
+            { name: 'Pending', value: orderData.pendingOrders },
+            { name: 'Cancelled', value: orderData.totalOrders - orderData.shippedProducts - orderData.pendingOrders },
+        ];
 
-                    const pieChartData = [
-                        { name: 'Shipped', value: orderData.shippedProducts },
-                        { name: 'Pending', value: orderData.pendingOrders },
-                        { name: 'Cancelled', value: totalOrdersCount - orderData.shippedProducts - orderData.pendingOrders },
-                    ];
+        const barChartData = [
+            { name: 'Jan', value: orderData.totalOrders - 200 },
+            { name: 'Feb', value: orderData.totalOrders - 300 },
+            { name: 'Mar', value: orderData.totalOrders - 100 },
+            { name: 'Apr', value: orderData.totalOrders },
+            { name: 'May', value: orderData.totalOrders - 200 },
+            { name: 'Jun', value: orderData.totalOrders + 100 },
+        ];
 
-                    const barChartData = [
-                        { name: 'Jan', value: totalOrdersCount - 200 },
-                        { name: 'Feb', value: totalOrdersCount - 300 },
-                        { name: 'Mar', value: totalOrdersCount - 100 },
-                        { name: 'Apr', value: totalOrdersCount },
-                        { name: 'May', value: totalOrdersCount - 200 },
-                        { name: 'Jun', value: totalOrdersCount + 100 },
-                    ];
 
-                    setChartData(lineChartData);
-                    setPieChartData(pieChartData);
-                    setBarChartData(barChartData);
-                } else {
-                    console.error('Error fetching data:', response.data.message);
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
+        setChartData(lineChartData);
+        setPieChartData(pieChartData);
+        setBarChartData(barChartData);
 
-        fetchData();
-    }, []);
+    }, [orderData]);
 
     return (
         <>
@@ -92,15 +73,15 @@ const DashBoard = ({ totalOrders }) => {
             <div className="flex flex-col min-h-screen  md:block hidden">
                 <main className="flex-grow p-8">
                     <div className="grid grid-cols-3 gap-4 mb-8">
-                        <div className="bg-gradient-to-r from-orange-400 to-pink-600 text-white rounded-lg p-4 h-[14rem]">
+                        <div className="bg-[#99BC85] text-white rounded-lg p-4 h-[14rem]">
                             <h2 className="text-2xl font-semibold">Total no. of Orders</h2>
                             <p className="text-5xl pt-[5rem] font-bold">{orderData.totalOrders}</p>
                         </div>
-                        <div className="bg-gradient-to-l from-green-700 to-yellow-200 text-white rounded-lg p-4">
+                        <div className="bg-[#0D9276] text-white rounded-lg p-4">
                             <h2 className="text-2xl font-semibold">Products shipped</h2>
                             <p className="text-5xl pt-[5rem] font-bold">{orderData.shippedProducts}</p>
                         </div>
-                        <div className="bg-gradient-to-l from-indigo-900 to-cyan-400 text-white rounded-lg p-4">
+                        <div className="bg-[#1A4D2E] text-white rounded-lg p-4">
                             <h2 className="text-2xl font-semibold">Pending</h2>
                             <p className="text-5xl pt-[5rem] font-bold">{orderData.pendingOrders}</p>
                         </div>
