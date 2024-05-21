@@ -21,15 +21,15 @@ function OrderList({ totalOrders, setTotalOrders }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/ordermaster`, {
+        const response = await axios.get(`https://medicine-website-two.vercel.app/api/orders`, {
           headers: {
             'API-Key': apikey,
           },
         });
         if (response.data.status === 'success') {
-          setOrders(response.data.data || []);
-          setFilteredOrders(response.data.data || []);
-          setTotalOrders(response.data.data.length);
+          setOrders(response);
+          setFilteredOrders(response);
+          setTotalOrders(response.length);
         } else {
           console.error('Error fetching data:', response.data.message);
         }
