@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { FaPrint } from 'react-icons/fa';
-import { MdDelete, MdModeEditOutline } from 'react-icons/md';
+import { MdDelete} from 'react-icons/md';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import SideMenu from '../Components/SideMenu';
 import Navbar from '../Components/Navbar';
-
 import Loading from "../Components/Loading";
 
 function OrderList({ totalOrders, setTotalOrders }) {
