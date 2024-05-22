@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import SideMenu from "../Components/SideMenu";
@@ -7,8 +6,7 @@ import AddProductModal from "../Components/AddProductModal";
 import ManageProductModal from "../Components/ManageProductModal";
 import axios from "axios";
 import Loading from "../Components/Loading";
-import { MdDelete } from "react-icons/md";
-import { MdModeEditOutline } from "react-icons/md";
+import { MdDelete, MdModeEditOutline } from "react-icons/md";
 import debounce from "lodash.debounce";
 
 const ManageProducts = () => {
@@ -22,6 +20,7 @@ const ManageProducts = () => {
   const [newProduct, setNewProduct] = useState({});
   const [productId, setProductId] = useState("");
   const [searchTerm, setSearchTerm] = useState('');
+  const [deleteProductId, setDeleteProductId] = useState(null);
 
   const fetchData = useCallback(
     debounce(async (searchTerm) => {
@@ -86,8 +85,26 @@ const ManageProducts = () => {
   };
 
   const handleDeleteProduct = (productId) => {
-    // Implement delete product functionality here
-    console.log("Delete product with ID:", productId);
+    setDeleteProductId(productId);
+  };
+
+  const confirmDeleteProduct = async () => {
+    try {
+      await axios.delete(`https://medicine-website-two.vercel.app/api/deleteproduct/${deleteProductId}`, {
+        headers: {
+          "API-Key": import.meta.env.VITE_API_Key,
+        },
+      });
+      setProducts(products.filter(product => product.Product_id !== deleteProductId));
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    } finally {
+      setDeleteProductId(null);
+    }
+  };
+
+  const cancelDeleteProduct = () => {
+    setDeleteProductId(null);
   };
 
   const renderPageNumbers = () => {
@@ -219,6 +236,28 @@ const ManageProducts = () => {
           productId={productId}
         />
       </div>
+      {deleteProductId && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-4 rounded shadow-lg">
+            <h2 className="text-xl mb-4">Confirm Delete</h2>
+            <p>Are you sure you want to delete this product?</p>
+            <div className="flex justify-end mt-4">
+              <button
+                className="bg-red-500 text-white px-4 py-2 rounded mr-2"
+                onClick={confirmDeleteProduct}
+              >
+                Delete
+              </button>
+              <button
+                className="bg-gray-300 text-black px-4 py-2 rounded"
+                onClick={cancelDeleteProduct}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
