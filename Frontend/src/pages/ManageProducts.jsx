@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import SideMenu from "../Components/SideMenu";
 import Navbar from "../Components/Navbar";
@@ -6,6 +6,9 @@ import AddProductModal from "../Components/AddProductModal";
 import ManageProductModal from "../Components/ManageProductModal";
 import axios from "axios";
 import Loading from "../Components/Loading";
+import { MdDelete } from "react-icons/md";
+import { MdModeEditOutline } from "react-icons/md";
+import debounce from "lodash.debounce";
 
 const ManageProducts = () => {
   const [products, setProducts] = useState([]);
@@ -17,42 +20,49 @@ const ManageProducts = () => {
   const [showModal, setShowModal] = useState(false);
   const [newProduct, setNewProduct] = useState({});
   const [productId, setProductId] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const fetchData = useCallback(
+    debounce(async (searchTerm) => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`https://medicine-website-two.vercel.app/api/data`, {
+          headers: {
+            "API-Key": import.meta.env.VITE_API_Key,
+          },
+        });
+        const data = response.data;
+        const filteredData = data.filter((product) =>
+          product.Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          product.Sub_Category.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setProducts(data);
+        setFilteredProducts(filteredData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    }, 500),
+    []
+  );
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`https://medicine-website-two.vercel.app/api/data`, {
-        headers: {
-          "API-Key": import.meta.env.VITE_API_Key,
-        },
-      })
-      .then((response) => {
-        setProducts(response.data);
-        setFilteredProducts(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setLoading(false);
-      });
-  }, []);
+    fetchData(searchTerm);
+  }, [searchTerm, fetchData]);
+
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) =>
+      product.Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.Sub_Category.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [products, searchTerm]);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
-
-  const handleSearch = () => {
-    const filtered = products.filter((product) => {
-      const startDateValid = !startDate || new Date(product.valid_from) >= new Date(startDate);
-      const endDateValid = !endDate || new Date(product.valid_till) <= new Date(endDate + "T23:59:59");
-      return startDateValid && endDateValid;
-    });
-    setFilteredProducts(filtered);
-    setCurrentPage(1); // Reset pagination to the first page after filtering
-  };
+  const currentProducts = useMemo(() => {
+    return filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
+  }, [filteredProducts, indexOfFirstItem, indexOfLastItem]);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -74,22 +84,18 @@ const ManageProducts = () => {
     setProductId(product.Product_id);
   };
 
-  const handleInputChange = (e) => {
-    setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
+  const handleDeleteProduct = (productId) => {
+    // Implement delete product functionality here
+    console.log("Delete product with ID:", productId);
   };
 
-  const handleUpdateProduct = () => {
-    // Add logic to update the product data on the server or in the state
-    console.log("Updated product:", selectedProduct);
-    setShowManageModal(false);
-  };
   const renderPageNumbers = () => {
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
     const pageNumbers = [];
     const maxPagesToShow = 10;
     const startPage = Math.max(currentPage - Math.floor(maxPagesToShow / 2), 1);
     const endPage = Math.min(startPage + maxPagesToShow - 1, totalPages);
-  
+
     for (let i = startPage; i <= endPage; i++) {
       pageNumbers.push(
         <button
@@ -103,10 +109,9 @@ const ManageProducts = () => {
         </button>
       );
     }
-  
+
     return pageNumbers;
   };
-
 
   return (
     <div className="flex">
@@ -115,15 +120,21 @@ const ManageProducts = () => {
         <Navbar />
         <div className="bg-white p-2 rounded-lg">
           <div className="sticky top-0 bg-white p-2 rounded-lg z-10">
-          </div>
-          <div className="flex justify-between items-center mb-2 mt-[2rem]">
-            <h2 className="text-xl font-bold">Manage products</h2>
-            <button
-              className="bg-[#125872] text-white px-2 py-2 rounded-full"
-              onClick={() => setShowModal(true)}
-            >
-              Add product +
-            </button>
+            <div className="flex justify-between items-center mb-4">
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="px-4 py-4 border border-gray-300 rounded-full w-[85%] focus:outline-none focus:ring-1 focus:ring-[#125872]"
+              />
+              <button
+                className="bg-[#125872] text-white px-4 py-2 rounded-full"
+                onClick={() => setShowModal(true)}
+              >
+                Add product +
+              </button>
+            </div>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full table-auto">
@@ -132,12 +143,9 @@ const ManageProducts = () => {
                   <th className="px-2 py-3">Id</th>
                   <th className="px-2 py-3">Name</th>
                   <th className="px-2 py-3">Price</th>
-                  {/* <th className="px-2 py-3">Category</th> */}
-                  <th className="px-2 py-3"> Category</th>
-                  {/* <th className="px-2 py-3">Composition</th> */}
+                  <th className="px-2 py-3">Category</th>
                   <th className="px-2 py-3">Image</th>
                   <th className="px-2 py-3">Manufacturer</th>
-                  {/* <th className="px-2 py-3">Return Policy</th> */}
                   <th className="px-2 py-3">Actions</th>
                 </tr>
               </thead>
@@ -155,9 +163,7 @@ const ManageProducts = () => {
                       <td className="px-2 py-3">{product.Product_id}</td>
                       <td className="px-2 py-3">{product.Name}</td>
                       <td className="px-2 py-3">{product.Price}</td>
-                      {/* <td className="px-2 py-3">{product.Category}</td> */}
                       <td className="px-2 py-3">{product.Sub_Category}</td>
-                      {/* <td className="px-2 py-3">{product.Composition}</td> */}
                       <td className="px-2 py-3">
                         <img
                           src={product.Image_URL}
@@ -166,19 +172,18 @@ const ManageProducts = () => {
                         />
                       </td>
                       <td className="px-2 py-3">{product.Manufacturer}</td>
-                      {/* <td className="px-2 py-3">{product.Return_Policy}</td> */}
-                      <td className="px-2 py-3 flex gap-2">
+                      <td className="px-2 py-3 text-xl mt-[1rem] flex gap-2">
                         <button
-                          className="bg-[#125872] text-white px-2 py-2 rounded-full"
+                          className=" text-green-500 hover:text-green-700 px-2 py-2 rounded-full"
                           onClick={() => handleManageProduct(product)}
                         >
-                          Manage
+                          <MdModeEditOutline />
                         </button>
                         <button
-                          className="bg-[#125872] text-white px-2 py-2 rounded-full"
+                          className=" text-red-500 hover:text-red-700 px-2 py-2 rounded-full"
                           onClick={() => handleDeleteProduct(product.Product_id)}
                         >
-                          Delete
+                          <MdDelete />
                         </button>
                       </td>
                     </tr>

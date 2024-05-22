@@ -211,7 +211,7 @@ const AddProductModal = ({ showModal, setShowModal }) => {
             <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               <button
                 type="button"
-                className="appearance-none border rounded-full w-full py-3 px-3 text-white bg-black mb-[1rem]"
+                className="appearance-none border rounded-full w-full py-3 px-3 text-white bg-[#125872] mb-[1rem]"
                 onClick={handleUpdateProduct}
               >
                 Add

@@ -104,7 +104,7 @@ function OrderList({ totalOrders, setTotalOrders }) {
               </div>
             </div>
 
-            <div className="absolute w-[20rem] h-[3.5625rem] top-0 left-[20.4375rem]">
+            <div className="absolute w-[20rem] h-[3.5625rem] top-0 left-[18.2rem]">
               <div className="w-[17rem] relative h-[3.5625rem] bg-white rounded-[2.8125rem] border border-solid border-[#a8a8a8]">
                 <div className="absolute w-[14.5625rem] top-[0.375rem] left-[1.3125rem] font-medium text-black text-[0.875rem] tracking-[0] leading-[normal]">
                   End date
@@ -117,7 +117,7 @@ function OrderList({ totalOrders, setTotalOrders }) {
               </div>
             </div>
             <button
-              className="inline-flex items-center justify-center gap-[0.625rem] px-[8rem] py-[1rem] absolute top-0 left-[41.4375rem] w-[18rem] h-[3.5625rem] bg-black rounded-[2.8125rem] overflow-hidden border border-solid border-[#a8a8a8] relative w-fit mt-[-0.0625rem] font-medium text-[#ffffff] text-[1rem] tracking-[0] leading-[normal]"
+              className="inline-flex items-center justify-center gap-[0.625rem] px-[8rem] py-[1rem] absolute top-0 left-[36.4375rem] w-[18rem] h-[3.5625rem] bg-black rounded-[2.8125rem] overflow-hidden border border-solid border-[#a8a8a8] relative w-fit mt-[-0.0625rem] font-medium text-[#ffffff] text-[1rem] tracking-[0] leading-[normal]"
               onClick={handleSearch}
             >
               Search
@@ -143,7 +143,7 @@ function OrderList({ totalOrders, setTotalOrders }) {
                     <th className="px-4 py-3">Contact No</th>
                     <th className="px-4 py-3">Amount</th>
                     <th className="px-4 py-3">Payment Status</th>
-                    <th className="px-4 py-3">Cart Items</th>
+                    {/* <th className="px-4 py-3">Cart Items</th> */}
                     <th className="px-4 py-3">Razorpay Order ID</th>
                     <th className="px-4 py-3">Razorpay Payment ID</th>
                     <th className="px-4 py-3">Actions</th>
@@ -163,7 +163,7 @@ function OrderList({ totalOrders, setTotalOrders }) {
                       <td className="px-4 pl-12 py-3">{orders.contactNo}</td>
                       <td className="px-4 pl-12 py-3">{orders.amount}</td>
                       <td className="px-4 pl-12 py-3">{orders.paymentStatus}</td>
-                      <td className="px-4 pl-12 py-3">
+                      {/* <td className="px-4 pl-12 py-3">
                         {orders.cartItems.map((item) => (
                           <div key={item._id}>
                             <p>{item.Name}</p>
@@ -171,7 +171,7 @@ function OrderList({ totalOrders, setTotalOrders }) {
                             <p>Price: {item.Price}</p>
                           </div>
                         ))}
-                      </td>
+                      </td> */}
                       <td className="px-4 pl-12 py-3">{orders.razorpay_order_id}</td>
                       <td className="px-4 pl-12 py-3">{orders.razorpay_payment_id}</td>
                       <td className="px-4 py-3 mt-[1.2rem] flex items-center justify-center gap-2">
@@ -179,7 +179,7 @@ function OrderList({ totalOrders, setTotalOrders }) {
                           className="px-2 py-1 rounded-md"
                           onClick={() => handleDeleteOrder(orders._id)}
                         >
-                          <MdDelete className="text-red-500 text-xl" />
+                          <MdDelete className="text-red-500 hover:text-red-700   text-xl" />
                         </button>
                       </td>
                     </tr>

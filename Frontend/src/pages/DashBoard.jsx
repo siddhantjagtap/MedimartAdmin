@@ -73,7 +73,7 @@ const DashBoard = ({totalOrders}) => {
             <div className="flex flex-col min-h-screen  md:block hidden">
                 <main className="flex-grow p-8">
                     <div className="grid grid-cols-3 gap-4 mb-8">
-                        <div className="bg-[#99BC85] text-white rounded-lg p-4 h-[14rem]">
+                        <div className="bg-[#14496b] text-white rounded-lg p-4 h-[14rem]">
                             <h2 className="text-2xl font-semibold">Total no. of Orders</h2>
                             <p className="text-5xl pt-[5rem] font-bold">{orderData.totalOrders}</p>
                         </div>
@@ -81,7 +81,7 @@ const DashBoard = ({totalOrders}) => {
                             <h2 className="text-2xl font-semibold">Products shipped</h2>
                             <p className="text-5xl pt-[5rem] font-bold">{orderData.shippedProducts}</p>
                         </div>
-                        <div className="bg-[#1A4D2E] text-white rounded-lg p-4">
+                        <div className="bg-[#8ccf28] text-white rounded-lg p-4">
                             <h2 className="text-2xl font-semibold">Pending</h2>
                             <p className="text-5xl pt-[5rem] font-bold">{orderData.pendingOrders}</p>
                         </div>
