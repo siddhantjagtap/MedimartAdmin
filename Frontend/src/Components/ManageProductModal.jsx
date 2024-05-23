@@ -1,46 +1,48 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 import axios from 'axios';
 
 const ManageProductModal = ({ showModal, setShowModal, product }) => {
-  
-  const [productname,setProductname] = useState("")
-  const [deleteOrderId, setDeleteOrderId] = useState(null);
-  const [productDesc, setproductDesc] = useState("")
-  const [productcategory, setProductcategory] = useState("")
-  const [productPrice, setProductPrice] = useState("")
-  const [productqty, setProductqty] = useState("")
-  const [fileimage, setImagefile] = useState("")
-  const [keylineImage, setKeylineimage] = useState("")
-
-  // Function to handle file input change for product image
-  const handleProductImageChange = (e) => {
-    setImagefile(e.target.files[0]); // Update state with the selected file
-  };
-
-  // Function to handle file input change for keyline image
-  const handleKeylineImageChange = (e) => {
-    setKeylineimage(e.target.files[0]); // Update state with the selected file
-  };
+  const [productId, setProductId] = useState(product?.id || "");
+  const [category, setCategory] = useState(product?.category || "");
+  const [subCategory, setSubCategory] = useState(product?.subCategory || "");
+  const [name, setName] = useState(product?.name || "");
+  const [composition, setComposition] = useState(product?.composition || "");
+  const [uses, setUses] = useState(product?.uses || "");
+  const [sideEffects, setSideEffects] = useState(product?.sideEffects || "");
+  const [imageFile, setImageFile] = useState(null);
+  const [manufacturer, setManufacturer] = useState(product?.manufacturer || "");
+  const [price, setPrice] = useState(product?.price || "");
+  const [returnPolicy, setReturnPolicy] = useState(product?.returnPolicy || "");
+  const [directionsForUse, setDirectionsForUse] = useState(product?.directionsForUse || "");
+  const [description, setDescription] = useState(product?.description || "");
 
   const handleUpdateProduct = async () => {
     try {
-      const updatedProduct = {
-        name: productname,
-        description: productDesc,
-        category: productcategory,
-        price: productPrice,
-        qty: productqty,
-        image: fileimage,
-        keylineimage: keylineImage
-      };
+      const formData = new FormData();
+      formData.append('product_id', productId);
+      formData.append('category', category);
+      formData.append('sub_category', subCategory);
+      formData.append('name', name);
+      formData.append('composition', composition);
+      formData.append('uses', uses);
+      formData.append('side_effects', sideEffects);
+      formData.append('image', imageFile);
+      formData.append('manufacturer', manufacturer);
+      formData.append('price', parseFloat(price));
+      formData.append('return_policy', returnPolicy);
+      formData.append('directions_for_use', directionsForUse);
+      formData.append('description', description);
 
-      const productId = product ? product.id : null;
       const nexibleUrl = import.meta.env.VITE_NEXIBLE_URL;
       const apiKey = import.meta.env.VITE_API_Key;
 
-      const response = await axios.patch(`${nexibleUrl}/product/${productId}`, updatedProduct)
+      const response = await axios.patch(`${nexibleUrl}/product/${productId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${apiKey}`,
+        },
+      });
 
       if (response.status === 200) {
         console.log('Product updated successfully');
@@ -73,85 +75,86 @@ const ManageProductModal = ({ showModal, setShowModal, product }) => {
               </button>
               <div className="sm:flex sm:items-start">
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                  <h3 className="text-lg leading-6 font-medium text-gray-900">Manage product</h3>
+                  <h3 className="text-lg leading-6 font-medium text-gray-900">Manage Product</h3>
                   <div className="mt-2">
                     <div className="mb-4">
-                      <label className="block text-gray-700 font-bold mb-2">
-                        Product Name
-                      </label>
+                      <label className="block text-gray-700 font-bold mb-2">Product ID</label>
                       <input
                         type="text"
-                        id="productName"
-                        value={productname}
-                        onChange={(e)=> setProductname(e.target.value)}
+                        value={productId}
+                        onChange={(e) => setProductId(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Product Name"
+                        placeholder="Product ID"
                       />
                     </div>
                     <div className="mb-4">
-                      <label className="block text-gray-700 font-bold mb-2">
-                        Product Description
-                      </label>
+                      <label className="block text-gray-700 font-bold mb-2">Category</label>
                       <input
                         type="text"
-                        id="productDesc"
-                        value={productDesc}
-                        onChange={(e)=> setproductDesc(e.target.value)}
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Product Description"
+                        placeholder="Category"
                       />
                     </div>
                     <div className="mb-4">
-                      <label className="block text-gray-700 font-bold mb-2">
-                        Product Category
-                      </label>
+                      <label className="block text-gray-700 font-bold mb-2">Sub Category</label>
                       <input
                         type="text"
-                        id="productcategory"
-                        value={productcategory}
-                        onChange={(e)=> setProductcategory(e.target.value)}
+                        value={subCategory}
+                        onChange={(e) => setSubCategory(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Product category"
+                        placeholder="Sub Category"
                       />
                     </div>
                     <div className="mb-4">
-                      <label className="block text-gray-700 font-bold mb-2">
-                        Product Price
-                      </label>
+                      <label className="block text-gray-700 font-bold mb-2">Name</label>
                       <input
-                        type="number"
-                        id="productPrice"
-                        value={productPrice}
-                        onChange={(e)=> setProductPrice(e.target.value)}
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Product Price"
+                        placeholder="Name"
                       />
                     </div>
                     <div className="mb-4">
-                      <label className="block text-gray-700 font-bold mb-2">
-                        Product Qty
-                      </label>
+                      <label className="block text-gray-700 font-bold mb-2">Composition</label>
                       <input
-                        type="number"
-                        id="productqty"
-                        value={productqty}
-                        onChange={(e)=> setProductqty(e.target.value)}
+                        type="text"
+                        value={composition}
+                        onChange={(e) => setComposition(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Product Price"
+                        placeholder="Composition"
                       />
                     </div>
                     <div className="mb-4">
-                      <label className="block text-gray-700 font-bold mb-2">
-                        Product Image
-                      </label>
+                      <label className="block text-gray-700 font-bold mb-2">Uses</label>
+                      <input
+                        type="text"
+                        value={uses}
+                        onChange={(e) => setUses(e.target.value)}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Uses"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-bold mb-2">Side Effects</label>
+                      <input
+                        type="text"
+                        value={sideEffects}
+                        onChange={(e) => setSideEffects(e.target.value)}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Side Effects"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-bold mb-2">Image</label>
                       <input
                         type="file"
-                        id="productImage"
-                        
-                        onChange={(e) => setImagefile(e.target.files[0])}
+                        onChange={(e) => setImageFile(e.target.files[0])}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
-                      {product.image && (
+                      {product?.image && (
                         <img
                           src={`/images/${product.image}`}
                           alt={product.name}
@@ -160,36 +163,59 @@ const ManageProductModal = ({ showModal, setShowModal, product }) => {
                       )}
                     </div>
                     <div className="mb-4">
-                      <label className="block text-gray-700 font-bold mb-2">
-                        Keyline image
-                      </label>
+                      <label className="block text-gray-700 font-bold mb-2">Manufacturer</label>
                       <input
-                        type="file"
-                        id="productkeylineimage"
-                        onChange={(e) => setKeylineimage(e.target.files[0])}
+                        type="text"
+                        value={manufacturer}
+                        onChange={(e) => setManufacturer(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Manufacturer"
                       />
-                      {product.image && (
-                        <img
-                          src={`/images/${product.keylineimage}`}
-                          alt={product.name}
-                          className="mt-2 w-16 h-16 object-cover"
-                        />
-                      )}
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-bold mb-2">Price</label>
+                      <input
+                        type="number"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Price"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-bold mb-2">Return Policy</label>
+                      <input
+                        type="text"
+                        value={returnPolicy}
+                        onChange={(e) => setReturnPolicy(e.target.value)}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Return Policy"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-bold mb-2">Directions for Use</label>
+                      <input
+                        type="text"
+                        value={directionsForUse}
+                        onChange={(e) => setDirectionsForUse(e.target.value)}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Directions for Use"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-bold mb-2">Description</label>
+                      <input
+                        type="text"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Description"
+                      />
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            {/* <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-              <button
-                type="button"
-                className="appearance-none border rounded-full w-full py-3 px-3 text-white bg-black "
-                onClick={() => handleDeleteProduct(productId)}
-              >
-                Delete
-              </button>
-            </div> */}
             <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               <button
                 type="button"
@@ -199,7 +225,6 @@ const ManageProductModal = ({ showModal, setShowModal, product }) => {
                 Update
               </button>
             </div>
-            
           </div>
         </div>
       </div>
