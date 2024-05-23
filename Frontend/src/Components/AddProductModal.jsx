@@ -1,69 +1,48 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 import axios from 'axios';
 
 const AddProductModal = ({ showModal, setShowModal }) => {
-  const [productname, setProductname] = useState("");
-  const [productDesc, setproductDesc] = useState("");
-  const [productcategory, setProductcategory] = useState("");
-  const [productPrice, setProductPrice] = useState("");
-  const [productqty, setProductqty] = useState("");
-  const [fileimage, setImagefile] = useState(null);
-  const [keylineImage, setKeylineimage] = useState(null);
-  const getDefaultDateISOString = () => new Date().toISOString();
-  const [validfrom, setValidFrom] = useState(getDefaultDateISOString);
-  const [validtill, setValidTill] = useState(getDefaultDateISOString);
-
-  const handleValidFromChange = (e) => {
-    const date = new Date(e.target.value);
-    setValidFrom(date.toISOString());
-  };
-
-  const handleValidTillChange = (e) => {
-    const date = new Date(e.target.value);
-    setValidTill(date.toISOString());
-  };
+  const [productId, setProductId] = useState("");
+  const [category, setCategory] = useState("");
+  const [subCategory, setSubCategory] = useState("");
+  const [name, setName] = useState("");
+  const [composition, setComposition] = useState("");
+  const [uses, setUses] = useState("");
+  const [sideEffects, setSideEffects] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+  const [manufacturer, setManufacturer] = useState("");
+  const [price, setPrice] = useState("");
+  const [returnPolicy, setReturnPolicy] = useState("");
+  const [directionsForUse, setDirectionsForUse] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleUpdateProduct = async () => {
     try {
-      const updatedProduct = {
-        cno: '',
-        sku: '',
-        dispseq: '',
-        name: productname,
-        description: productDesc,
-        currency: '',
-        price: parseFloat(productPrice), // Convert price to a number
-        salePrice: '',
-        prodtime: '',
-        rol: '',
-        category: productcategory,
-        qty: parseInt(productqty), // Convert qty to a number
-        unit: '',
-        cost_center: '',
-        modifier_group: '',
-        maxaddon: '',
-        finishing: '',
-        income_head: '',
-        tax_group: '',
-        online: '',
-        popular: '',
-        promotion: '',
-        active: '',
-        image: fileimage,
-        location: '',
-        tag_line: '',
-        valid_from: validfrom,
-        valid_till: validtill,
-        url: '',
-        keylineimage: keylineImage,
-      };
+      const formData = new FormData();
+      formData.append('product_id', productId);
+      formData.append('category', category);
+      formData.append('sub_category', subCategory);
+      formData.append('name', name);
+      formData.append('composition', composition);
+      formData.append('uses', uses);
+      formData.append('side_effects', sideEffects);
+      formData.append('image', imageFile);
+      formData.append('manufacturer', manufacturer);
+      formData.append('price', parseFloat(price));
+      formData.append('return_policy', returnPolicy);
+      formData.append('directions_for_use', directionsForUse);
+      formData.append('description', description);
 
       const nexibleUrl = import.meta.env.VITE_NEXIBLE_URL;
       const apiKey = import.meta.env.VITE_API_Key;
 
-      const response = await axios.post(`${nexibleUrl}/product`, updatedProduct);
+      const response = await axios.post(`${nexibleUrl}/product`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${apiKey}`,
+        },
+      });
 
       if (response.status === 200) {
         console.log('Product updated successfully');
@@ -96,112 +75,134 @@ const AddProductModal = ({ showModal, setShowModal }) => {
               </button>
               <div className="sm:flex sm:items-start">
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                  <h3 className="text-lg leading-6 font-medium text-gray-900">Add product</h3>
+                  <h3 className="text-lg leading-6 font-medium text-gray-900">Add Product</h3>
                   <div className="mt-2">
                     <div className="mb-4">
-                      <label className="block text-gray-700 font-bold mb-2">
-                        Name
-                      </label>
+                      <label className="block text-gray-700 font-bold mb-2">Product ID</label>
                       <input
                         type="text"
-                        value={productname}
-                        onChange={(e) => setProductname(e.target.value)}
+                        value={productId}
+                        onChange={(e) => setProductId(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Product Name"
+                        placeholder="Product ID"
                       />
                     </div>
                     <div className="mb-4">
-                      <label className="block text-gray-700 font-bold mb-2">
-                        Description
-                      </label>
+                      <label className="block text-gray-700 font-bold mb-2">Category</label>
                       <input
                         type="text"
-                        value={productDesc}
-                        onChange={(e) => setproductDesc(e.target.value)}
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Product Description"
+                        placeholder="Category"
                       />
                     </div>
                     <div className="mb-4">
-                      <label className="block text-gray-700 font-bold mb-2">
-                        Category
-                      </label>
+                      <label className="block text-gray-700 font-bold mb-2">Sub Category</label>
                       <input
                         type="text"
-                        value={productcategory}
-                        onChange={(e) => setProductcategory(e.target.value)}
+                        value={subCategory}
+                        onChange={(e) => setSubCategory(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Product category"
+                        placeholder="Sub Category"
                       />
                     </div>
                     <div className="mb-4">
-                      <label className="block text-gray-700 font-bold mb-2">
-                        Price
-                      </label>
+                      <label className="block text-gray-700 font-bold mb-2">Name</label>
                       <input
-                        type="number"
-                        value={productPrice}
-                        onChange={(e) => setProductPrice(e.target.value)}
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Product Price"
+                        placeholder="Name"
                       />
                     </div>
                     <div className="mb-4">
-                      <label className="block text-gray-700 font-bold mb-2">
-                        Quantity
-                      </label>
+                      <label className="block text-gray-700 font-bold mb-2">Composition</label>
                       <input
-                        type="number"
-                        value={productqty}
-                        onChange={(e) => setProductqty(e.target.value)}
+                        type="text"
+                        value={composition}
+                        onChange={(e) => setComposition(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Product Quantity"
+                        placeholder="Composition"
                       />
                     </div>
                     <div className="mb-4">
-                      <label className="block text-gray-700 font-bold mb-2">
-                        Valid From
-                      </label>
+                      <label className="block text-gray-700 font-bold mb-2">Uses</label>
                       <input
-                        type="datetime-local"
-                        value={validfrom ? validfrom.substring(0, 16) : ''}
-                        onChange={handleValidFromChange}
+                        type="text"
+                        value={uses}
+                        onChange={(e) => setUses(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Valid From"
+                        placeholder="Uses"
                       />
                     </div>
                     <div className="mb-4">
-                      <label className="block text-gray-700 font-bold mb-2">
-                        Valid Till
-                      </label>
+                      <label className="block text-gray-700 font-bold mb-2">Side Effects</label>
                       <input
-                        type="datetime-local"
-                        value={validtill ? validtill.substring(0, 16) : ''}
-                        onChange={handleValidTillChange}
+                        type="text"
+                        value={sideEffects}
+                        onChange={(e) => setSideEffects(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Valid Till"
+                        placeholder="Side Effects"
                       />
                     </div>
                     <div className="mb-4">
-                      <label className="block text-gray-700 font-bold mb-2">
-                        Product Image
-                      </label>
+                      <label className="block text-gray-700 font-bold mb-2">Image</label>
                       <input
                         type="file"
-                        id="productImage"
-                        onChange={(e) => setImagefile(e.target.files[0])}
+                        onChange={(e) => setImageFile(e.target.files[0])}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </div>
                     <div className="mb-4">
-                      <label className="block text-gray-700 font-bold mb-2">
-                        Keyline image
-                      </label>
+                      <label className="block text-gray-700 font-bold mb-2">Manufacturer</label>
                       <input
-                        type="file"
-                        id="productkeylineimage"
-                        onChange={(e) => setKeylineimage(e.target.files[0])}
+                        type="text"
+                        value={manufacturer}
+                        onChange={(e) => setManufacturer(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Manufacturer"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-bold mb-2">Price</label>
+                      <input
+                        type="number"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Price"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-bold mb-2">Return Policy</label>
+                      <input
+                        type="text"
+                        value={returnPolicy}
+                        onChange={(e) => setReturnPolicy(e.target.value)}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Return Policy"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-bold mb-2">Directions for Use</label>
+                      <input
+                        type="text"
+                        value={directionsForUse}
+                        onChange={(e) => setDirectionsForUse(e.target.value)}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Directions for Use"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-bold mb-2">Description</label>
+                      <input
+                        type="text"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Description"
                       />
                     </div>
                   </div>
