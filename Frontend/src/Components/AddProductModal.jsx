@@ -10,48 +10,48 @@ const AddProductModal = ({ showModal, setShowModal }) => {
   const [composition, setComposition] = useState("");
   const [uses, setUses] = useState("");
   const [sideEffects, setSideEffects] = useState("");
-  const [imageFile, setImageFile] = useState(null);
+  const [imageFile, setImageFile] = useState("");
   const [manufacturer, setManufacturer] = useState("");
   const [price, setPrice] = useState("");
   const [returnPolicy, setReturnPolicy] = useState("");
   const [directionsForUse, setDirectionsForUse] = useState("");
   const [description, setDescription] = useState("");
 
+  const APIURL = import.meta.env.VITE_MEDIMART_URL;
+
   const handleUpdateProduct = async () => {
     try {
-      const formData = new FormData();
-      formData.append('product_id', productId);
-      formData.append('category', category);
-      formData.append('sub_category', subCategory);
-      formData.append('name', name);
-      formData.append('composition', composition);
-      formData.append('uses', uses);
-      formData.append('side_effects', sideEffects);
-      formData.append('image', imageFile);
-      formData.append('manufacturer', manufacturer);
-      formData.append('price', parseFloat(price));
-      formData.append('return_policy', returnPolicy);
-      formData.append('directions_for_use', directionsForUse);
-      formData.append('description', description);
+      const updatedProduct = {
+        Product_id: productId,
+        Category: category,
+        Sub_Category: subCategory,
+        Name: name,
+        Composition: composition,
+        Uses: uses,
+        Side_effects: sideEffects,
+        Image_URL: imageFile, // Handle image file separately if needed
+        Manufacturer: manufacturer,
+        Price: parseFloat(price), // Convert price to a number
+        Return_Policy: returnPolicy,
+        Directions_for_Use: directionsForUse,
+        Description: description,
+      };
 
-      const nexibleUrl = import.meta.env.VITE_NEXIBLE_URL;
-      const apiKey = import.meta.env.VITE_API_Key;
-
-      const response = await axios.post(`${nexibleUrl}/product`, formData, {
+      const response = await axios.post(`${APIURL}/addproduct`, updatedProduct, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${apiKey}`,
         },
       });
 
-      if (response.status === 200) {
-        console.log('Product updated successfully');
+      if (response.status === 201) {
+        console.log('Product added successfully:', response.data);
         setShowModal(false);
       } else {
-        console.error('Failed to update product:', response.statusText);
+        console.error('Failed to add product:', response.statusText);
       }
     } catch (error) {
-      console.error('Error updating product:', error.message);
+      console.error('Error adding product:', error.message);
     }
   };
 
@@ -150,8 +150,8 @@ const AddProductModal = ({ showModal, setShowModal }) => {
                     <div className="mb-4">
                       <label className="block text-gray-700 font-bold mb-2">Image</label>
                       <input
-                        type="file"
-                        onChange={(e) => setImageFile(e.target.files[0])}
+                        type="text"
+                        onChange={(e) => setImageFile(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </div>

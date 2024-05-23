@@ -10,34 +10,33 @@ const ManageProductModal = ({ showModal, setShowModal, product }) => {
   const [composition, setComposition] = useState(product?.composition || "");
   const [uses, setUses] = useState(product?.uses || "");
   const [sideEffects, setSideEffects] = useState(product?.sideEffects || "");
-  const [imageFile, setImageFile] = useState(null);
+  const [imageFile, setImageFile] = useState("");
   const [manufacturer, setManufacturer] = useState(product?.manufacturer || "");
   const [price, setPrice] = useState(product?.price || "");
   const [returnPolicy, setReturnPolicy] = useState(product?.returnPolicy || "");
   const [directionsForUse, setDirectionsForUse] = useState(product?.directionsForUse || "");
   const [description, setDescription] = useState(product?.description || "");
+  const APIURL = import.meta.env.VITE_MEDIMART_URL;
 
   const handleUpdateProduct = async () => {
     try {
-      const formData = new FormData();
-      formData.append('product_id', productId);
-      formData.append('category', category);
-      formData.append('sub_category', subCategory);
-      formData.append('name', name);
-      formData.append('composition', composition);
-      formData.append('uses', uses);
-      formData.append('side_effects', sideEffects);
-      formData.append('image', imageFile);
-      formData.append('manufacturer', manufacturer);
-      formData.append('price', parseFloat(price));
-      formData.append('return_policy', returnPolicy);
-      formData.append('directions_for_use', directionsForUse);
-      formData.append('description', description);
+      const updatedProduct = {
+        product_id: productId,
+        category,
+        sub_category: subCategory,
+        name,
+        composition,
+        uses,
+        side_effects: sideEffects,
+        image: imageFile,
+        manufacturer,
+        price: parseFloat(price),
+        return_policy: returnPolicy,
+        directions_for_use: directionsForUse,
+        description,
+      };
 
-      const nexibleUrl = import.meta.env.VITE_NEXIBLE_URL;
-      const apiKey = import.meta.env.VITE_API_Key;
-
-      const response = await axios.patch(`${nexibleUrl}/product/${productId}`, formData, {
+      const response = await axios.put(`${APIURL}/updateproduct/${productId}`, updatedProduct, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${apiKey}`,
@@ -150,8 +149,8 @@ const ManageProductModal = ({ showModal, setShowModal, product }) => {
                     <div className="mb-4">
                       <label className="block text-gray-700 font-bold mb-2">Image</label>
                       <input
-                        type="file"
-                        onChange={(e) => setImageFile(e.target.files[0])}
+                        type="text"
+                        onChange={(e) => setImageFile(e.target.files)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
                       {product?.image && (

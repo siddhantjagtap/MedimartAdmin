@@ -46,15 +46,7 @@ function SideMenu() {
                     </div>
                 </div>
             </div>
-
-            {/* ----------------------------Mobile View----------------------------------- */}
-            <div>
-
-
-            </div>
-
         </>
     );
 }
-
 export default SideMenu;

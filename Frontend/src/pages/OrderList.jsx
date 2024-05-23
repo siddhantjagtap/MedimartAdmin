@@ -4,25 +4,27 @@ import { MdDelete} from 'react-icons/md';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import SideMenu from '../Components/SideMenu';
 import Navbar from '../Components/Navbar';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import Loading from "../Components/Loading";
 
-function OrderList({ totalOrders, setTotalOrders }) {
+function OrderList() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const apiUrl = 'https://medicine-website-two.vercel.app/api/orders';
   const [deleteOrderId, setDeleteOrderId] = useState(null);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const pagesToShow = 5;
 
+  const APIURL = import.meta.env.VITE_MEDIMART_URL;
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(apiUrl);
+        const response = await axios.get(`${APIURL}/orders`);
         if (response.data) {
           setOrders(response.data.orders);
           setFilteredOrders(response.data.orders);
@@ -38,17 +40,23 @@ function OrderList({ totalOrders, setTotalOrders }) {
     };
 
     fetchData();
-  }, [setTotalOrders]);
+  }, []);
 
   const handleSearch = () => {
     const filtered = orders.filter((order) => {
-      const orderDate = new Date(order.orderDate);
-      const startDateValid = !startDate || orderDate >= new Date(startDate);
-      const endDateValid = !endDate || orderDate <= new Date(endDate + "T23:59:59");
+      const orderDate = parseDate(order.orderDate); // Parse date using the parseDate function
+      const startDateValid = !startDate || orderDate >= parseDate(startDate);
+      const endDateValid = !endDate || orderDate <= parseDate(endDate);
       return startDateValid && endDateValid;
     });
     setFilteredOrders(filtered);
     setCurrentPage(1);
+  };
+  
+  // Function to parse date in DD/MM/YYYY format
+  const parseDate = (dateString) => {
+    const [day, month, year] = dateString.split('/');
+    return new Date(`${year}-${month}-${day}`);
   };
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -87,35 +95,27 @@ function OrderList({ totalOrders, setTotalOrders }) {
       <div className="flex-grow">
         <Navbar />
         <div className="bg-white p-4 rounded-lg">
-          <div className="relative w-[77.75rem] h-[3.5625rem] mt-[1.5rem]">
-            <div className="absolute w-[20rem] h-[3.5625rem] top-0 left-0">
-              <div className="w-[17rem] relative h-[3.5625rem] bg-white rounded-[2.8125rem] border border-solid border-[#a8a8a8]">
-                <div className="absolute w-[4.5625rem] top-[0.375rem] left-[1.375rem] font-medium text-black text-[0.875rem] tracking-[0] leading-[normal]">
-                  Start date
-                </div>
-                <input
-                  type="date"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  className="absolute w-[14.9375rem] top-[1.6875rem] left-[1.375rem] font-medium text-[#777777] text-1rem tracking-[0] leading-[normal]"
-                />
-              </div>
+        <div className="flex items-center mb-4">
+            <div className="flex items-center bg-white rounded-full border border-solid border-gray-400 p-2 mr-4">
+              <label className="mr-2 font-medium text-black">Start date</label>
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                className="w-full outline-none"
+                placeholderText="Select a start date"
+              />
             </div>
-
-            <div className="absolute w-[20rem] h-[3.5625rem] top-0 left-[18.2rem]">
-              <div className="w-[17rem] relative h-[3.5625rem] bg-white rounded-[2.8125rem] border border-solid border-[#a8a8a8]">
-                <div className="absolute w-[14.5625rem] top-[0.375rem] left-[1.3125rem] font-medium text-black text-[0.875rem] tracking-[0] leading-[normal]">
-                  End date
-                </div>
-                <input
-                  type="date"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                  className="absolute w-[14.9375rem] top-[1.6875rem] left-[1.375rem] font-medium text-[#777777] text-1rem tracking-[0] leading-[normal]" />
-              </div>
+            <div className="flex items-center bg-white rounded-full border border-solid border-gray-400 p-2 mr-4">
+              <label className="mr-2 font-medium text-black">End date</label>
+              <DatePicker
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+                className="w-full outline-none"
+                placeholderText="Select an end date"
+              />
             </div>
             <button
-              className="inline-flex items-center justify-center gap-[0.625rem] px-[8rem] py-[1rem] absolute top-0 left-[36.4375rem] w-[18rem] h-[3.5625rem] bg-black rounded-[2.8125rem] overflow-hidden border border-solid border-[#a8a8a8] relative w-fit mt-[-0.0625rem] font-medium text-[#ffffff] text-[1rem] tracking-[0] leading-[normal]"
+              className="inline-flex items-center justify-center gap-2 px-8 py-2 bg-black text-white rounded-full"
               onClick={handleSearch}
             >
               Search

@@ -11,9 +11,10 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  const APIURL = import.meta.env.VITE_MEDIMART_URL;
   const handleLogin = async () => {
     try {
-      const response = await axios.post('https://medicine-website-two.vercel.app/api/login', {
+      const response = await axios.post(`${APIURL}/login`, {
         email,
         password,
       });
