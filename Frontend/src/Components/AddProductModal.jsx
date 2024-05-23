@@ -19,9 +19,9 @@ const AddProductModal = ({ showModal, setShowModal }) => {
 
   const APIURL = import.meta.env.VITE_MEDIMART_URL;
 
-  const handleUpdateProduct = async () => {
+  const handleAddProduct = async () => {
     try {
-      const updatedProduct = {
+      const addProduct = {
         Product_id: productId,
         Category: category,
         Sub_Category: subCategory,
@@ -37,12 +37,7 @@ const AddProductModal = ({ showModal, setShowModal }) => {
         Description: description,
       };
 
-      const response = await axios.post(`${APIURL}/addproduct`, updatedProduct, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`,
-        },
-      });
+      const response = await axios.post(`${APIURL}/addproduct`, addProduct);
 
       if (response.status === 201) {
         console.log('Product added successfully:', response.data);
@@ -213,7 +208,7 @@ const AddProductModal = ({ showModal, setShowModal }) => {
               <button
                 type="button"
                 className="appearance-none border rounded-full w-full py-3 px-3 text-white bg-[#125872] mb-[1rem]"
-                onClick={handleUpdateProduct}
+                onClick={handleAddProduct}
               >
                 Add
               </button>

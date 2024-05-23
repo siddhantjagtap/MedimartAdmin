@@ -36,12 +36,7 @@ const ManageProductModal = ({ showModal, setShowModal, product }) => {
         description,
       };
 
-      const response = await axios.put(`${APIURL}/updateproduct/${productId}`, updatedProduct, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${apiKey}`,
-        },
-      });
+      const response = await axios.put(`${APIURL}/updateproduct/${productId}`, updatedProduct);
 
       if (response.status === 200) {
         console.log('Product updated successfully');

@@ -28,11 +28,7 @@ const ManageProducts = () => {
     debounce(async (searchTerm) => {
       setLoading(true);
       try {
-        const response = await axios.get(`${APIURL}/data`, {
-          headers: {
-            "API-Key": import.meta.env.VITE_API_Key,
-          },
-        });
+        const response = await axios.get(`${APIURL}/data`);
         const data = response.data;
         const filteredData = data.filter((product) =>
           product.Name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
