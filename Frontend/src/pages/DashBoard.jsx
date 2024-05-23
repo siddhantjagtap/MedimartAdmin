@@ -100,11 +100,11 @@ const DashBoard = () => {
                                     <p className="text-5xl pt-[5rem] font-bold">{orderData.totalOrders}</p>
                                 </div>
                                 <div className="bg-[#0D9276] text-white rounded-lg p-4">
-                                    <h2 className="text-2xl font-semibold">Total Orders Completed</h2>
+                                    <h2 className="text-2xl font-semibold">Payment Completed</h2>
                                     <p className="text-5xl pt-[5rem] font-bold">{orderData.completedOrders}</p>
                                 </div>
                                 <div className="bg-[#8ccf28] text-white rounded-lg p-4">
-                                    <h2 className="text-2xl font-semibold">Total Orders Pending</h2>
+                                    <h2 className="text-2xl font-semibold">Payment Pending</h2>
                                     <p className="text-5xl pt-[5rem] font-bold">{orderData.pendingOrders}</p>
                                 </div>
                             </div>

@@ -39,7 +39,6 @@ const ManageProducts = () => {
           product.Sub_Category?.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setProducts(data);
-        //setFilteredProducts(filteredData);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -92,7 +91,7 @@ const ManageProducts = () => {
 
   const confirmDeleteProduct = async () => {
     try {
-      await axios.delete(`https://medicine-website-two.vercel.app/api/deleteproduct/${deleteProductId}`, {
+      await axios.delete(`${APIURL}/deleteproduct/${deleteProductId}`, {
         headers: {
           "API-Key": import.meta.env.VITE_API_Key,
         },
@@ -157,72 +156,74 @@ const ManageProducts = () => {
             </div>
           </div>
           <div className="overflow-x-auto">
-  {loading ? (
-    <Loading />
-  ) : currentProducts.length > 0 ? (
-    <table className="w-full table-auto">
-      <thead>
-        <tr className="bg-gray-200">
-          <th className="px-2 py-3">Id</th>
-          <th className="px-2 py-3">Name</th>
-          <th className="px-2 py-3">Price</th>
-          <th className="px-2 py-3">Category</th>
-          <th className="px-2 py-3">Image</th>
-          <th className="px-2 py-3">Manufacturer</th>
-          <th className="px-2 py-3">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {currentProducts.map((product, index) => (
-          <tr
-            key={product._id}
-            className={`${
-              index % 2 === 0 ? "bg-gray-100" : "bg-white"
-            } border-b`}
-          >
-            <td className="px-2 py-3">{product.Product_id}</td>
-            <td className="px-2 py-3">{product.Name}</td>
-            <td className="px-2 py-3">{product.Price}</td>
-            <td className="px-2 py-3">{product.Sub_Category}</td>
-            <td className="px-2 py-3">
-              <img
-                src={product.Image_URL}
-                alt={product.Name}
-                className="w-28 h-20 object-cover"
-              />
-            </td>
-            <td className="px-2 py-3">{product.Manufacturer}</td>
-            <td className="px-2 py-3 text-xl mt-[1rem] flex gap-2">
-              <button
-                className=" text-green-500 hover:text-green-700 px-2 py-2 rounded-full"
-                onClick={() => handleManageProduct(product)}
-              >
-                <MdModeEditOutline />
+            {loading ? (
+              <Loading />
+            ) : currentProducts.length > 0 ? (
+              <table className="w-full table-auto">
+                <thead>
+                  <tr className="bg-gray-200">
+                    <th className="px-2 py-3">No</th>
+                    <th className="px-2 py-3">Id</th>
+                    <th className="px-2 py-3">Name</th>
+                    <th className="px-2 py-3">Price</th>
+                    <th className="px-2 py-3">Category</th>
+                    <th className="px-2 py-3">Image</th>
+                    <th className="px-2 py-3">Manufacturer</th>
+                    <th className="px-2 py-3">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentProducts.map((product, index) => (
+                    <tr
+                      key={product._id}
+                      className={`${
+                        index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                      } border-b`}
+                    >
+                      <td className="px-2 py-3">{indexOfFirstItem + index + 1}</td>
+                      <td className="px-2 py-3">{product.Product_id}</td>
+                      <td className="px-2 py-3">{product.Name}</td>
+                      <td className="px-2 py-3">₹{product.Price}</td>
+                      <td className="px-2 py-3">{product.Sub_Category}</td>
+                      <td className="px-2 py-3">
+                        <img
+                          src={product.Image_URL}
+                          alt={product.Name}
+                          className="w-[15rem] h-[10rem] object-cover"
+                        />
+                      </td>
+                      <td className="px-2 py-3">{product.Manufacturer}</td>
+                      <td className="px-2 py-3 text-xl mt-[1rem] flex gap-2">
+                        <button
+                          className=" text-green-500 hover:text-green-700 px-2 py-2 rounded-full"
+                          onClick={() => handleManageProduct(product)}
+                        >
+                          <MdModeEditOutline />
+                        </button>
+                        <button
+                          className=" text-red-500 hover:text-red-700 px-2 py-2 rounded-full"
+                          onClick={() => handleDeleteProduct(product.Product_id)}
+                        >
+                          <MdDelete />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <div className="text-center my-4">No products found.</div>
+            )}
+            <div className="flex justify-center mt-2">
+              <button onClick={prevPage} className="mx-1 px-3 py-2 cursor-pointer">
+                <IoIosArrowBack />
               </button>
-              <button
-                className=" text-red-500 hover:text-red-700 px-2 py-2 rounded-full"
-                onClick={() => handleDeleteProduct(product.Product_id)}
-              >
-                <MdDelete />
+              {renderPageNumbers()}
+              <button onClick={nextPage} className="mx-1 px-3 py-2 cursor-pointer">
+                <IoIosArrowForward />
               </button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  ) : (
-    <div className="text-center my-4">No products found.</div>
-  )}
-  <div className="flex justify-center mt-2">
-    <button onClick={prevPage} className="mx-1 px-3 py-2 cursor-pointer">
-      <IoIosArrowBack />
-    </button>
-    {renderPageNumbers()}
-    <button onClick={nextPage} className="mx-1 px-3 py-2 cursor-pointer">
-      <IoIosArrowForward />
-    </button>
-  </div>
-</div>
+            </div>
+          </div>
         </div>
         <AddProductModal showModal={showModal} setShowModal={setShowModal} newProduct={newProduct} />
         <ManageProductModal
