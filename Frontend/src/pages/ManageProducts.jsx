@@ -8,6 +8,8 @@ import axios from "axios";
 import Loading from "../Components/Loading";
 import { MdDelete, MdModeEditOutline } from "react-icons/md";
 import debounce from "lodash.debounce";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ManageProducts = () => {
   const [products, setProducts] = useState([]);
@@ -93,6 +95,7 @@ const ManageProducts = () => {
         },
       });
       setProducts(products.filter(product => product.Product_id !== deleteProductId));
+      toast.success("Product Deleted");
     } catch (error) {
       console.error("Error deleting product:", error);
     } finally {

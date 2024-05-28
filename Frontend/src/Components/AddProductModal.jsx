@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddProductModal = ({ showModal, setShowModal }) => {
   const [productId, setProductId] = useState("");
@@ -42,11 +44,14 @@ const AddProductModal = ({ showModal, setShowModal }) => {
       if (response.status === 201) {
         console.log('Product added successfully:', response.data);
         setShowModal(false);
+        toast.success('Product added successfully');
       } else {
         console.error('Failed to add product:', response.statusText);
+        toast.error('Failed to add product');
       }
     } catch (error) {
       console.error('Error adding product:', error.message);
+      toast.error('Failed to add product');
     }
   };
 
