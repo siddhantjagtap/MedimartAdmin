@@ -154,6 +154,7 @@ const ManageProducts = () => {
               </button>
             </div>
           </div>
+          <h2 className="text-xl font-bold mb-4">Manage Products</h2>
           <div className="overflow-x-auto">
             {loading ? (
               <Loading />

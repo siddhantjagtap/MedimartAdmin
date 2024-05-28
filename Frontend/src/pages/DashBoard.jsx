@@ -37,7 +37,7 @@ const DashBoard = () => {
         axios
             .get(`${APIURL}/orders`)
             .then((response) => {
-                console.log('API Response:', response.data); // Log API response for debugging
+                //console.log('API Response:', response.data); // Log API response for debugging
                 const orders = response.data.orders; // Assuming orders are under a key called 'orders'
                 const totalOrders = orders.length;
                 const completedOrders = orders.filter(
@@ -46,7 +46,7 @@ const DashBoard = () => {
                 const pendingOrders = orders.filter(
                     (order) => order.paymentStatus !== 'completed'
                 ).length;
-    
+
                 setOrderData({
                     totalOrders,
                     completedOrders,

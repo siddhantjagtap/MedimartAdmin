@@ -3,23 +3,28 @@ import axios from 'axios';
 import SideMenu from "../Components/SideMenu";
 import Navbar from "../Components/Navbar";
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import Loading from '../Components/Loading';
 
 function Users() {
+    const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 10; 
+    const itemsPerPage = 10;
     const pagesToShow = 5; // Same number of pages to show as in OrderList
 
     const APIURL = import.meta.env.VITE_MEDIMART_URL;
 
     useEffect(() => {
+        setLoading(true);
         const fetchUsers = async () => {
             try {
                 const response = await axios.get(`${APIURL}/users`);
                 setUsers(response.data);
             } catch (error) {
                 console.error('Error fetching users:', error);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -75,60 +80,101 @@ function Users() {
                             />
                         </div>
                     </div>
-                    <div className="overflow-x-auto">
-                        {currentUsers.length > 0 ? (
-                            <table className="w-full table-auto border-collapse">
-                                <thead>
-                                    <tr className="bg-gray-200 border-b border-gray-300">
-                                        <th className="px-2 py-3 text-left">No</th>
-                                        <th className="px-2 py-3 text-left">User ID</th>
-                                        <th className="px-2 py-3 text-left">Customer ID</th>
-                                        <th className="px-2 py-3 text-left">Username</th>
-                                        <th className="px-2 py-3 text-left">Email</th>
-                                        <th className="px-2 py-3 text-left">Password</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {currentUsers.map((user, index) => (
-                                        <tr
-                                            key={user._id}
-                                            className={`${
-                                                index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                                            } border-b border-gray-300`}
-                                        >
-                                            <td className="px-2 py-3">{indexOfFirstItem + index + 1}</td>
-                                            <td className="px-2 py-3">{user._id.slice(0, 9)}...</td>
-                                            <td className="px-2 py-3">{user.customerId.slice(0, 9)}...</td>
-                                            <b><td className="px-2 py-3">{user.username}</td></b>
-                                            <td className="px-2 py-3">{user.email}</td>
-                                            <td className="px-2 py-3">{user.password.slice(0, 14)}...</td>
+                    <h2 className="text-xl font-bold mb-4">Users List</h2>
+                    {loading && <Loading />} {/* Render loading indicator here */}
+                    {!loading && (
+                        <div className="overflow-x-auto">
+                            {currentUsers.length > 0 ? (
+                                <table className="w-full table-auto border-collapse">
+                                    <thead>
+                                        <tr className="bg-gray-200 border-b border-gray-300">
+                                            <th className="px-2 py-3 text-left">No</th>
+                                            <th className="px-2 py-3 text-left">User ID</th>
+                                            <th className="px-2 py-3 text-left">Username</th>
+                                            <th className="px-2 py-3 text-left">Email</th>
+                                            <th className="px-2 py-3 text-left">Password</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        ) : (
-                            <div className="text-center my-4">No users found.</div>
-                        )}
-                        <div className="flex justify-center mt-2">
-                            <button onClick={prevPage} className="mx-1 px-3 py-2  rounded-full" disabled={currentPage === 1}>
-                                <IoIosArrowBack />
-                            </button>
-                            {Array.from({ length: endPage - startPage + 1 }, (_, i) => (
-                                <button
-                                    key={i}
-                                    className={`mx-1 px-4 py-2 cursor-pointer ${
-                                        currentPage === startPage + i ? 'border border-black rounded-full' : ''
-                                    }`}
-                                    onClick={() => paginate(startPage + i)}
-                                >
-                                    {startPage + i}
+                                    </thead>
+                                    <tbody>
+                                        {currentUsers.map((user, index) => (
+                                            <tr
+                                                key={user._id}
+                                                className={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                                                    } border-b border-gray-300`}
+                                            >
+                                                <td className="px-2 py-3">{indexOfFirstItem + index + 1}</td>
+                                                <td className="px-2 py-3">
+                                                    <div className="relative group">
+                                                        {user._id.length > 12 ? (
+                                                            <span className="truncate max-w-xs inline-block">
+                                                                {user._id.slice(0, 12)}...
+                                                            </span>
+                                                        ) : (
+                                                            user._id
+                                                        )}
+                                                        <div className="absolute left-0 w-auto p-2 min-w-max bg-gray-700 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                                                            {user._id}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="px-2 py-3">
+                                                    <b>{user.username}</b>
+                                                </td>
+                                                <td className="px-2 py-3">
+                                                    <div className="relative group">
+                                                        {user.email.length > 15 ? (
+                                                            <span className="truncate max-w-xs inline-block">
+                                                                {user.email.slice(0, 15)}...
+                                                            </span>
+                                                        ) : (
+                                                            user.email
+                                                        )}
+                                                        <div className="absolute left-0 w-auto p-2 min-w-max bg-gray-700 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                                                            {user.email}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="px-2 py-3">
+                                                    <div className="relative group">
+                                                        {user.password.length > 12 ? (
+                                                            <span className="truncate max-w-xs inline-block">
+                                                                {user.password.slice(0, 12)}...
+                                                            </span>
+                                                        ) : (
+                                                            user.password
+                                                        )}
+                                                        <div className="absolute left-0 w-auto p-2 min-w-max bg-gray-700 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                                                            {user.password}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            ) : (
+                                <div className="text-center my-4">No users found.</div>
+                            )}
+                            <div className="flex justify-center mt-2">
+                                <button onClick={prevPage} className="mx-1 px-3 py-2 rounded-full" disabled={currentPage === 1}>
+                                    <IoIosArrowBack />
                                 </button>
-                            ))}
-                            <button onClick={nextPage} className="mx-1 px-3 py-2  rounded-full" disabled={currentPage === totalPages}>
-                                <IoIosArrowForward />
-                            </button>
+                                {Array.from({ length: endPage - startPage + 1 }, (_, i) => (
+                                    <button
+                                        key={i}
+                                        className={`mx-1 px-4 py-2 cursor-pointer ${currentPage === startPage + i ? 'border border-black rounded-full' : ''
+                                            }`}
+                                        onClick={() => paginate(startPage + i)}
+                                    >
+                                        {startPage + i}
+                                    </button>
+                                ))}
+                                <button onClick={nextPage} className="mx-1 px-3 py-2 rounded-full" disabled={currentPage === totalPages}>
+                                    <IoIosArrowForward />
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
         </div>
@@ -136,3 +182,4 @@ function Users() {
 }
 
 export default Users;
+
