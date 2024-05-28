@@ -20,8 +20,9 @@ function OrderList() {
   const pagesToShow = 5;
 
   const indexOfLastItem = currentPage * itemsPerPage;
-const indexOfFirstItem = indexOfLastItem - itemsPerPage; // Add this line
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const APIURL = import.meta.env.VITE_MEDIMART_URL;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -42,6 +43,31 @@ const indexOfFirstItem = indexOfLastItem - itemsPerPage; // Add this line
 
     fetchData();
   }, []);
+
+  const handleDeleteOrder = (orderId) => {
+    setDeleteOrderId(orderId);
+  };
+
+  const confirmDeleteOrder = async () => {
+    try {
+      await axios.delete(`${APIURL}/deleteorder/${deleteOrderId}`, {
+        headers: {
+          "API-Key": import.meta.env.VITE_API_Key,
+        },
+      });
+      const updatedOrders = orders.filter((order) => order._id !== deleteOrderId);
+      setOrders(updatedOrders);
+      setFilteredOrders(updatedOrders);
+    } catch (error) {
+      console.error("Error deleting order:", error);
+    } finally {
+      setDeleteOrderId(null);
+    }
+  };
+
+  const cancelDeleteOrder = () => {
+    setDeleteOrderId(null);
+  };
 
   const handleSearch = () => {
     const filtered = orders.filter((order) => {
@@ -108,6 +134,7 @@ const indexOfFirstItem = indexOfLastItem - itemsPerPage; // Add this line
     1
   );
   const endPage = Math.min(startPage + pagesToShow - 1, totalPages);
+ 
   return (
     <div className="flex">
       <SideMenu />
@@ -167,86 +194,86 @@ const indexOfFirstItem = indexOfLastItem - itemsPerPage; // Add this line
                   </tr>
                 </thead>
                 <tbody>
-                  {currentOrders.map((order, index) => (
-                    <tr key={order._id} className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
-                      <td className="px-4 py-3">{indexOfFirstItem + index + 1}</td>
-                      <td className="px-8 py-3">{orders._id}</td>
-                      <td className="px-4 pl-12 py-3">{orders.orderDate}</td>
-                      <td className="px-4 pl-12 py-3">{orders.fullName}</td>
-                      <td className="px-4 pl-12 py-3">{orders.address}</td>
-                      <td className="px-4 pl-12 py-3">{orders.city}</td>
-                      <td className="px-4 pl-12 py-3">{orders.state}</td>
-                      <td className="px-4 pl-12 py-3">{orders.pincode}</td>
-                      <td className="px-4 pl-12 py-3">{orders.email}</td>
-                      <td className="px-4 pl-12 py-3">{orders.contactNo}</td>
-                      <td className="px-4 pl-12 py-3">{orders.amount}</td>
-                      <td className="px-4 pl-12 py-3">{orders.paymentStatus}</td>
-                      {/* <td className="px-4 pl-12 py-3">
-                        {orders.cartItems.map((item) => (
-                          <div key={item._id}>
-                            <p>{item.Name}</p>
-                            <p>Quantity: {item.quantity}</p>
-                            <p>Price: {item.Price}</p>
-                          </div>
-                        ))}
-                      </td> */}
-                      <td className="px-4 pl-12 py-3">{orders.razorpay_order_id}</td>
-                      <td className="px-4 pl-12 py-3">{orders.razorpay_payment_id}</td>
-                      <td className="px-4 py-3 mt-[1.2rem] flex items-center justify-center gap-2">
-                        <button
-                          className="px-2 py-1 rounded-md"
-                          onClick={() => handleDeleteOrder(orders._id)}
-                        >
-                          <MdDelete className="text-red-500 hover:text-red-700   text-xl" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
-          </div>
-          <div className="flex justify-center mt-4">
-            <button onClick={prevPage} className="mx-1 px-3 py-2 cursor-pointer">
-              <IoIosArrowBack />
-            </button>
-            {Array.from({ length: endPage - startPage + 1 }, (_, i) => (
-              <button
-                key={i}
-                className={`mx-1 px-4 py-2 cursor-pointer ${
-                  currentPage === startPage + i ? 'border border-black rounded-full' : ''
-                }`}
-                onClick={() => paginate(startPage + i)}
-              >
-                {startPage + i}
-              </button>
-            ))}
-            <button onClick={nextPage} className="mx-1 px-3 py-2 cursor-pointer">
-              <IoIosArrowForward />
-            </button>
-          </div>
+                {currentOrders.map((order, index) => (
+  <tr key={order._id} className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
+    <td className="px-4 py-3">{indexOfFirstItem + index + 1}</td>
+    <td className="px-8 py-3">{order._id}</td>
+    <td className="px-4 pl-12 py-3">{order.orderDate}</td>
+    <td className="px-4 pl-12 py-3">{order.fullName}</td>
+    <td className="px-4 pl-12 py-3">{order.address}</td>
+    <td className="px-4 pl-12 py-3">{order.city}</td>
+    <td className="px-4 pl-12 py-3">{order.state}</td>
+    <td className="px-4 pl-12 py-3">{order.pincode}</td>
+    <td className="px-4 pl-12 py-3">{order.email}</td>
+    <td className="px-4 pl-12 py-3">{order.contactNo}</td>
+    <td className="px-4 pl-12 py-3">{order.amount}</td>
+    <td className="px-4 pl-12 py-3">{order.paymentStatus}</td>
+    {/* <td className="px-4 pl-12 py-3">
+      {order.cartItems.map((item) => (
+        <div key={item._id}>
+          <p>{item.Name}</p>
+          <p>Quantity: {item.quantity}</p>
+          <p>Price: {item.Price}</p>
         </div>
+      ))}
+    </td> */}
+    <td className="px-4 pl-12 py-3">{order.razorpay_order_id}</td>
+    <td className="px-4 pl-12 py-3">{order.razorpay_payment_id}</td>
+    <td className="px-4 py-3 mt-[1.2rem] flex items-center justify-center gap-2">
+      <button
+        className="px-2 py-1 rounded-md"
+        onClick={() => handleDeleteOrder(order._id)}
+      >
+        <MdDelete className="text-red-500 hover:text-red-700 text-xl" />
+      </button>
+    </td>
+  </tr>
+))}
+</tbody>
+</table>
+)}
+</div>
+<div className="flex justify-center mt-4">
+  <button onClick={prevPage} className="mx-1 px-3 py-2 cursor-pointer">
+    <IoIosArrowBack />
+  </button>
+  {Array.from({ length: endPage - startPage + 1 }, (_, i) => (
+    <button
+      key={i}
+      className={`mx-1 px-4 py-2 cursor-pointer ${
+        currentPage === startPage + i ? 'border border-black rounded-full' : ''
+      }`}
+      onClick={() => paginate(startPage + i)}
+    >
+      {startPage + i}
+    </button>
+  ))}
+  <button onClick={nextPage} className="mx-1 px-3 py-2 cursor-pointer">
+    <IoIosArrowForward />
+  </button>
+</div>
+</div>
+</div>
+{deleteOrderId && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="bg-white p-4 rounded shadow-md">
+      <p>Are you sure you want to delete this order?</p>
+      <div className="flex justify-end mt-4">
+        <button
+          className="px-4 py-2 bg-red-500 text-white rounded mr-2"
+          onClick={confirmDeleteOrder}
+        >
+          Delete
+        </button>
+        <button className="px-4 py-2 bg-gray-300 rounded" onClick={cancelDeleteOrder}>
+          Cancel
+        </button>
       </div>
-      {deleteOrderId && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-4 rounded shadow-md">
-            <p>Are you sure you want to delete this order?</p>
-            <div className="flex justify-end mt-4">
-              <button
-                className="px-4 py-2 bg-red-500 text-white rounded mr-2"
-                onClick={confirmDeleteOrder}
-              >
-                Delete
-              </button>
-              <button className="px-4 py-2 bg-gray-300 rounded" onClick={cancelDeleteOrder}>
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
-  );
+  </div>
+)}
+</div>
+);
 }
 
 export default OrderList;

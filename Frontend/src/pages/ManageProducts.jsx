@@ -176,11 +176,11 @@ const ManageProducts = () => {
                         index % 2 === 0 ? "bg-gray-100" : "bg-white"
                       } border-b`}
                     >
-                      <td className="px-2 py-3">{indexOfFirstItem + index + 1}</td>
+                      <td className="px-2 pl-[2rem] py-3">{indexOfFirstItem + index + 1}</td>
                       <td className="px-2 py-3">{product.Product_id}</td>
-                      <td className="px-2 py-3">{product.Name}</td>
-                      <td className="px-2 py-3">₹{product.Price}</td>
-                      <td className="px-2 py-3">{product.Sub_Category}</td>
+                      <td className=" py-3  pl-[8rem]">{product.Name}</td>
+                      <td className="px-8 py-3">₹{product.Price}</td>
+                      <td className="px-8 py-3">{product.Sub_Category}</td>
                       <td className="px-2 py-3">
                         <img
                           src={product.Image_URL}
@@ -188,7 +188,7 @@ const ManageProducts = () => {
                           className="w-[10rem] h-[6rem] object-cover"
                         />
                       </td>
-                      <td className="px-2 py-3">{product.Manufacturer}</td>
+                      <td className="px-2 py-3  pl-[4rem]">{product.Manufacturer}</td>
                       <td className="px-2 py-3 text-xl mt-[1rem] flex gap-2">
                         <button
                           className=" text-green-500 hover:text-green-700 px-2 py-2 rounded-full"
