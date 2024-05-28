@@ -134,7 +134,7 @@ const ManageProducts = () => {
       <div className="flex-grow">
         <Navbar />
         <div className="bg-white p-2 rounded-lg">
-          <div className="sticky top-0 bg-white p-2 rounded-lg z-10">
+          <div className="sticky top-0 bg-white p-2 rounded-lg ">
             <div className="flex justify-between items-center mb-4">
               <input
                 type="text"
