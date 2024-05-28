@@ -46,7 +46,7 @@ const indexOfFirstItem = indexOfLastItem - itemsPerPage; // Add this line
     const filtered = orders.filter((order) => {
       const orderDate = parseDate(order.orderDate);
       if (!orderDate) {
-        return false; // Exclude orders with invalid date strings
+        return false; 
       }
  
       const startDateValid = !startDate || orderDate >= startDate;

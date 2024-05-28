@@ -185,7 +185,7 @@ const ManageProducts = () => {
                         <img
                           src={product.Image_URL}
                           alt={product.Name}
-                          className="w-[15rem] h-[10rem] object-cover"
+                          className="w-[10rem] h-[6rem] object-cover"
                         />
                       </td>
                       <td className="px-2 py-3">{product.Manufacturer}</td>
