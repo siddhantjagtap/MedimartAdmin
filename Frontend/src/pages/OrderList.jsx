@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { MdDelete, MdModeEditOutline } from "react-icons/md";
 import SideMenu from '../Components/SideMenu';
 import Navbar from '../Components/Navbar';
 import DatePicker from 'react-datepicker';
@@ -142,7 +143,7 @@ function OrderList() {
                     {/* <th className="px-4 py-3">Cart Items</th> */}
                     <th className="px-4 py-3">Razorpay Order ID</th>
                     <th className="px-4 py-3">Razorpay Payment ID</th>
-                    {/* <th className="px-4 py-3">Actions</th> */}
+                    <th className="px-4 py-3">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -171,14 +172,14 @@ function OrderList() {
                       </td> */}
                       <td className="px-4 pl-12 py-3">{orders.razorpay_order_id}</td>
                       <td className="px-4 pl-12 py-3">{orders.razorpay_payment_id}</td>
-                      {/* <td className="px-4 py-3 mt-[1.2rem] flex items-center justify-center gap-2">
+                      <td className="px-4 py-3 mt-[1.2rem] flex items-center justify-center gap-2">
                         <button
                           className="px-2 py-1 rounded-md"
                           onClick={() => handleDeleteOrder(orders._id)}
                         >
                           <MdDelete className="text-red-500 hover:text-red-700   text-xl" />
                         </button>
-                      </td> */}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
