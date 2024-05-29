@@ -29,7 +29,6 @@ function Navbar() {
   }, []);
 
   const handleLogout = () => {
-    // Remove token from localStorage
     localStorage.removeItem("token");
     setIsLoggedIn(false);
     setDropdownOpen(false);
