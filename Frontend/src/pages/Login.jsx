@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import logo from "../assets/logo.jpg";
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -11,29 +10,18 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const APIURL = import.meta.env.VITE_MEDIMART_URL;
-  const handleLogin = async () => {
-    try {
-      const response = await axios.post(`${APIURL}/login`, {
-        email,
-        password,
-      });
-      const { message} = response.data;
-      if (message === "Login successful") {
-        console.log("Login Success");
-        const { token, data } = response.data;
-        localStorage.setItem('token', token);
-        navigate('/');
-        toast.success('Login Successful!');
-      } else {
-        setError('Login failed',error);
-        toast.error('Login failed: ');
-      }
-    } catch (error) {
-      console.error('Login Error:', error);
-      const errorMessage = error.response?.data?.message || 'Login failed';
-      setError(errorMessage);
-      toast.error('Login failed: ' + errorMessage);
+  const handleLogin = () => {
+    const adminEmail = import.meta.env.VITE_LOGIN_EMAIL;
+    const adminPassword = import.meta.env.VITE_LOGIN_PASSWORD;
+
+    if (email === adminEmail && password === adminPassword) {
+      console.log("Login Success");
+      localStorage.setItem('token', 'admin-token'); // You can set any token value as per your requirement
+      navigate('/');
+      toast.success('Login Successful!');
+    } else {
+      setError('Login failed: Invalid email or password');
+      toast.error('Login failed: Invalid email or password');
     }
   };
 

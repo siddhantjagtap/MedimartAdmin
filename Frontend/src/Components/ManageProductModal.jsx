@@ -1,51 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ManageProductModal = ({ showModal, setShowModal, product }) => {
-  const [productId, setProductId] = useState(product?.id || "");
-  const [category, setCategory] = useState(product?.category || "");
-  const [subCategory, setSubCategory] = useState(product?.subCategory || "");
-  const [name, setName] = useState(product?.name || "");
-  const [composition, setComposition] = useState(product?.composition || "");
-  const [uses, setUses] = useState(product?.uses || "");
-  const [sideEffects, setSideEffects] = useState(product?.sideEffects || "");
-  const [imageFile, setImageFile] = useState("");
-  const [manufacturer, setManufacturer] = useState(product?.manufacturer || "");
-  const [price, setPrice] = useState(product?.price || "");
-  const [returnPolicy, setReturnPolicy] = useState(product?.returnPolicy || "");
-  const [directionsForUse, setDirectionsForUse] = useState(product?.directionsForUse || "");
-  const [description, setDescription] = useState(product?.description || "");
-  const APIURL = import.meta.env.VITE_MEDIMART_URL;
+  const APIURL = `${import.meta.env.VITE_MEDIMART_URL}/updateproduct/${product?.Product_id}`;
+
+  const [productId, setProductId] = useState('');
+  const [category, setCategory] = useState('');
+  const [subCategory, setSubCategory] = useState('');
+  const [name, setName] = useState('');
+  const [composition, setComposition] = useState('');
+  const [uses, setUses] = useState('');
+  const [sideEffects, setSideEffects] = useState('');
+  const [imageFile, setImageFile] = useState('');
+  const [manufacturer, setManufacturer] = useState('');
+  const [price, setPrice] = useState('');
+  const [returnPolicy, setReturnPolicy] = useState('');
+  const [directionsForUse, setDirectionsForUse] = useState('');
+  const [description, setDescription] = useState('');
+
+  useEffect(() => {
+    if (product) {
+      setProductId(product.Product_id);
+      setCategory(product.Category);
+      setSubCategory(product.Sub_Category);
+      setName(product.Name);
+      setComposition(product.Composition);
+      setUses(product.Uses);
+      setSideEffects(product.Side_effects);
+      setManufacturer(product.Manufacturer);
+      setPrice(product.Price);
+      setReturnPolicy(product.Return_Policy);
+      setDirectionsForUse(product.Directions_for_Use);
+      setDescription(product.Description);
+    }
+  }, [product]);
 
   const handleUpdateProduct = async () => {
     try {
       const updatedProduct = {
-        product_id: productId,
-        category,
-        sub_category: subCategory,
-        name,
-        composition,
-        uses,
-        side_effects: sideEffects,
-        image: imageFile,
-        manufacturer,
-        price: parseFloat(price),
-        return_policy: returnPolicy,
-        directions_for_use: directionsForUse,
-        description,
+        Product_id: productId,
+        Category: category,
+        Sub_Category: subCategory,
+        Name: name,
+        Composition: composition,
+        Uses: uses,
+        Side_effects: sideEffects,
+        Manufacturer: manufacturer,
+        Price: price,
+        Return_Policy: returnPolicy,
+        Directions_for_Use: directionsForUse,
+        Description: description,
+        Image_URL: imageFile 
       };
 
-      const response = await axios.put(`${APIURL}/updateproduct/${productId}`, updatedProduct);
+      const response = await axios.put(APIURL, updatedProduct, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
 
       if (response.status === 200) {
-        console.log('Product updated successfully');
+        toast.success('Product updated successfully');
         setShowModal(false);
-      } else {
-        console.error('Failed to update product:', response.statusText);
       }
     } catch (error) {
-      console.error('Error updating product:', error.message);
+      console.error('Error updating product:', error);
+      toast.error('Failed to update product')
+     
     }
   };
 
@@ -79,6 +103,7 @@ const ManageProductModal = ({ showModal, setShowModal, product }) => {
                         onChange={(e) => setProductId(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="Product ID"
+                        readOnly
                       />
                     </div>
                     <div className="mb-4">
@@ -142,10 +167,10 @@ const ManageProductModal = ({ showModal, setShowModal, product }) => {
                       />
                     </div>
                     <div className="mb-4">
-                      <label className="block text-gray-700 font-bold mb-2">Image</label>
+                      <label className="block text-gray-700 font-bold mb-2">Image URL</label>
                       <input
                         type="text"
-                        onChange={(e) => setImageFile(e.target.files)}
+                        onChange={(e) => setImageFile(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
                       {product?.image && (
