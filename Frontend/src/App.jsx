@@ -2,11 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import DashBoard from './Pages/DashBoard.jsx';
-import OrderList from './Pages/OrderList';
-import Login from './Pages/Login.jsx';
-import ManageProducts from './Pages/ManageProducts.jsx';
-import Users from './Pages/Users.jsx';
+import DashBoard from './pages/DashBoard';
+import OrderList from './pages/OrderList';
+import Login from './pages/Login';
+import ManageProducts from './pages/ManageProducts';
+import Users from './pages/Users';
 import SideMenu from './Components/SideMenu'; // Make sure to import SideMenu if it's not already included in the other components
 
 function App() {
