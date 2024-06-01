@@ -22,7 +22,7 @@ function Navbar() {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
     setDropdownOpen(false);
-    //navigate('/login');
+    navigate('/');
   };
 
   const toggleDropdown = () => {
