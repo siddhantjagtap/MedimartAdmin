@@ -5,7 +5,8 @@ import { MdChecklist } from 'react-icons/md';
 import { AiOutlineUserSwitch } from 'react-icons/ai';
 import { TbMenu2 } from 'react-icons/tb';
 import { AiOutlineProduct } from 'react-icons/ai';
-import { MdOutlineSpaceDashboard } from 'react-icons/md';
+import { MdOutlineSpaceDashboard } from 'react-icons/md';import { MdOutlinePlaylistAdd } from "react-icons/md";
+
 import { toast } from 'react-toastify';
 
 function SideMenu() {
@@ -39,6 +40,7 @@ function SideMenu() {
         { title: 'Products', icon: <AiOutlineProduct size={24} />, path: '/manageproducts' },
         { title: 'Order List', icon: <MdChecklist size={24} />, path: '/orderlist' },
         { title: 'Users', icon: <AiOutlineUserSwitch size={24} />, path: '/users' },
+        { title: 'Order Master', icon: <MdOutlinePlaylistAdd size={24} />, path: '/ordermaster' },
     ];
 
     const isActive = (path) => location.pathname === path;

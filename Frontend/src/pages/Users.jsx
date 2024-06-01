@@ -11,7 +11,7 @@ function Users() {
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
-    const pagesToShow = 5; // Same number of pages to show as in OrderList
+    const pagesToShow = 5;
 
     const APIURL = import.meta.env.VITE_MEDIMART_URL;
 
@@ -81,7 +81,7 @@ function Users() {
                         </div>
                     </div>
                     <h2 className="text-xl font-bold mb-4">Users List</h2>
-                    {loading && <Loading />} {/* Render loading indicator here */}
+                    {loading && <Loading />}
                     {!loading && (
                         <div className="overflow-x-auto">
                             {currentUsers.length > 0 ? (
@@ -89,40 +89,30 @@ function Users() {
                                     <thead>
                                         <tr className="bg-gray-200 border-b border-gray-300">
                                             <th className="px-2 py-3 text-left">No</th>
-                                            <th className="px-2 py-3 text-left">User ID</th>
-                                            <th className="px-2 py-3 text-left">Username</th>
+                                            {/* <th className="px-2 py-3 text-left">Username</th> */}
+                                            <th className="px-2 py-3 text-left">Full Name</th>
                                             <th className="px-2 py-3 text-left">Email</th>
-                                            <th className="px-2 py-3 text-left">Password</th>
+                                            <th className="px-2 py-3 text-left">Mobile Number</th>
+                                            <th className="px-2 py-3 text-left">Delivery Address</th>
+                                            <th className="px-2 py-3 text-left">Date of Birth</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {currentUsers.map((user, index) => (
                                             <tr
                                                 key={user._id}
-                                                className={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                                                    } border-b border-gray-300`}
+                                                className={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"} border-b border-gray-300`}
                                             >
                                                 <td className="px-2 py-3">{indexOfFirstItem + index + 1}</td>
-                                                <td className="px-2 py-3">
-                                                    <div className="relative group">
-                                                        {user._id.length > 12 ? (
-                                                            <span className="truncate max-w-xs inline-block">
-                                                                {user._id.slice(0, 12)}...
-                                                            </span>
-                                                        ) : (
-                                                            user._id
-                                                        )}
-                                                        <div className="absolute left-0 w-auto p-2 min-w-max bg-gray-700 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                                                            {user._id}
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td className="px-2 py-3">
+                                                {/* <td className="px-2 py-3">
                                                     <b>{user.username}</b>
+                                                </td> */}
+                                                <td className="px-2 py-3">
+                                                    <b>{user.fullName}</b>
                                                 </td>
                                                 <td className="px-2 py-3">
                                                     <div className="relative group">
-                                                        {user.email.length > 15 ? (
+                                                        {user.email?.length > 15 ? (
                                                             <span className="truncate max-w-xs inline-block">
                                                                 {user.email.slice(0, 15)}...
                                                             </span>
@@ -136,17 +126,34 @@ function Users() {
                                                 </td>
                                                 <td className="px-2 py-3">
                                                     <div className="relative group">
-                                                        {user.password.length > 12 ? (
+                                                        {user.contactNumber?.length > 12 ? (
                                                             <span className="truncate max-w-xs inline-block">
-                                                                {user.password.slice(0, 12)}...
+                                                                {user.contactNumber.slice(0, 12)}...
                                                             </span>
                                                         ) : (
-                                                            user.password
+                                                            user.contactNumber
                                                         )}
                                                         <div className="absolute left-0 w-auto p-2 min-w-max bg-gray-700 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                                                            {user.password}
+                                                            {user.contactNumber}
                                                         </div>
                                                     </div>
+                                                </td>
+                                                <td className="px-2 py-3">
+                                                    <div className="relative group">
+                                                        {user.deliveryAddress?.length > 20 ? (
+                                                            <span className="truncate max-w-xs inline-block">
+                                                                {user.deliveryAddress.slice(0, 20)}...
+                                                            </span>
+                                                        ) : (
+                                                            user.deliveryAddress
+                                                        )}
+                                                        <div className="absolute left-0 w-auto p-2 min-w-max bg-gray-700 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                                                            {user.deliveryAddress}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="px-2 py-3">
+                                                    {user.dateOfBirth ? user.dateOfBirth.split('T')[0] : 'N/A'}
                                                 </td>
                                             </tr>
                                         ))}
@@ -162,8 +169,7 @@ function Users() {
                                 {Array.from({ length: endPage - startPage + 1 }, (_, i) => (
                                     <button
                                         key={i}
-                                        className={`mx-1 px-4 py-2 cursor-pointer ${currentPage === startPage + i ? 'border border-black rounded-full' : ''
-                                            }`}
+                                        className={`mx-1 px-4 py-2 cursor-pointer ${currentPage === startPage + i ? 'border border-black rounded-full' : ''}`}
                                         onClick={() => paginate(startPage + i)}
                                     >
                                         {startPage + i}
@@ -182,4 +188,3 @@ function Users() {
 }
 
 export default Users;
-

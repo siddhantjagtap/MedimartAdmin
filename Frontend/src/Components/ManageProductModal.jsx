@@ -20,6 +20,7 @@ const ManageProductModal = ({ showModal, setShowModal, product }) => {
   const [returnPolicy, setReturnPolicy] = useState('');
   const [directionsForUse, setDirectionsForUse] = useState('');
   const [description, setDescription] = useState('');
+  const [stock, setStock] = useState('');
 
   useEffect(() => {
     if (product) {
@@ -35,6 +36,7 @@ const ManageProductModal = ({ showModal, setShowModal, product }) => {
       setReturnPolicy(product.Return_Policy);
       setDirectionsForUse(product.Directions_for_Use);
       setDescription(product.Description);
+      setStock(product.Stock);
     }
   }, [product]);
 
@@ -53,7 +55,8 @@ const ManageProductModal = ({ showModal, setShowModal, product }) => {
         Return_Policy: returnPolicy,
         Directions_for_Use: directionsForUse,
         Description: description,
-        Image_URL: imageFile 
+        Stock: stock,
+        Image_URL: imageFile
       };
 
       const response = await axios.put(APIURL, updatedProduct, {
@@ -69,7 +72,7 @@ const ManageProductModal = ({ showModal, setShowModal, product }) => {
     } catch (error) {
       console.error('Error updating product:', error);
       toast.error('Failed to update product')
-     
+
     }
   };
 
@@ -190,6 +193,17 @@ const ManageProductModal = ({ showModal, setShowModal, product }) => {
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="Manufacturer"
                       />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-bold mb-2">Stock</label>
+                      <select
+                        value={stock}
+                        onChange={(e) => setStock(e.target.value)}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      >
+                        <option value="In Stock">In Stock</option>
+                        <option value="Out of Stock">Out of Stock</option>
+                      </select>
                     </div>
                     <div className="mb-4">
                       <label className="block text-gray-700 font-bold mb-2">Price</label>
