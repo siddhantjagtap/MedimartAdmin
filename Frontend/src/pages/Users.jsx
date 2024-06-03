@@ -27,7 +27,6 @@ function Users() {
                 setLoading(false);
             }
         };
-
         fetchUsers();
     }, []);
 
@@ -91,8 +90,12 @@ function Users() {
                                             <th className="px-2 py-3 text-left">No</th>
                                             <th className="px-2 py-3 text-left">User ID</th>
                                             <th className="px-2 py-3 text-left">Username</th>
+                                            <th className="px-2 py-3 text-left">Full Name</th>
                                             <th className="px-2 py-3 text-left">Email</th>
-                                            <th className="px-2 py-3 text-left">Password</th>
+                                            {/* <th className="px-2 py-3 text-left">Password</th> */}
+                                            <th className="px-2 py-3 text-left">Gender</th>
+                                            <th className="px-2 py-3 text-left">DOB</th>
+                                            <th className="px-2 py-3 text-left">Address</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -107,7 +110,7 @@ function Users() {
                                                     <div className="relative group">
                                                         {user._id.length > 12 ? (
                                                             <span className="truncate max-w-xs inline-block">
-                                                                {user._id.slice(0, 12)}...
+                                                                {user._id.slice(0, 6)}...
                                                             </span>
                                                         ) : (
                                                             user._id
@@ -134,7 +137,7 @@ function Users() {
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td className="px-2 py-3">
+                                                {/* <td className="px-2 py-3">
                                                     <div className="relative group">
                                                         {user.password.length > 12 ? (
                                                             <span className="truncate max-w-xs inline-block">
@@ -147,7 +150,7 @@ function Users() {
                                                             {user.password}
                                                         </div>
                                                     </div>
-                                                </td>
+                                                </td> */}
                                             </tr>
                                         ))}
                                     </tbody>
