@@ -169,6 +169,7 @@ const ManageProducts = () => {
                     <th className="px-2 py-3">Category</th>
                     <th className="px-2 py-3">Image</th>
                     <th className="px-2 py-3">Manufacturer</th>
+                    <th className="px-2 py-3">Stock</th> {/* New column */}
                     <th className="px-2 py-3">Actions</th>
                   </tr>
                 </thead>
@@ -193,6 +194,7 @@ const ManageProducts = () => {
                         />
                       </td>
                       <td className="px-2 py-3  pl-[4rem]">{product.Manufacturer}</td>
+                      <td className="px-2 py-3">{product.Stock}</td>
                       <td className="px-2 py-3 text-xl mt-[1rem] flex gap-2">
                         <button
                           className=" text-green-500 hover:text-green-700 px-2 py-2 rounded-full"

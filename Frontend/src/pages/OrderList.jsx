@@ -23,6 +23,7 @@ function OrderList() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const APIURL = import.meta.env.VITE_MEDIMART_URL;
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -240,8 +241,7 @@ function OrderList() {
             {Array.from({ length: endPage - startPage + 1 }, (_, i) => (
               <button
                 key={i}
-                className={`mx-1 px-4 py-2 cursor-pointer ${currentPage === startPage + i ? 'border border-black rounded-full' : ''
-                  }`}
+                className={`mx-1 px-4 py-2 cursor-pointer ${currentPage === startPage + i ? 'border border-black rounded-full' : ''}`}
                 onClick={() => paginate(startPage + i)}
               >
                 {startPage + i}
