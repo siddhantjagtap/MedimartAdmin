@@ -4,9 +4,11 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const ManageBannerModal = ({ showModal, setShowModal, banner, onUpdateBanner }) => {
+const ManageBannerModal = ({ showModal, setShowModal, banner }) => {
   const [title, setTitle] = useState("");
   const [imageFile, setImageFile] = useState("");
+  const APIURL = 'https://medicine-website-two.vercel.app/api/updatebanner'; // Updated API URL
+
   useEffect(() => {
     if (banner) {
       setTitle(banner.Title);
@@ -18,15 +20,14 @@ const ManageBannerModal = ({ showModal, setShowModal, banner, onUpdateBanner }) 
     try {
       const updatedBanner = {
         Title: title,
-        Image: imageFile,
+        Image: imageFile, // Handle image file upload separately if needed
       };
 
-      const response = await axios.put(`https://medicine-website-two.vercel.app/api/updatebanner/${banner._id}`, updatedBanner);
+      const response = await axios.put(`${APIURL}/${banner._id}`, updatedBanner); // Updated API request
 
       if (response.status === 200) {
         console.log('Banner updated successfully:', response.data);
         setShowModal(false);
-        onUpdateBanner(response.data);
         toast.success('Banner updated successfully');
       } else {
         console.error('Failed to update banner:', response.statusText);

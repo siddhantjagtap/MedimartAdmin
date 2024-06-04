@@ -57,6 +57,22 @@ function Banner() {
     }
   };
 
+  const handleUpdateBanner = async (updatedBanner) => {
+    try {
+      const response = await axios.put(`${APIURL}/banners/${updatedBanner._id}`, updatedBanner);
+      if (response.status === 200) {
+        setBanners(banners.map(banner => banner._id === updatedBanner._id ? updatedBanner : banner));
+        toast.success('Banner updated successfully');
+      } else {
+        console.error('Failed to update banner:', response.statusText);
+        toast.error('Failed to update banner');
+      }
+    } catch (error) {
+      console.error('Error updating banner:', error.message);
+      toast.error('Failed to update banner');
+    }
+  };
+
   return (
     <>
       <div className="flex">
@@ -108,7 +124,7 @@ function Banner() {
         </div>
       </div>
       <AddBannerModal showModal={showAddModal} setShowModal={setShowAddModal} onAddBanner={handleAddBanner} />
-      <ManageBannerModal showModal={showManageModal} setShowModal={setShowManageModal} banner={selectedBanner} />
+      <ManageBannerModal showModal={showManageModal} setShowModal={setShowManageModal} banner={selectedBanner} fetchBanners={fetchBanners} onUpdateBanner={handleUpdateBanner} />
     </>
   );
 }
