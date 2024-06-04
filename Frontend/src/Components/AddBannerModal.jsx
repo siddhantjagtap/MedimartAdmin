@@ -4,23 +4,23 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const AddBannerModal = ({ showModal, setShowModal }) => {
+const AddBannerModal = ({ showModal, setShowModal, onAddBanner }) => {
   const [title, setTitle] = useState("");
   const [imageFile, setImageFile] = useState("");
-  const APIURL = import.meta.env.VITE_MEDIMART_URL;
 
   const handleAddBanner = async () => {
     try {
       const newBanner = {
         Title: title,
-        Image: imageFile, // Handle image file upload separately if needed
+        Image: imageFile,
       };
 
-      const response = await axios.post(`${APIURL}/bannerPhotos`, newBanner);
+      const response = await axios.post('https://medicine-website-two.vercel.app/api/banners', newBanner);
 
       if (response.status === 201) {
         console.log('Banner added successfully:', response.data);
         setShowModal(false);
+        onAddBanner(response.data);
         toast.success('Banner added successfully');
       } else {
         console.error('Failed to add banner:', response.statusText);

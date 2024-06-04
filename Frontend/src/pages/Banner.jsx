@@ -6,6 +6,8 @@ import AddBannerModal from "../Components/AddBannerModal";
 import ManageBannerModal from "../Components/ManageBannerModal";
 import { MdDelete, MdModeEditOutline } from "react-icons/md";
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Banner() {
   const [loading, setLoading] = useState(true);
@@ -13,22 +15,26 @@ function Banner() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showManageModal, setShowManageModal] = useState(false);
   const [selectedBanner, setSelectedBanner] = useState(null);
-  const APIURL = import.meta.env.VITE_MEDIMART_URL;
+  const APIURL = 'https://medicine-website-two.vercel.app/api';
 
   useEffect(() => {
-    const fetchBanners = async () => {
-      try {
-        const response = await axios.get(`${APIURL}/bannerPhotos`);
-        setBanners(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching banner photos:', error);
-        setLoading(false);
-      }
-    };
-
     fetchBanners();
   }, []);
+
+  const fetchBanners = async () => {
+    try {
+      const response = await axios.get(`${APIURL}/banners`);
+      setBanners(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching banner photos:', error);
+      setLoading(false);
+    }
+  };
+
+  const handleAddBanner = (newBanner) => {
+    setBanners([...banners, newBanner]);
+  };
 
   const handleEditBanner = (banner) => {
     setSelectedBanner(banner);
@@ -37,7 +43,7 @@ function Banner() {
 
   const handleDeleteBanner = async (id) => {
     try {
-      const response = await axios.delete(`${APIURL}/bannerPhotos/${id}`);
+      const response = await axios.delete(`${APIURL}/banners/${id}`);
       if (response.status === 200) {
         setBanners(banners.filter(banner => banner._id !== id));
         toast.success('Banner deleted successfully');
@@ -101,7 +107,7 @@ function Banner() {
           </div>
         </div>
       </div>
-      <AddBannerModal showModal={showAddModal} setShowModal={setShowAddModal} />
+      <AddBannerModal showModal={showAddModal} setShowModal={setShowAddModal} onAddBanner={handleAddBanner} />
       <ManageBannerModal showModal={showManageModal} setShowModal={setShowManageModal} banner={selectedBanner} />
     </>
   );
