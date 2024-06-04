@@ -9,6 +9,7 @@ import ManageProducts from './pages/ManageProducts';
 import Users from './pages/Users';
 import SideMenu from './Components/SideMenu'; // Make sure to import SideMenu if it's not already included in the other components
 import OrderMaster from './pages/OrderMaster';
+import Banner from './pages/Banner';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/manageproducts" element={<ManageProducts />} />
             <Route path="/users" element={<Users />} />
             <Route path="/ordermaster" element={<OrderMaster />} />
+            <Route path="/banner" element={<Banner />} />
           </Routes>
         </div>
       </div>

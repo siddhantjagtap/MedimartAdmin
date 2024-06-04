@@ -41,6 +41,7 @@ function SideMenu() {
         { title: 'Order List', icon: <MdChecklist size={24} />, path: '/orderlist' },
         { title: 'Users', icon: <AiOutlineUserSwitch size={24} />, path: '/users' },
         { title: 'Order Master', icon: <MdOutlinePlaylistAdd size={24} />, path: '/ordermaster' },
+        { title: 'Banner', icon: <MdOutlinePlaylistAdd size={24} />, path: '/banner' },
     ];
 
     const isActive = (path) => location.pathname === path;
