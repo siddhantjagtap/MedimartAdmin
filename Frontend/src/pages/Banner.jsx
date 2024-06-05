@@ -15,7 +15,7 @@ function Banner() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showManageModal, setShowManageModal] = useState(false);
   const [selectedBanner, setSelectedBanner] = useState(null);
-  const APIURL = 'https://medicine-website-two.vercel.app/api';
+  const APIURL = import.meta.env.VITE_MEDIMART_URL;
 
   useEffect(() => {
     fetchBanners();
@@ -23,7 +23,7 @@ function Banner() {
 
   const fetchBanners = async () => {
     try {
-      const response = await axios.get(`${APIURL}/banners`);
+      const response = await axios.get(`${APIURL}/bannerPhotos`);
       setBanners(response.data);
       setLoading(false);
     } catch (error) {
@@ -43,7 +43,7 @@ function Banner() {
 
   const handleDeleteBanner = async (id) => {
     try {
-      const response = await axios.delete(`${APIURL}/banners/${id}`);
+      const response = await axios.delete(`${APIURL}/deletebanners/${id}`);
       if (response.status === 200) {
         setBanners(banners.filter(banner => banner._id !== id));
         toast.success('Banner deleted successfully');
@@ -57,22 +57,6 @@ function Banner() {
     }
   };
 
-  const handleUpdateBanner = async (updatedBanner) => {
-    try {
-      const response = await axios.put(`${APIURL}/banners/${updatedBanner._id}`, updatedBanner);
-      if (response.status === 200) {
-        setBanners(banners.map(banner => banner._id === updatedBanner._id ? updatedBanner : banner));
-        toast.success('Banner updated successfully');
-      } else {
-        console.error('Failed to update banner:', response.statusText);
-        toast.error('Failed to update banner');
-      }
-    } catch (error) {
-      console.error('Error updating banner:', error.message);
-      toast.error('Failed to update banner');
-    }
-  };
-
   return (
     <>
       <div className="flex">
@@ -80,7 +64,7 @@ function Banner() {
         <div className="flex-grow">
           <Navbar />
           <div className="flex justify-between items-center mt-8 mb-4">
-            <h2 className="text-xl font-bold">Banner Photos</h2>
+            <h2 className="text-xl ml-2 font-bold">Banner Photos</h2>
             <button
               className="bg-[#125872] text-white px-4 py-2 rounded-full"
               onClick={() => setShowAddModal(true)}
@@ -92,23 +76,23 @@ function Banner() {
             {loading ? (
               <Loading />
             ) : (
-              <table className="w-full table-auto">
+              <table className="w-full ml-2 table-auto">
                 <thead>
                   <tr className="bg-gray-200">
-                    <th className="px-4 py-3">No</th>
-                    <th className="px-4 py-3">Title</th>
-                    <th className="px-4 py-3">Image</th>
-                    <th className="px-2 py-3">Actions</th>
+                    <th className="px-1 py-3 text-left">No</th>
+                    <th className="px-1 py-3 text-left">Title</th>
+                    <th className="px-1 py-3 text-left">Image</th>
+                    <th className="px-1 py-3 text-left">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {banners.map((banner, index) => (
                     <tr key={banner._id} className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
-                      <td className="px-2 py-3">{index + 1}</td>
-                      <td className="px-2 pl-12 py-3">{banner.Title}</td>
-                      <td className="px-2 pl-12 py-3"><img src={banner.Image} alt={banner.Title} className="w-32 h-auto" /></td>
-                      <td className="px-2 py-3 flex items-center">
-                        <button onClick={() => handleEditBanner(banner)} className="text-blue-500 hover:text-blue-700 mr-4">
+                      <td className="px-1 py-3">{index + 1}</td>
+                      <td className="px-1 py-3">{banner.Title}</td>
+                      <td className="px-1 py-3"><img src={banner.Image} alt={banner.Title} className="w-32 h-auto" /></td>
+                      <td className="px-1 py-3 flex items-center mt-[1.75rem] space-x-2">
+                        <button onClick={() => handleEditBanner(banner)} className="text-blue-500 hover:text-blue-700">
                           <MdModeEditOutline size={20} />
                         </button>
                         <button onClick={() => handleDeleteBanner(banner._id)} className="text-red-500 hover:text-red-700">
@@ -124,7 +108,7 @@ function Banner() {
         </div>
       </div>
       <AddBannerModal showModal={showAddModal} setShowModal={setShowAddModal} onAddBanner={handleAddBanner} />
-      <ManageBannerModal showModal={showManageModal} setShowModal={setShowManageModal} banner={selectedBanner} fetchBanners={fetchBanners} onUpdateBanner={handleUpdateBanner} />
+      <ManageBannerModal showModal={showManageModal} setShowModal={setShowManageModal} banner={selectedBanner} onUpdateBanner={fetchBanners} />
     </>
   );
 }

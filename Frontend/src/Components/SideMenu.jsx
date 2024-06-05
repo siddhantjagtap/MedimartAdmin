@@ -6,7 +6,7 @@ import { AiOutlineUserSwitch } from 'react-icons/ai';
 import { TbMenu2 } from 'react-icons/tb';
 import { AiOutlineProduct } from 'react-icons/ai';
 import { MdOutlineSpaceDashboard } from 'react-icons/md';import { MdOutlinePlaylistAdd } from "react-icons/md";
-
+import { GiVerticalBanner } from "react-icons/gi";
 import { toast } from 'react-toastify';
 
 function SideMenu() {
@@ -16,7 +16,7 @@ function SideMenu() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('admin-token');
         if (token === 'admin-token') {
             setIsLoggedIn(true);
         } else {
@@ -41,13 +41,13 @@ function SideMenu() {
         { title: 'Order List', icon: <MdChecklist size={24} />, path: '/orderlist' },
         { title: 'Users', icon: <AiOutlineUserSwitch size={24} />, path: '/users' },
         { title: 'Order Master', icon: <MdOutlinePlaylistAdd size={24} />, path: '/ordermaster' },
-        { title: 'Banner', icon: <MdOutlinePlaylistAdd size={24} />, path: '/banner' },
+        { title: 'Banner', icon:<GiVerticalBanner size={24} />, path: '/banner' },
     ];
 
     const isActive = (path) => location.pathname === path;
 
     return (
-        <div className={`flex sticky top-0 h-screen ${open ? 'w-[12.5rem]' : 'w-[4.5rem]'} duration-100 bg-[#125872] text-white`}>
+        <div className={`flex sticky top-0 h-screen ${open ? 'w-[13.5rem]' : 'w-[4.5rem]'} duration-100 bg-[#125872] text-white`}>
             <div className="p-3">
                 {open ? (
                     <RxCross2 onClick={() => setOpen(!open)} className="size-9 cursor-pointer" />

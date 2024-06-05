@@ -16,7 +16,7 @@ const Login = () => {
 
     if (email === adminEmail && password === adminPassword) {
       console.log("Login Success");
-      localStorage.setItem('token', 'admin-token'); // You can set any token value as per your requirement
+      localStorage.setItem('admin-token', 'admin-token'); // You can set any token value as per your requirement
       navigate('/');
       toast.success('Login Successful!');
     } else {

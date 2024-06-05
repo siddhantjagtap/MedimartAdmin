@@ -5,8 +5,8 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ManageProductModal = ({ showModal, setShowModal, product }) => {
-  const APIURL = `${import.meta.env.VITE_MEDIMART_URL}/updateproduct/${product?.Product_id}`;
-
+  // const APIURL = `${import.meta.env.VITE_MEDIMART_URL}/updateproduct/${product?.Product_id}`;
+  const APIURL = import.meta.env.VITE_MEDIMART_URL;
   const [productId, setProductId] = useState('');
   const [category, setCategory] = useState('');
   const [subCategory, setSubCategory] = useState('');
@@ -59,7 +59,7 @@ const ManageProductModal = ({ showModal, setShowModal, product }) => {
         Image_URL: imageFile
       };
 
-      const response = await axios.put(APIURL, updatedProduct, {
+      const response = await axios.put(`${APIURL}/updateproduct/${product?.Product_id}`, updatedProduct, {
         headers: {
           'Content-Type': 'application/json'
         }

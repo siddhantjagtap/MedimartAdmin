@@ -31,9 +31,9 @@ const AddProductModal = ({ showModal, setShowModal }) => {
         Composition: composition,
         Uses: uses,
         Side_effects: sideEffects,
-        Image_URL: imageFile, // Handle image file separately if needed
+        Image_URL: imageFile, 
         Manufacturer: manufacturer,
-        Price: parseFloat(price), // Convert price to a number
+        Price: parseFloat(price), 
         Return_Policy: returnPolicy,
         Directions_for_Use: directionsForUse,
         Description: description,
