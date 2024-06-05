@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import { MdDelete, MdModeEditOutline } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 import SideMenu from '../Components/SideMenu';
 import Navbar from '../Components/Navbar';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Loading from "../Components/Loading";
+import { FaFileInvoice } from "react-icons/fa";
+import InvoiceModal from '../Components/InvoiceModal';
 
 function OrderList() {
   const [orders, setOrders] = useState([]);
@@ -16,13 +18,14 @@ function OrderList() {
   const [endDate, setEndDate] = useState(null);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
+  const [invoiceData, setInvoiceData] = useState(null);
   const itemsPerPage = 10;
   const pagesToShow = 5;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const APIURL = import.meta.env.VITE_MEDIMART_URL;
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,8 +35,6 @@ function OrderList() {
         if (response.data) {
           setOrders(response.data.orders);
           setFilteredOrders(response.data.orders);
-        } else {
-          console.error('Error fetching data');
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -104,7 +105,7 @@ function OrderList() {
   const currentOrders = filteredOrders.filter((order) => {
     const orderDate = parseDate(order.orderDate);
     if (!orderDate) {
-      return false; // Exclude orders with invalid date strings
+      return false;
     }
 
     const startDateValid = !startDate || orderDate >= startDate;
@@ -135,6 +136,16 @@ function OrderList() {
     1
   );
   const endPage = Math.min(startPage + pagesToShow - 1, totalPages);
+
+  const handleInvoiceClick = (order) => {
+    setInvoiceData(order);
+    setIsInvoiceModalOpen(true);
+  };
+
+  const closeInvoiceModal = () => {
+    setIsInvoiceModalOpen(false);
+    setInvoiceData(null);
+  };
 
   return (
     <div className="flex">
@@ -209,15 +220,6 @@ function OrderList() {
                       <td className="px-4 pl-12 py-3">{order.contactNo}</td>
                       <td className="px-4 pl-12 py-3">{order.amount}</td>
                       <td className="px-4 pl-12 py-3">{order.paymentStatus}</td>
-                      {/* <td className="px-4 pl-12 py-3">
-      {order.cartItems.map((item) => (
-        <div key={item._id}>
-          <p>{item.Name}</p>
-          <p>Quantity: {item.quantity}</p>
-          <p>Price: {item.Price}</p>
-        </div>
-      ))}
-    </td> */}
                       <td className="px-4 pl-12 py-3">{order.razorpay_order_id}</td>
                       <td className="px-4 pl-12 py-3">{order.razorpay_payment_id}</td>
                       <td className="px-4 py-3 mt-[1.2rem] flex items-center justify-center gap-2">
@@ -226,6 +228,12 @@ function OrderList() {
                           onClick={() => handleDeleteOrder(order._id)}
                         >
                           <MdDelete className="text-red-500 hover:text-red-700 text-xl" />
+                        </button>
+                        <button
+                          className="px-2 py-1 rounded-md"
+                          onClick={() => handleInvoiceClick(order)}
+                        >
+                          <FaFileInvoice className="text-red-500 hover:text-red-700 text-xl" />
                         </button>
                       </td>
                     </tr>
@@ -270,6 +278,13 @@ function OrderList() {
             </div>
           </div>
         </div>
+      )}
+      {isInvoiceModalOpen && (
+        <InvoiceModal
+          isOpen={isInvoiceModalOpen}
+          onClose={closeInvoiceModal}
+          invoiceData={invoiceData}
+        />
       )}
     </div>
   );

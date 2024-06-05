@@ -1,10 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
-import invoiceData from './invoiceData.json';
+import invoiceData from '../pages/invoiceData.json';
 
-function Invoice() {
+function InvoiceModal({ isOpen, onClose }) {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -32,10 +32,13 @@ function Invoice() {
     termsAndConditions,
   } = invoiceData;
 
+  if (!isOpen) return null; // Don't render the modal if isOpen is false
 
   return (
-    <div className=" font-sans m-5 p-5 border border-black w-min h-full">
-      <div ref={componentRef} id="invoiceContent">
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="fixed inset-0 bg-black bg-opacity-50" onClick={onClose}></div>
+      <div className=" font-sans m-5 p-5 z-50 border border-black w-min h-full bg-white">
+        <div ref={componentRef} id="invoiceContent">
         <header className="text-center">
           <h1 className="w-[60rem] m-[1rem] text-4xl mb-[1rem] font-bold text-indigo-900 text-left">
             {company.name}
@@ -223,7 +226,7 @@ function Invoice() {
           </div>
         </section>
 
-        <section className="w-[60rem] h-[20rem] m-[1rem] border-t border-black pt-2 mt-2">
+        <section className="w-[60rem] h-full m-[1rem] border-t border-black pt-2 mt-2">
           <p>
             <strong>Terms and Conditions:</strong>
           </p>
@@ -236,11 +239,9 @@ function Invoice() {
         </div>
         <button onClick={handlePrint} className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Print Invoice</button>
         <button onClick={downloadPDF} className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Download Invoice</button>
-     </div>
-);
+      </div>
+    </div>
+  );
 }
 
-export default Invoice;
-
-
-
+export default InvoiceModal;

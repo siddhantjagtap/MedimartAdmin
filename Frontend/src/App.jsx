@@ -7,10 +7,9 @@ import OrderList from './pages/OrderList';
 import Login from './pages/Login';
 import ManageProducts from './pages/ManageProducts';
 import Users from './pages/Users';
-import SideMenu from './Components/SideMenu'; // Make sure to import SideMenu if it's not already included in the other components
 import OrderMaster from './pages/OrderMaster';
 import Banner from './pages/Banner';
-import Invoice from './pages/Invoice.jsx';
+
 
 function App() {
   return (
@@ -27,7 +26,7 @@ function App() {
             <Route path="/users" element={<Users />} />
             <Route path="/ordermaster" element={<OrderMaster />} />
             <Route path="/banner" element={<Banner />} />
-            <Route path="/invoice" element={ <Invoice />} />
+
           </Routes>
         </div>
       </div>
