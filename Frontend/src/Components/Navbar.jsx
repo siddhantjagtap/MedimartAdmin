@@ -11,7 +11,7 @@ function Navbar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("admin-token");
     if (token === 'admin-token') { // Check for hardcoded token
       setIsLoggedIn(true);
       setUsername("Admin");

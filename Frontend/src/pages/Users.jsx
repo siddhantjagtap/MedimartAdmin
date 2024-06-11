@@ -92,7 +92,7 @@ function Users() {
                                             <th className="px-2 py-3 text-left">Full Name</th>
                                             <th className="px-2 py-3 text-left">Email</th>
                                             <th className="px-2 py-3 text-left">Mobile Number</th>
-                                            <th className="px-2 py-3 text-left">Delivery Address</th>
+                                            {/* <th className="px-2 py-3 text-left">Delivery Address</th> */}
                                             <th className="px-2 py-3 text-left">Date of Birth</th>
                                         </tr>
                                     </thead>
@@ -137,7 +137,7 @@ function Users() {
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td className="px-2 py-3">
+                                                {/* <td className="px-2 py-3">
                                                     <div className="relative group">
                                                         {user.deliveryAddress?.length > 20 ? (
                                                             <span className="truncate max-w-xs inline-block">
@@ -150,7 +150,7 @@ function Users() {
                                                             {user.deliveryAddress}
                                                         </div>
                                                     </div>
-                                                </td>
+                                                </td> */}
                                                 <td className="px-2 py-3">
                                                     {user.dateOfBirth ? user.dateOfBirth.split('T')[0] : 'N/A'}
                                                 </td>

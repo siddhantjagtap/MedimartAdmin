@@ -8,7 +8,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Loading from "../Components/Loading";
 import { FaFileInvoice } from "react-icons/fa";
-import InvoiceModal from '../Components/InvoiceModal';
+// import InvoiceModal from '../Components/InvoiceModal';
 
 function OrderList() {
   const [orders, setOrders] = useState([]);
