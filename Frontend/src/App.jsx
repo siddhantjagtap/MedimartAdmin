@@ -10,14 +10,13 @@ import Users from './pages/Users';
 import SideMenu from './Components/SideMenu'; // Make sure to import SideMenu if it's not already included in the other components
 import OrderMaster from './pages/OrderMaster';
 import Banner from './pages/Banner';
-import Invoice from './pages/Invoice.jsx';
+// import Invoice from './pages/Invoice.jsx';
 
 function App() {
   return (
     <Router>
       <ToastContainer />
       <div className="flex">
-        {/* <SideMenu /> */}
         <div className="flex-grow">
           <Routes>
             <Route path="/login" element={<Login />} />
@@ -27,7 +26,6 @@ function App() {
             <Route path="/users" element={<Users />} />
             <Route path="/ordermaster" element={<OrderMaster />} />
             <Route path="/banner" element={<Banner />} />
-            <Route path="/invoice" element={ <Invoice />} />
           </Routes>
         </div>
       </div>
