@@ -15,7 +15,7 @@ const ManageBannerModal = ({ showModal, setShowModal, banner, onUpdateBanner }) 
     if (banner) {
       setTitle(banner.Title);
       setImageFile(banner.Image);
-      setLink(banner.link)
+      setLink(banner.Link)
     }
   }, [banner]);
 
@@ -32,7 +32,7 @@ const ManageBannerModal = ({ showModal, setShowModal, banner, onUpdateBanner }) 
         console.log('Banner updated successfully:', response.data);
         setShowModal(false);
         toast.success('Banner updated successfully');
-        onUpdateBanner();  // Call the update callback
+        onUpdateBanner(); 
       } else {
         console.error('Failed to update banner:', response.statusText);
         toast.error('Failed to update banner');
