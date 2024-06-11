@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
@@ -35,10 +35,9 @@ function InvoiceModal({ isOpen, onClose }) {
   if (!isOpen) return null; // Don't render the modal if isOpen is false
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="fixed inset-0 bg-black bg-opacity-50" onClick={onClose}></div>
-      <div className=" font-sans m-5 p-5 z-50 border border-black w-min h-full bg-white">
-        <div ref={componentRef} id="invoiceContent">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" onClick={onClose}>
+      <div className="m-5 p-5 border border-black bg-white shadow-lg rounded-lg"  >
+        <div ref={componentRef} id="invoiceContent" className="max-h-[90vh] overflow-auto" >
         <header className="text-center">
           <h1 className="w-[60rem] m-[1rem] text-4xl mb-[1rem] font-bold text-indigo-900 text-left">
             {company.name}
