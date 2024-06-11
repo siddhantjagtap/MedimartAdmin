@@ -41,10 +41,10 @@ const DashBoard = () => {
                 const orders = response.data.orders; // Assuming orders are under a key called 'orders'
                 const totalOrders = orders.length;
                 const completedOrders = orders.filter(
-                    (order) => order.paymentStatus === 'completed'
+                    (order) => order.paymentStatus === 'Completed'
                 ).length;
                 const pendingOrders = orders.filter(
-                    (order) => order.paymentStatus !== 'completed'
+                    (order) => order.paymentStatus !== 'Completed'
                 ).length;
 
                 setOrderData({

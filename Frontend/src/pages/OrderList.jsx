@@ -8,7 +8,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Loading from "../Components/Loading";
 import { FaFileInvoice } from "react-icons/fa";
-import InvoiceModal from '../Components/InvoiceModal';
+import GenerateInvoice from '../Components/GenerateInvoice';
 
 function OrderList() {
   const [orders, setOrders] = useState([]);
@@ -18,8 +18,7 @@ function OrderList() {
   const [endDate, setEndDate] = useState(null);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
-  const [invoiceData, setInvoiceData] = useState(null);
+  const [orderToInvoice, setOrderToInvoice] = useState(null);
   const itemsPerPage = 10;
   const pagesToShow = 5;
 
@@ -138,13 +137,7 @@ function OrderList() {
   const endPage = Math.min(startPage + pagesToShow - 1, totalPages);
 
   const handleInvoiceClick = (order) => {
-    setInvoiceData(order);
-    setIsInvoiceModalOpen(true);
-  };
-
-  const closeInvoiceModal = () => {
-    setIsInvoiceModalOpen(false);
-    setInvoiceData(null);
+    setOrderToInvoice(order);
   };
 
   return (
@@ -279,13 +272,7 @@ function OrderList() {
           </div>
         </div>
       )}
-      {isInvoiceModalOpen && (
-        <InvoiceModal
-          isOpen={isInvoiceModalOpen}
-          onClose={closeInvoiceModal}
-          invoiceData={invoiceData}
-        />
-      )}
+      {orderToInvoice && <GenerateInvoice order={orderToInvoice} />}
     </div>
   );
 }

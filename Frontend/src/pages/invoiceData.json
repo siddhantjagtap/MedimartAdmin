@@ -1,12 +1,12 @@
 {
     "company": {
-      "name": "MEDIMART",
-      "description": " we believe that healthcare should be accessible, convenient, and personalized. Our mission is to revolutionize the way you manage your health by bringing exceptional products and services right to your fingertips.",
-      "address": "64, Akshay Industrial Estate, Near New Cloth Market, Ahmedabad - 38562",
+      "name": "Medimart",
+      "description": "Online Pharmacy Website",
+      "address": ": 64, Akshay Industrial Estate, Near New Cloth Market, Mumbai - 400031",
       "contact": {
-        "tel": "079-25820309",
-        "web": "www.gftools.com",
-        "email": "info@gftools.com"
+        "tel": "(+91) 8652146200",
+        "web": "https://medimartt.netlify.app/",
+        "email": "teammedimart@gmail.com"
       },
       "GSTIN": "24HDE7487RE5RT4"
     },
@@ -22,42 +22,6 @@
       "reverseCharge": "No",
       "dueDate": "19-Mar-2020"
     },
-    "customer": {
-      "name": "Kevin Motors",
-      "address": "Chandani Chok, New Delhi, Opposite Statue, New Delhi, Delhi - 110014",
-      "phone": "9372346666",
-      "GSTIN": "07A0LCC1206D1ZG",
-      "placeOfSupply": "Delhi (07)"
-    },
-    "products": [
-      {
-        "srNo": 1,
-        "name": "Automatic Saw",
-        "HSN": "8202",
-        "qty": "1.00 PCS",
-        "rate": "586.00",
-        "taxableValue": "586.00",
-        "IGSTPercentage": "9.00",
-        "IGSTAmount": "52.74",
-        "total": "638.74"
-      },
-      {
-        "srNo": 2,
-        "name": "Stanley Hammer",
-        "HSN": "8205",
-        "qty": "1.00 PCS",
-        "rate": "568.00",
-        "taxableValue": "568.00",
-        "IGSTPercentage": "9.00",
-        "IGSTAmount": "51.12",
-        "total": "619.12"
-      }
-    ],
-    "totalAmount": {
-      "taxableAmount": "1,154.00",
-      "IGST": "103.86",
-      "totalAmountAfterTax": "1,258.00"
-    },
     "bankDetails": {
       "bankName": "State Bank of India",
       "branchName": "RAF CAMP",
@@ -71,4 +35,3 @@
       "Delivery ex-premises."
     ]
   }
-  
