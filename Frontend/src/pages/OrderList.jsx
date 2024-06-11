@@ -79,7 +79,7 @@ function OrderList() {
       }
 
       const startDateValid = !startDate || orderDate >= startDate;
-      const endDateValid = !endDate || orderDate <= endDate;
+      const endDateValid = !endDate || orderDate <= new Date(new Date(endDate).setHours(23, 59, 59, 999));
       return startDateValid && endDateValid;
     });
     setFilteredOrders(filtered);
@@ -91,8 +91,10 @@ function OrderList() {
       return null;
     }
 
-    const [day, month, year] = dateString.split('/');
-    const parsedDate = new Date(`${year}-${month}-${day}`);
+    const [datePart, timePart] = dateString.split(', ');
+    const [day, month, year] = datePart.split('/');
+    const [hours, minutes, seconds] = timePart.split(':');
+    const parsedDate = new Date(`${year}-${month}-${day}T${hours}:${minutes}:${seconds}`);
 
     if (isNaN(parsedDate.getTime())) {
       console.error('Invalid date string:', dateString);
@@ -101,17 +103,6 @@ function OrderList() {
 
     return parsedDate;
   };
-
-  const currentOrders = filteredOrders.filter((order) => {
-    const orderDate = parseDate(order.orderDate);
-    if (!orderDate) {
-      return false;
-    }
-
-    const startDateValid = !startDate || orderDate >= startDate;
-    const endDateValid = !endDate || orderDate <= endDate;
-    return startDateValid && endDateValid;
-  });
 
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
@@ -206,39 +197,39 @@ function OrderList() {
                   </tr>
                 </thead>
                 <tbody>
-                  {currentOrders.map((order, index) => (
-                    <tr key={order._id} className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
-                      <td className="px-4 py-3">{indexOfFirstItem + index + 1}</td>
-                      <td className="px-8 py-3">{order._id}</td>
-                      <td className="px-4 pl-12 py-3">{order.orderDate}</td>
-                      <td className="px-4 pl-12 py-3">{order.fullName}</td>
-                      <td className="px-4 pl-12 py-3">{order.address}</td>
-                      <td className="px-4 pl-12 py-3">{order.city}</td>
-                      <td className="px-4 pl-12 py-3">{order.state}</td>
-                      <td className="px-4 pl-12 py-3">{order.pincode}</td>
-                      <td className="px-4 pl-12 py-3">{order.email}</td>
-                      <td className="px-4 pl-12 py-3">{order.contactNo}</td>
-                      <td className="px-4 pl-12 py-3">{order.amount}</td>
-                      <td className="px-4 pl-12 py-3">{order.paymentStatus}</td>
-                      <td className="px-4 pl-12 py-3">{order.razorpay_order_id}</td>
-                      <td className="px-4 pl-12 py-3">{order.razorpay_payment_id}</td>
-                      <td className="px-4 py-3 mt-[1.2rem] flex items-center justify-center gap-2">
-                        <button
-                          className="px-2 py-1 rounded-md"
-                          onClick={() => handleDeleteOrder(order._id)}
-                        >
-                          <MdDelete className="text-red-500 hover:text-red-700 text-xl" />
-                        </button>
-                        <button
-                          className="px-2 py-1 rounded-md"
-                          onClick={() => handleInvoiceClick(order)}
-                        >
-                          <FaFileInvoice className="text-red-500 hover:text-red-700 text-xl" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
+  {filteredOrders.slice(indexOfFirstItem, indexOfLastItem).map((order, index) => (
+    <tr key={order._id} className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
+      <td className="px-4 py-3">{indexOfFirstItem + index + 1}</td>
+      <td className="px-8 py-3">{order._id}</td>
+      <td className="px-4 pl-12 py-3">{order.orderDate}</td>
+      <td className="px-4 pl-12 py-3">{order.fullName}</td>
+      <td className="px-4 pl-12 py-3">{order.address}</td>
+      <td className="px-4 pl-12 py-3">{order.city}</td>
+      <td className="px-4 pl-12 py-3">{order.state}</td>
+      <td className="px-4 pl-12 py-3">{order.pincode}</td>
+      <td className="px-4 pl-12 py-3">{order.email}</td>
+      <td className="px-4 pl-12 py-3">{order.contactNo}</td>
+      <td className="px-4 pl-12 py-3">{order.amount}</td>
+      <td className="px-4 pl-12 py-3">{order.paymentStatus}</td>
+      <td className="px-4 pl-12 py-3">{order.razorpay_order_id}</td>
+      <td className="px-4 pl-12 py-3">{order.razorpay_payment_id}</td>
+      <td className="px-4 py-3 mt-[1.2rem] flex items-center justify-center gap-2">
+        <button
+          className="px-2 py-1 rounded-md"
+          onClick={() => handleDeleteOrder(order._id)}
+        >
+          <MdDelete className="text-red-500 hover:text-red-700 text-xl" />
+        </button>
+        <button
+          className="px-2 py-1 rounded-md"
+          onClick={() => handleInvoiceClick(order)}
+        >
+          <FaFileInvoice className="text-red-500 hover:text-red-700 text-xl" />
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
               </table>
             )}
           </div>
