@@ -1,7 +1,7 @@
 {
     "company": {
-      "name": "Nexible",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "name": "MEDIMART",
+      "description": " we believe that healthcare should be accessible, convenient, and personalized. Our mission is to revolutionize the way you manage your health by bringing exceptional products and services right to your fingertips.",
       "address": "64, Akshay Industrial Estate, Near New Cloth Market, Ahmedabad - 38562",
       "contact": {
         "tel": "079-25820309",
@@ -65,7 +65,7 @@
       "branchIFSC": "SBIN0000488"
     },
     "termsAndConditions": [
-      "Subject to Ahmedabad Jurisdiction.",
+      "Subject to Mumbai Jurisdiction.",
       "Our responsibility ceases as soon as the goods leave our premises.",
       "Goods once sold will not be taken back.",
       "Delivery ex-premises."
