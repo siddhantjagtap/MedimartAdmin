@@ -65,7 +65,7 @@ const GenerateInvoice = React.memo(({ order }) => {
       currentY += 10;
 
       // Product details
-      const tableColumn = ["Sr. No.", "Name of Product / Service", "Qty", "Rate", "Taxable Value", "Total"];
+      const tableColumn = ["Sr. No.", "Name of Product ", "Qty", "Rate", "Taxable Value", "Total"];
       const tableRows = order.cartItems.map((item, index) => {
         const taxableValue = item.Price * item.quantity;
         const totalAmount = taxableValue;
