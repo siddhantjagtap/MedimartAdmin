@@ -7,16 +7,16 @@ import 'react-toastify/dist/ReactToastify.css';
 const AddBannerModal = ({ showModal, setShowModal, onAddBanner }) => {
   const [title, setTitle] = useState("");
   const [imageFile, setImageFile] = useState("");
+  const [link, setlink] = useState("");
   const APIURL = import.meta.env.VITE_MEDIMART_URL;
   const handleAddBanner = async () => {
     try {
       const newBanner = {
         Title: title,
         Image: imageFile,
+        Link:link
       };
-
       const response = await axios.post(`${APIURL}/addbanners`, newBanner);
-
       if (response.status === 201) {
         console.log('Banner added successfully:', response.data);
         setShowModal(false);
@@ -72,6 +72,16 @@ const AddBannerModal = ({ showModal, setShowModal, onAddBanner }) => {
                         onChange={(e) => setImageFile(e.target.value)}
                         className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="Image URL"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-bold mb-2">Link URL</label>
+                      <input
+                        type="text"
+                        value={link}
+                        onChange={(e) => setlink(e.target.value)}
+                        className="appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Link URL"
                       />
                     </div>
                   </div>

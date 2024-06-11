@@ -82,6 +82,7 @@ function Banner() {
                     <th className="px-1 py-3 text-left">No</th>
                     <th className="px-1 py-3 text-left">Title</th>
                     <th className="px-1 py-3 text-left">Image</th>
+                    <th className="px-1 py-3 text-left">Link</th>
                     <th className="px-1 py-3 text-left">Actions</th>
                   </tr>
                 </thead>
@@ -91,6 +92,7 @@ function Banner() {
                       <td className="px-1 py-3">{index + 1}</td>
                       <td className="px-1 py-3">{banner.Title}</td>
                       <td className="px-1 py-3"><img src={banner.Image} alt={banner.Title} className="w-32 h-auto" /></td>
+                      <td className="px-1 py-3">{banner.Link}</td>
                       <td className="px-1 py-3 flex items-center mt-[1.75rem] space-x-2">
                         <button onClick={() => handleEditBanner(banner)} className="text-blue-500 hover:text-blue-700">
                           <MdModeEditOutline size={20} />
